@@ -7,7 +7,6 @@ This module tests:
 
 from __future__ import annotations
 
-import importlib.util
 import logging
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
@@ -106,10 +105,6 @@ class TestOTelHookImport:
         assert OTelHook is not None
 
 
-OTEL_INSTALLED = importlib.util.find_spec("opentelemetry") is not None
-
-
-@pytest.mark.skipif(not OTEL_INSTALLED, reason="opentelemetry not installed")
 class TestOTelHookWithMocks:
     """Test OTelHook with mocked OpenTelemetry."""
 
@@ -132,22 +127,13 @@ class TestOTelHookWithMocks:
     @pytest.fixture
     def otel_hook(self, mock_tracer, mock_meter):
         """Create OTelHook with mocked dependencies."""
-        # Patch OTEL_AVAILABLE to True and create mock trace/metrics
-        with patch("litestar_flags.contrib.otel.OTEL_AVAILABLE", True):
-            with patch("litestar_flags.contrib.otel.trace", create=True) as mock_trace:
-                with patch("litestar_flags.contrib.otel.metrics", create=True) as mock_metrics:
-                    with patch("litestar_flags.contrib.otel.SpanKind", create=True):
-                        with patch("litestar_flags.contrib.otel.StatusCode", create=True):
-                            mock_trace.get_tracer.return_value = mock_tracer
-                            mock_metrics.get_meter.return_value = mock_meter
+        from litestar_flags.contrib.otel import OTelHook
 
-                            from litestar_flags.contrib.otel import OTelHook
-
-                            hook = OTelHook(
-                                tracer=mock_tracer,
-                                meter=mock_meter,
-                            )
-                            return hook
+        hook = OTelHook(
+            tracer=mock_tracer,
+            meter=mock_meter,
+        )
+        return hook
 
     def test_init_with_custom_tracer_and_meter(self, mock_tracer, mock_meter):
         """Test initialization with custom tracer and meter."""
@@ -852,7 +838,6 @@ class TestLoggerProtocol:
 # =============================================================================
 
 
-@pytest.mark.skipif(not OTEL_INSTALLED, reason="opentelemetry not installed")
 class TestContribIntegration:
     """Integration tests for contrib modules working together."""
 

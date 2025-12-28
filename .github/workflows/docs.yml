@@ -1,0 +1,91 @@
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "src/**"
+      - ".github/workflows/docs.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "src/**"
+      - ".github/workflows/docs.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: docs-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      docs-changed: ${{ steps.changes.outputs.docs }}
+      src-changed: ${{ steps.changes.outputs.src }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+
+      - name: Detect file changes
+        uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
+        id: changes
+        with:
+          filters: |
+            docs:
+              - 'docs/**'
+            src:
+              - 'src/**'
+
+      - name: Set up Python
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.13"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@d4b2f3b6ecc6e67c4457f6d3e41ec42d3d0fcb86 # v5
+        with:
+          enable-cache: true
+
+      - name: Install dependencies
+        run: uv sync --group docs
+
+      - name: Build documentation
+        run: uv run sphinx-build -b html docs docs/_build/html --keep-going
+
+      - name: Upload artifact for GitHub Pages
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: docs/_build/html
+
+      - name: Deploy PR preview
+        if: github.event_name == 'pull_request'
+        uses: rossjrw/pr-preview-action@3e4ed158ecbf7f58513abc0dc15a4ad3b0e18ee5 # v1
+        with:
+          source-dir: docs/_build/html
+
+  deploy:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b # v5
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4

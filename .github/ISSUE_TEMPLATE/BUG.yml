@@ -1,0 +1,71 @@
+name: Bug Report
+description: Report a bug or unexpected behavior
+title: "Bug: <title>"
+labels: ["bug", "triage required"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+
+  - type: input
+    id: url
+    attributes:
+      label: Reproduction URL
+      description: >-
+        A link to a GitHub repository with a minimal reproduction of the problem.
+      placeholder: https://github.com/...
+
+  - type: textarea
+    id: mcve
+    attributes:
+      label: MCVE
+      description: >-
+        Please provide a [minimal, complete, and verifiable example](https://stackoverflow.com/help/minimal-reproducible-example).
+      render: python
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem.
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: If applicable, add any relevant log output.
+      render: text
+
+  - type: textarea
+    id: version
+    attributes:
+      label: litestar-flags Version
+      description: What version of litestar-flags are you using?
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: platform
+    attributes:
+      label: Platform
+      description: What platform(s) are you running on?
+      options:
+        - label: Linux
+        - label: Mac
+        - label: Windows
+        - label: Other

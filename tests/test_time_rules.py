@@ -400,9 +400,7 @@ class TimeAwareEvaluationEngine(EvaluationEngine):
         op_str = operator.value if isinstance(operator, RuleOperator) else str(operator)
 
         if op_str in ("date_after", "date_before"):
-            return self._time_evaluator.evaluate_date_condition(
-                op_str, actual, expected
-            )
+            return self._time_evaluator.evaluate_date_condition(op_str, actual, expected)
 
         # Fall back to parent implementation
         if isinstance(operator, str):
@@ -437,20 +435,14 @@ class TestDateOperators:
 
         # Date after reference should return True
         future_date = datetime(2024, 1, 16, 12, 0, 0, tzinfo=UTC)
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", future_date, reference_date
-        ) is True
+        assert time_evaluator.evaluate_date_condition("date_after", future_date, reference_date) is True
 
         # Same date should return False (not strictly after)
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", reference_date, reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", reference_date, reference_date) is False
 
         # Date before reference should return False
         past_date = datetime(2024, 1, 14, 12, 0, 0, tzinfo=UTC)
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", past_date, reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", past_date, reference_date) is False
 
     @pytest.mark.asyncio
     async def test_date_before_operator(self, time_evaluator: TimeBasedRuleEvaluator) -> None:
@@ -459,97 +451,78 @@ class TestDateOperators:
 
         # Date before reference should return True
         past_date = datetime(2024, 1, 14, 12, 0, 0, tzinfo=UTC)
-        assert time_evaluator.evaluate_date_condition(
-            "date_before", past_date, reference_date
-        ) is True
+        assert time_evaluator.evaluate_date_condition("date_before", past_date, reference_date) is True
 
         # Same date should return False (not strictly before)
-        assert time_evaluator.evaluate_date_condition(
-            "date_before", reference_date, reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_before", reference_date, reference_date) is False
 
         # Date after reference should return False
         future_date = datetime(2024, 1, 16, 12, 0, 0, tzinfo=UTC)
-        assert time_evaluator.evaluate_date_condition(
-            "date_before", future_date, reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_before", future_date, reference_date) is False
 
     @pytest.mark.asyncio
-    async def test_date_operators_with_iso_strings(
-        self, time_evaluator: TimeBasedRuleEvaluator
-    ) -> None:
+    async def test_date_operators_with_iso_strings(self, time_evaluator: TimeBasedRuleEvaluator) -> None:
         """Test date operators with ISO 8601 string parsing."""
         # Standard ISO format
-        assert time_evaluator.evaluate_date_condition(
-            "date_after",
-            "2024-01-16T12:00:00+00:00",
-            "2024-01-15T12:00:00+00:00",
-        ) is True
+        assert (
+            time_evaluator.evaluate_date_condition(
+                "date_after",
+                "2024-01-16T12:00:00+00:00",
+                "2024-01-15T12:00:00+00:00",
+            )
+            is True
+        )
 
         # With Z suffix
-        assert time_evaluator.evaluate_date_condition(
-            "date_before",
-            "2024-01-14T12:00:00Z",
-            "2024-01-15T12:00:00Z",
-        ) is True
+        assert (
+            time_evaluator.evaluate_date_condition(
+                "date_before",
+                "2024-01-14T12:00:00Z",
+                "2024-01-15T12:00:00Z",
+            )
+            is True
+        )
 
         # Without timezone (assumes local)
-        assert time_evaluator.evaluate_date_condition(
-            "date_after",
-            "2024-06-01T10:00:00",
-            "2024-01-01T10:00:00",
-        ) is True
+        assert (
+            time_evaluator.evaluate_date_condition(
+                "date_after",
+                "2024-06-01T10:00:00",
+                "2024-01-01T10:00:00",
+            )
+            is True
+        )
 
     @pytest.mark.asyncio
-    async def test_date_operators_with_none_values(
-        self, time_evaluator: TimeBasedRuleEvaluator
-    ) -> None:
+    async def test_date_operators_with_none_values(self, time_evaluator: TimeBasedRuleEvaluator) -> None:
         """Test date operators handle None values gracefully."""
         reference_date = datetime(2024, 1, 15, tzinfo=UTC)
 
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", None, reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", None, reference_date) is False
 
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", reference_date, None
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", reference_date, None) is False
 
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", None, None
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", None, None) is False
 
     @pytest.mark.asyncio
-    async def test_date_operators_with_invalid_strings(
-        self, time_evaluator: TimeBasedRuleEvaluator
-    ) -> None:
+    async def test_date_operators_with_invalid_strings(self, time_evaluator: TimeBasedRuleEvaluator) -> None:
         """Test date operators handle invalid date strings."""
         reference_date = datetime(2024, 1, 15, tzinfo=UTC)
 
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", "not-a-date", reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", "not-a-date", reference_date) is False
 
-        assert time_evaluator.evaluate_date_condition(
-            "date_after", "2024-13-45", reference_date
-        ) is False
+        assert time_evaluator.evaluate_date_condition("date_after", "2024-13-45", reference_date) is False
 
     @pytest.mark.asyncio
     async def test_date_operators_in_engine(self, engine: TimeAwareEvaluationEngine) -> None:
         """Test date operators work within the evaluation engine."""
         # Test with date_after condition
-        conditions = [
-            {"attribute": "signup_date", "operator": "date_after", "value": "2024-01-01T00:00:00Z"}
-        ]
+        conditions = [{"attribute": "signup_date", "operator": "date_after", "value": "2024-01-01T00:00:00Z"}]
 
-        context = EvaluationContext(
-            attributes={"signup_date": "2024-06-15T00:00:00Z"}
-        )
+        context = EvaluationContext(attributes={"signup_date": "2024-06-15T00:00:00Z"})
         assert engine._matches_conditions(conditions, context) is True
 
-        context = EvaluationContext(
-            attributes={"signup_date": "2023-06-15T00:00:00Z"}
-        )
+        context = EvaluationContext(attributes={"signup_date": "2023-06-15T00:00:00Z"})
         assert engine._matches_conditions(conditions, context) is False
 
 
@@ -660,9 +633,7 @@ class TestTimeBasedRuleEvaluator:
         test_time = datetime(2024, 1, 21, 12, 0, 0, tzinfo=UTC)  # Sunday
         assert evaluator.is_in_schedule(schedule, test_time) is False
 
-    def test_weekly_schedule_matching_day_wrong_time(
-        self, evaluator: TimeBasedRuleEvaluator
-    ) -> None:
+    def test_weekly_schedule_matching_day_wrong_time(self, evaluator: TimeBasedRuleEvaluator) -> None:
         """Test weekly schedule on matching day but outside time window."""
         schedule = TimeSchedule(
             schedule_type=ScheduleType.WEEKLY,
@@ -694,9 +665,7 @@ class TestTimeBasedRuleEvaluator:
         test_time = datetime(2024, 2, 1, 12, 0, 0, tzinfo=UTC)
         assert evaluator.is_in_schedule(schedule, test_time) is True
 
-    def test_monthly_schedule_non_matching_day(
-        self, evaluator: TimeBasedRuleEvaluator
-    ) -> None:
+    def test_monthly_schedule_non_matching_day(self, evaluator: TimeBasedRuleEvaluator) -> None:
         """Test monthly schedule on a non-matching day."""
         schedule = TimeSchedule(
             schedule_type=ScheduleType.MONTHLY,
@@ -743,9 +712,7 @@ class TestTimeBasedRuleEvaluator:
         test_time = datetime(2024, 1, 15, 12, 0, 0, tzinfo=UTC)
         assert evaluator.is_in_schedule(schedule, test_time) is False
 
-    def test_schedule_with_no_time_constraints(
-        self, evaluator: TimeBasedRuleEvaluator
-    ) -> None:
+    def test_schedule_with_no_time_constraints(self, evaluator: TimeBasedRuleEvaluator) -> None:
         """Test schedule with no start/end times (always active)."""
         schedule = TimeSchedule(
             schedule_type=ScheduleType.DAILY,
@@ -1056,9 +1023,7 @@ class TestScheduleProcessor:
         assert updated_flag2.status == FlagStatus.INACTIVE
 
     @pytest.mark.asyncio
-    async def test_change_with_nonexistent_flag(
-        self, processor: ScheduleProcessor
-    ) -> None:
+    async def test_change_with_nonexistent_flag(self, processor: ScheduleProcessor) -> None:
         """Test processing change for non-existent flag."""
         past_time = datetime.now(UTC) - timedelta(minutes=5)
         change = ScheduledFlagChange(
@@ -1520,9 +1485,7 @@ class TestTimeBasedIntegration:
         assert evaluator.is_in_schedule(schedule, weekend) is False
 
     @pytest.mark.asyncio
-    async def test_scheduled_rollout_progression(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_scheduled_rollout_progression(self, storage: MemoryStorageBackend) -> None:
         """Test progressive rollout through scheduled changes."""
         # Create a flag with initial 10% rollout
         flag_id = uuid4()
@@ -1626,9 +1589,7 @@ class TestTimeBasedEdgeCases:
         est_time = datetime(2024, 1, 15, 7, 0, 0, tzinfo=ZoneInfo("America/New_York"))
 
         # These are the same moment, so neither is after the other
-        assert evaluator.evaluate_date_condition(
-            "date_after", utc_time, est_time
-        ) is False
+        assert evaluator.evaluate_date_condition("date_after", utc_time, est_time) is False
 
     def test_empty_days_of_week(self) -> None:
         """Test weekly schedule with empty days_of_week."""

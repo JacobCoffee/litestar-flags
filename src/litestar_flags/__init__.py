@@ -200,15 +200,17 @@ try:
         TimeSchedule,
     )
 
-    __all__.extend([
-        "FeatureFlag",
-        "FlagOverride",
-        "FlagRule",
-        "FlagVariant",
-        "RolloutPhase",
-        "ScheduledFlagChange",
-        "TimeSchedule",
-    ])
+    __all__.extend(
+        [
+            "FeatureFlag",
+            "FlagOverride",
+            "FlagRule",
+            "FlagVariant",
+            "RolloutPhase",
+            "ScheduledFlagChange",
+            "TimeSchedule",
+        ]
+    )
 except ImportError:
     pass
 

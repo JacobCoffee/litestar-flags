@@ -369,11 +369,7 @@ class MemoryStorageBackend:
         if flag_id is None:
             return list(self._time_schedules.values())
 
-        return [
-            schedule
-            for schedule in self._time_schedules.values()
-            if schedule.flag_id == flag_id
-        ]
+        return [schedule for schedule in self._time_schedules.values() if schedule.flag_id == flag_id]
 
     async def create_time_schedule(
         self,
@@ -424,11 +420,7 @@ class MemoryStorageBackend:
             List of rollout phases for the flag, ordered by phase number.
 
         """
-        phases = [
-            phase
-            for phase in self._rollout_phases.values()
-            if phase.flag_id == flag_id
-        ]
+        phases = [phase for phase in self._rollout_phases.values() if phase.flag_id == flag_id]
         # Sort by phase_number
         phases.sort(key=lambda p: p.phase_number)
         return phases

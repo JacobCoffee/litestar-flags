@@ -182,9 +182,7 @@ class ScheduleProcessor:
             return await self.storage.get_pending_scheduled_changes(now)
 
         # Fallback: return empty list if storage doesn't support this
-        logger.warning(
-            "Storage backend does not support get_pending_scheduled_changes"
-        )
+        logger.warning("Storage backend does not support get_pending_scheduled_changes")
         return []
 
     async def _get_flag_for_change(

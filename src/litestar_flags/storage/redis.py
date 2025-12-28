@@ -293,15 +293,9 @@ class RedisStorageBackend:
             "name": schedule.name,
             "recurrence_type": schedule.recurrence_type.value,
             "start_time": (
-                schedule.start_time.isoformat()
-                if isinstance(schedule.start_time, time)
-                else schedule.start_time
+                schedule.start_time.isoformat() if isinstance(schedule.start_time, time) else schedule.start_time
             ),
-            "end_time": (
-                schedule.end_time.isoformat()
-                if isinstance(schedule.end_time, time)
-                else schedule.end_time
-            ),
+            "end_time": (schedule.end_time.isoformat() if isinstance(schedule.end_time, time) else schedule.end_time),
             "days_of_week": schedule.days_of_week,
             "days_of_month": schedule.days_of_month,
             "cron_expression": schedule.cron_expression,

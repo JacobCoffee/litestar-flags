@@ -4,7 +4,7 @@ requires = ["uv_build>=0.9.11,<0.10.0"]
 
 [project]
 name = "litestar-flags"
-version = "0.1.0"
+version = "0.1.1"
 description = "Production-ready feature flags library for Litestar"
 readme = "README.md"
 license = "MIT"

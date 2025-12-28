@@ -132,6 +132,47 @@ make build                 # Build package
 make clean                 # Clean artifacts
 ```
 
+### Version Bumping (uv 0.7+)
+
+```bash
+uv version                 # Show current version (e.g., "litestar-flags 0.1.0")
+uv version --bump patch    # Bump patch version (0.1.0 => 0.1.1)
+uv version --bump minor    # Bump minor version (0.1.1 => 0.2.0)
+uv version --bump major    # Bump major version (0.2.0 => 1.0.0)
+uv self version            # Show uv version itself
+```
+
+---
+
+## Workflow Files
+
+| Workflow      | Trigger        | Description                                                   |
+| ------------- | -------------- | ------------------------------------------------------------- |
+| `ci.yml`      | push/PR        | Lint, format, type-check, tests (OS matrix)                   |
+| `docs.yml`    | push to main   | Build and deploy docs to GitHub Pages                         |
+| `publish.yml` | tag push (v\*) | Build, sign, draft release, publish to PyPI, update changelog |
+
+### Release Process (Immutable Releases)
+
+```bash
+# Bump version and push tag
+uv version --bump patch           # Bump to 0.1.1
+git add pyproject.toml
+git commit -m "chore: bump version to 0.1.1"
+git tag v0.1.1
+git push origin main --tags       # CD workflow auto-triggers
+```
+
+The publish workflow:
+
+1. Builds distribution
+2. Signs with Sigstore
+3. Creates draft GitHub release with assets
+4. Publishes to PyPI
+5. Publishes release (removes draft status)
+
+**Important**: Releases are immutable. Once a version is tagged, it cannot be re-released. Always bump the version for new releases.
+
 ---
 
 ## Code Standards

@@ -51,6 +51,9 @@ class RuleOperator(str, Enum):
     SEMVER_EQ = "semver_eq"
     SEMVER_GT = "semver_gt"
     SEMVER_LT = "semver_lt"
+    # Segment-based operators
+    IN_SEGMENT = "in_segment"
+    NOT_IN_SEGMENT = "not_in_segment"
     # Time-based operators
     DATE_AFTER = "date_after"
     DATE_BEFORE = "date_before"

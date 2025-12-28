@@ -10,6 +10,7 @@ if TYPE_CHECKING:
     from litestar_flags.models.flag import FeatureFlag
     from litestar_flags.models.override import FlagOverride
     from litestar_flags.models.schedule import RolloutPhase, ScheduledFlagChange, TimeSchedule
+    from litestar_flags.models.segment import Segment
 
 __all__ = ["StorageBackend"]
 
@@ -243,6 +244,89 @@ class StorageBackend(Protocol):
 
         Returns:
             The created rollout phase with any generated fields populated.
+
+        """
+        ...
+
+    # Segment methods
+
+    async def get_segment(self, segment_id: UUID) -> Segment | None:
+        """Retrieve a segment by ID.
+
+        Args:
+            segment_id: The UUID of the segment.
+
+        Returns:
+            The Segment if found, None otherwise.
+
+        """
+        ...
+
+    async def get_segment_by_name(self, name: str) -> Segment | None:
+        """Retrieve a segment by name.
+
+        Args:
+            name: The unique segment name.
+
+        Returns:
+            The Segment if found, None otherwise.
+
+        """
+        ...
+
+    async def get_all_segments(self) -> list[Segment]:
+        """Retrieve all segments.
+
+        Returns:
+            List of all Segment objects.
+
+        """
+        ...
+
+    async def get_child_segments(self, parent_id: UUID) -> list[Segment]:
+        """Retrieve all child segments of a parent segment.
+
+        Args:
+            parent_id: The UUID of the parent segment.
+
+        Returns:
+            List of child Segment objects.
+
+        """
+        ...
+
+    async def create_segment(self, segment: Segment) -> Segment:
+        """Create a new segment.
+
+        Args:
+            segment: The segment to create.
+
+        Returns:
+            The created segment with any generated fields populated.
+
+        """
+        ...
+
+    async def update_segment(self, segment: Segment) -> Segment:
+        """Update an existing segment.
+
+        Args:
+            segment: The segment with updated values.
+
+        Returns:
+            The updated segment.
+
+        """
+        ...
+
+    async def delete_segment(self, segment_id: UUID) -> bool:
+        """Delete a segment by ID.
+
+        Args:
+            segment_id: The UUID of the segment to delete.
+
+        Returns:
+            True if the segment was deleted, False if not found.
 
         """
         ...

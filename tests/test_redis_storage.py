@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import asyncio
 from datetime import UTC, datetime, timedelta
 from uuid import uuid4
 
@@ -447,6 +448,9 @@ class TestRedisStorageBackend:
         """Test updating a flag."""
         created = await redis_storage.create_flag(sample_flag)
         original_updated_at = created.updated_at
+
+        # Small delay to ensure timestamp differs (Windows clock resolution)
+        await asyncio.sleep(0.05)
 
         # Modify the flag
         created.name = "Updated Test Flag"

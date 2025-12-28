@@ -777,7 +777,7 @@ class TestCircuitBreakerEdgeCases:
         breaker = CircuitBreaker(
             name="short-timeout",
             failure_threshold=1,
-            recovery_timeout=0.001,
+            recovery_timeout=0.01,  # Increased for Windows clock resolution
         )
 
         async def failing_func() -> None:
@@ -789,8 +789,8 @@ class TestCircuitBreakerEdgeCases:
 
         assert breaker.state == CircuitState.OPEN
 
-        # Very short wait
-        await asyncio.sleep(0.01)
+        # Wait for recovery timeout
+        await asyncio.sleep(0.05)  # Increased for Windows clock resolution
 
         # Should be able to try again (half-open)
         async def success_func() -> str:

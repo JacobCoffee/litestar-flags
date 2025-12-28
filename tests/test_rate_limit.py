@@ -108,13 +108,13 @@ class TestTokenBucket:
         bucket.consume(100.0)  # Empty the bucket
         assert bucket.tokens == 0.0
 
-        # Wait a small amount of time
-        time.sleep(0.01)  # 10ms
+        # Wait for tokens to refill (50ms for Windows clock resolution ~15.6ms)
+        time.sleep(0.05)
 
         # Trigger refill
         bucket._refill()
 
-        # Should have some tokens now (1000 tokens/sec * 0.01s = 10 tokens)
+        # Should have some tokens now (1000 tokens/sec * 0.05s = 50 tokens)
         assert bucket.tokens > 0.0
         assert bucket.tokens <= 100.0  # Capped at capacity
 

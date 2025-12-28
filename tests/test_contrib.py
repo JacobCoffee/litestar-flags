@@ -7,6 +7,7 @@ This module tests:
 
 from __future__ import annotations
 
+import importlib.util
 import logging
 from typing import TYPE_CHECKING
 from unittest.mock import MagicMock, patch
@@ -105,12 +106,7 @@ class TestOTelHookImport:
         assert OTelHook is not None
 
 
-try:
-    import opentelemetry
-
-    OTEL_INSTALLED = True
-except ImportError:
-    OTEL_INSTALLED = False
+OTEL_INSTALLED = importlib.util.find_spec("opentelemetry") is not None
 
 
 @pytest.mark.skipif(not OTEL_INSTALLED, reason="opentelemetry not installed")

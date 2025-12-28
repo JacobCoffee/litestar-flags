@@ -112,7 +112,16 @@ python = ".venv"
 deprecated = "warn"
 
 [tool.ty.src]
-exclude = ["docs/conf.py", "tests/", "src/litestar_flags/storage/"]
+exclude = [
+    "docs/conf.py",
+    "tests/",
+    "src/litestar_flags/storage/",
+    "src/litestar_flags/contrib/",
+    "src/litestar_flags/bootstrap.py",
+    "src/litestar_flags/plugin.py",
+    "src/litestar_flags/schedule_processor.py",
+    "src/litestar_flags/time_rules.py",
+]
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"

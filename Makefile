@@ -41,14 +41,12 @@ install: ## Install package (production mode)
 dev: ## Install package with all development dependencies
 	@uv sync --all-extras
 
-prek-install: ## Install pre-commit hooks
-	@uv run pre-commit install
-	@uv run pre-commit install --hook-type commit-msg
-	@uv run pre-commit install --hook-type pre-push
-	@uv run pre-commit autoupdate
+prek-install: ## Install prek hooks
+	@prek install
+	@prek install --hook-type commit-msg
+	@prek install --hook-type pre-push
 
 upgrade: ## Upgrade all dependencies
-	@uv run pre-commit autoupdate
 	@uv lock --upgrade
 
 # =============================================================================
@@ -57,8 +55,8 @@ upgrade: ## Upgrade all dependencies
 
 ##@ Code Quality
 
-lint: ## Run pre-commit hooks (ruff, codespell, etc.)
-	@uv run --no-sync pre-commit run --all-files
+lint: ## Run prek hooks (ruff, codespell, etc.)
+	@prek run --all-files
 
 fmt: ## Format code with ruff
 	@uv run --no-sync ruff format $(SRC_DIR) $(TEST_DIR)

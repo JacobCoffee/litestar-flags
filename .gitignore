@@ -142,7 +142,8 @@ Thumbs.db
 
 # Project specific
 plan.json
-.claude/
+.claude/*
+!.claude/CLAUDE.md
 .claude-flow/
 .hive-mind/
 

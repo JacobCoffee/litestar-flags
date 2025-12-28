@@ -105,6 +105,15 @@ class TestOTelHookImport:
         assert OTelHook is not None
 
 
+try:
+    import opentelemetry
+
+    OTEL_INSTALLED = True
+except ImportError:
+    OTEL_INSTALLED = False
+
+
+@pytest.mark.skipif(not OTEL_INSTALLED, reason="opentelemetry not installed")
 class TestOTelHookWithMocks:
     """Test OTelHook with mocked OpenTelemetry."""
 
@@ -127,12 +136,12 @@ class TestOTelHookWithMocks:
     @pytest.fixture
     def otel_hook(self, mock_tracer, mock_meter):
         """Create OTelHook with mocked dependencies."""
-        # Patch OTEL_AVAILABLE to True
+        # Patch OTEL_AVAILABLE to True and create mock trace/metrics
         with patch("litestar_flags.contrib.otel.OTEL_AVAILABLE", True):
-            with patch("litestar_flags.contrib.otel.trace") as mock_trace:
-                with patch("litestar_flags.contrib.otel.metrics") as mock_metrics:
-                    with patch("litestar_flags.contrib.otel.SpanKind"):
-                        with patch("litestar_flags.contrib.otel.StatusCode"):
+            with patch("litestar_flags.contrib.otel.trace", create=True) as mock_trace:
+                with patch("litestar_flags.contrib.otel.metrics", create=True) as mock_metrics:
+                    with patch("litestar_flags.contrib.otel.SpanKind", create=True):
+                        with patch("litestar_flags.contrib.otel.StatusCode", create=True):
                             mock_trace.get_tracer.return_value = mock_tracer
                             mock_metrics.get_meter.return_value = mock_meter
 
@@ -847,6 +856,7 @@ class TestLoggerProtocol:
 # =============================================================================
 
 
+@pytest.mark.skipif(not OTEL_INSTALLED, reason="opentelemetry not installed")
 class TestContribIntegration:
     """Integration tests for contrib modules working together."""
 

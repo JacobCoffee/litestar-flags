@@ -103,9 +103,9 @@ class TestLRUCache:
 
     async def test_per_entry_ttl(self, cache: LRUCache):
         """Test that per-entry TTL overrides default."""
-        await cache.set("key1", "value1", ttl=0)  # Immediate expiration
+        await cache.set("key1", "value1", ttl=0.001)  # Very short expiration
 
-        await asyncio.sleep(0.01)
+        await asyncio.sleep(0.05)  # Longer sleep for Windows clock resolution
 
         result = await cache.get("key1")
         assert result is None

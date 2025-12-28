@@ -168,20 +168,25 @@ jobs:
     if: always()
     steps:
       - name: Check all jobs passed
+        env:
+          SECURITY_RESULT: ${{ needs.security.result }}
+          VALIDATE_RESULT: ${{ needs.validate.result }}
+          SMOKE_RESULT: ${{ needs.test-smoke.result }}
+          FULL_RESULT: ${{ needs.test-full.result }}
         run: |
-          if [[ "${{ needs.security.result }}" != "success" ]]; then
+          if [[ "$SECURITY_RESULT" != "success" ]]; then
             echo "Security job failed"
             exit 1
           fi
-          if [[ "${{ needs.validate.result }}" != "success" ]]; then
+          if [[ "$VALIDATE_RESULT" != "success" ]]; then
             echo "Validate job failed"
             exit 1
           fi
-          if [[ "${{ needs.test-smoke.result }}" != "success" ]]; then
+          if [[ "$SMOKE_RESULT" != "success" ]]; then
             echo "Smoke tests failed"
             exit 1
           fi
-          if [[ "${{ needs.test-full.result }}" != "success" ]]; then
+          if [[ "$FULL_RESULT" != "success" ]]; then
             echo "Full tests failed"
             exit 1
           fi

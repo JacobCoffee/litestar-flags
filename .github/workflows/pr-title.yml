@@ -1,8 +1,7 @@
 name: "Lint PR Title"
 
-# zizmor: ignore[dangerous-triggers] - This workflow only reads PR metadata (title/labels),
-# does not checkout code or use PR content in scripts, making pull_request_target safe here.
 on:
+  # zizmor: ignore[dangerous-triggers]
   pull_request_target:
     types:
       - opened

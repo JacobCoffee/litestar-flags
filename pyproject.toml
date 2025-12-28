@@ -169,6 +169,3 @@ dev = [
 
 [tool.uv]
 default-groups = ["dev"]
-
-[tool.uv.sources]
-litestar-workflows = { path = "../litestar-workflows" }

@@ -609,7 +609,7 @@ requires-dist = [
     { name = "litestar", specifier = ">=2.0.0" },
     { name = "litestar-flags", extras = ["database", "redis", "observability", "workflows", "openfeature"], marker = "extra == 'all'" },
     { name = "litestar-flags", extras = ["otel", "logging"], marker = "extra == 'observability'" },
-    { name = "litestar-workflows", marker = "extra == 'workflows'", directory = "../litestar-workflows" },
+    { name = "litestar-workflows", marker = "extra == 'workflows'", specifier = ">=0.1.0" },
     { name = "openfeature-sdk", marker = "extra == 'openfeature'", specifier = ">=0.8.0" },
     { name = "opentelemetry-api", marker = "extra == 'otel'", specifier = ">=1.20.0" },
     { name = "redis", marker = "extra == 'redis'", specifier = ">=5.0.0" },
@@ -684,72 +684,14 @@ wheels = [
 [[package]]
 name = "litestar-workflows"
 version = "0.3.1"
-source = { directory = "../litestar-workflows" }
+source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "litestar" },
     { name = "rich-click" },
 ]
-
-[package.metadata]
-requires-dist = [
-    { name = "advanced-alchemy", marker = "extra == 'db'", specifier = ">=0.20.0" },
-    { name = "alembic", marker = "extra == 'db'", specifier = ">=1.13.0" },
-    { name = "litestar", specifier = ">=2" },
-    { name = "litestar", extras = ["jinja"], marker = "extra == 'ui'" },
-    { name = "litestar-workflows", extras = ["db"], marker = "extra == 'ui'" },
-    { name = "litestar-workflows", extras = ["db", "ui"], marker = "extra == 'all'" },
-    { name = "rich-click", specifier = ">=1.7.4" },
-]
-provides-extras = ["db", "ui", "all"]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "advanced-alchemy", specifier = ">=0.20.0" },
-    { name = "aiosqlite", specifier = ">=0.19.0" },
-    { name = "alembic", specifier = ">=1.13.0" },
-    { name = "codespell", specifier = ">=2.2.6" },
-    { name = "linkify-it-py", specifier = ">=2.0.0" },
-    { name = "myst-parser", specifier = ">=2.0.0" },
-    { name = "prek", specifier = ">=0.2.18" },
-    { name = "pytest", specifier = ">=8.1.1" },
-    { name = "pytest-asyncio", specifier = ">=0.23.6" },
-    { name = "pytest-cov", specifier = ">=4.1.0" },
-    { name = "pytest-sugar", specifier = ">=1.1.1" },
-    { name = "ruff", specifier = ">=0.8.0" },
-    { name = "shibuya", specifier = ">=2024.8.0" },
-    { name = "sphinx", specifier = ">=7.0.0" },
-    { name = "sphinx-autobuild", specifier = ">=2024.0.0" },
-    { name = "sphinx-autodoc-typehints", specifier = ">=2.0.0" },
-    { name = "sphinx-copybutton", specifier = ">=0.5.0" },
-    { name = "sphinx-design", specifier = ">=0.5.0" },
-    { name = "ty", specifier = ">=0.0.1a27" },
-    { name = "uvicorn", specifier = ">=0.30.0" },
-]
-docs = [
-    { name = "linkify-it-py", specifier = ">=2.0.0" },
-    { name = "myst-parser", specifier = ">=2.0.0" },
-    { name = "shibuya", specifier = ">=2024.8.0" },
-    { name = "sphinx", specifier = ">=7.0.0" },
-    { name = "sphinx-autobuild", specifier = ">=2024.0.0" },
-    { name = "sphinx-autodoc-typehints", specifier = ">=2.0.0" },
-    { name = "sphinx-copybutton", specifier = ">=0.5.0" },
-    { name = "sphinx-design", specifier = ">=0.5.0" },
-]
-lint = [
-    { name = "codespell", specifier = ">=2.2.6" },
-    { name = "prek", specifier = ">=0.2.18" },
-    { name = "ruff", specifier = ">=0.8.0" },
-    { name = "ty", specifier = ">=0.0.1a27" },
-]
-test = [
-    { name = "advanced-alchemy", specifier = ">=0.20.0" },
-    { name = "aiosqlite", specifier = ">=0.19.0" },
-    { name = "alembic", specifier = ">=1.13.0" },
-    { name = "pytest", specifier = ">=8.1.1" },
-    { name = "pytest-asyncio", specifier = ">=0.23.6" },
-    { name = "pytest-cov", specifier = ">=4.1.0" },
-    { name = "pytest-sugar", specifier = ">=1.1.1" },
-    { name = "uvicorn", specifier = ">=0.30.0" },
+sdist = { url = "https://files.pythonhosted.org/packages/ca/47/452d1512ee3f35bff7d6c8328add047517b3320c4f7106ffea122db02802/litestar_workflows-0.3.1.tar.gz", hash = "sha256:1f64ad37d45395360908ba5650ce92cf3f529e823ac2e0b074bdf4c3c21532be", size = 67260, upload-time = "2025-11-26T22:52:22.47Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e5/ed/13a5bcc1eba4b196e084fc3d2decead2f2d719f960a66323582e67b20918/litestar_workflows-0.3.1-py3-none-any.whl", hash = "sha256:e98575ec60fb267ba0a7345cb31da2998bcce60cfb6073d055ee89a5ccc740c0", size = 94057, upload-time = "2025-11-26T22:52:21.006Z" },
 ]
 
 [[package]]

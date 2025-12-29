@@ -299,7 +299,7 @@ Common Segment Examples
        name="latest_version",
        description="Users on app version 2.0.0 or later",
        conditions=[
-           {"attribute": "app_version", "operator": "semver_gte", "value": "2.0.0"},
+           {"attribute": "app_version", "operator": "semver_gt", "value": "1.9.9"},
        ],
    )
 

@@ -359,9 +359,7 @@ class TestOverrideOperations:
             )
             return await storage_100.create_override(override)
 
-        result = benchmark(
-            lambda: asyncio.get_event_loop().run_until_complete(get_flag_and_create_override())
-        )
+        result = benchmark(lambda: asyncio.get_event_loop().run_until_complete(get_flag_and_create_override()))
 
         assert result is not None
 

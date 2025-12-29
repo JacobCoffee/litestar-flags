@@ -49,9 +49,7 @@ class CircularSegmentReferenceError(Exception):
         self.segment_id = segment_id
         self.visited_chain = visited_chain
         chain_str = " -> ".join(str(sid) for sid in visited_chain)
-        super().__init__(
-            f"Circular segment reference detected: {chain_str} -> {segment_id}"
-        )
+        super().__init__(f"Circular segment reference detected: {chain_str} -> {segment_id}")
 
 
 class SegmentEvaluator:

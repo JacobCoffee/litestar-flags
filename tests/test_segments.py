@@ -244,9 +244,7 @@ class TestSegmentStorage:
         assert created.created_at is not None
         assert created.updated_at is not None
 
-    async def test_create_segment_sets_timestamps(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_create_segment_sets_timestamps(self, storage: MemoryStorageBackend) -> None:
         """Test that create_segment sets timestamps if not provided."""
         segment = create_segment(name="timestamp_test")
 
@@ -255,9 +253,7 @@ class TestSegmentStorage:
         assert created.created_at is not None
         assert created.updated_at is not None
 
-    async def test_create_segment_duplicate_name_raises_error(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_create_segment_duplicate_name_raises_error(self, storage: MemoryStorageBackend) -> None:
         """Test that creating a segment with duplicate name raises error."""
         segment1 = create_segment(name="duplicate_name")
         await storage.create_segment(segment1)
@@ -267,9 +263,7 @@ class TestSegmentStorage:
         with pytest.raises(ValueError, match="already exists"):
             await storage.create_segment(segment2)
 
-    async def test_get_segment_by_id(
-        self, storage: MemoryStorageBackend, basic_segment: Segment
-    ) -> None:
+    async def test_get_segment_by_id(self, storage: MemoryStorageBackend, basic_segment: Segment) -> None:
         """Test retrieving a segment by its ID."""
         created = await storage.create_segment(basic_segment)
 
@@ -279,9 +273,7 @@ class TestSegmentStorage:
         assert retrieved.id == created.id
         assert retrieved.name == "premium_users"
 
-    async def test_get_segment_by_id_not_found(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_get_segment_by_id_not_found(self, storage: MemoryStorageBackend) -> None:
         """Test retrieving a non-existent segment by ID returns None."""
         non_existent_id = uuid4()
 
@@ -289,9 +281,7 @@ class TestSegmentStorage:
 
         assert retrieved is None
 
-    async def test_get_segment_by_name(
-        self, storage: MemoryStorageBackend, basic_segment: Segment
-    ) -> None:
+    async def test_get_segment_by_name(self, storage: MemoryStorageBackend, basic_segment: Segment) -> None:
         """Test retrieving a segment by its name."""
         await storage.create_segment(basic_segment)
 
@@ -300,9 +290,7 @@ class TestSegmentStorage:
         assert retrieved is not None
         assert retrieved.name == "premium_users"
 
-    async def test_get_segment_by_name_not_found(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_get_segment_by_name_not_found(self, storage: MemoryStorageBackend) -> None:
         """Test retrieving a non-existent segment by name returns None."""
         retrieved = await storage.get_segment_by_name("non_existent")
 
@@ -324,9 +312,7 @@ class TestSegmentStorage:
         names = {s.name for s in all_segments}
         assert names == {"segment_one", "segment_two", "segment_three"}
 
-    async def test_get_all_segments_empty(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_get_all_segments_empty(self, storage: MemoryStorageBackend) -> None:
         """Test retrieving all segments when storage is empty."""
         all_segments = await storage.get_all_segments()
 
@@ -351,9 +337,7 @@ class TestSegmentStorage:
         names = {c.name for c in children}
         assert names == {"child_one", "child_two"}
 
-    async def test_get_child_segments_no_children(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_get_child_segments_no_children(self, storage: MemoryStorageBackend) -> None:
         """Test retrieving children when parent has no children."""
         parent = create_segment(name="childless_parent")
         parent = await storage.create_segment(parent)
@@ -362,17 +346,13 @@ class TestSegmentStorage:
 
         assert children == []
 
-    async def test_update_segment(
-        self, storage: MemoryStorageBackend, basic_segment: Segment
-    ) -> None:
+    async def test_update_segment(self, storage: MemoryStorageBackend, basic_segment: Segment) -> None:
         """Test updating a segment."""
         created = await storage.create_segment(basic_segment)
         original_updated_at = created.updated_at
 
         created.description = "Updated description"
-        created.conditions = [
-            {"attribute": "plan", "operator": "eq", "value": "enterprise"}
-        ]
+        created.conditions = [{"attribute": "plan", "operator": "eq", "value": "enterprise"}]
 
         updated = await storage.update_segment(created)
 
@@ -382,9 +362,7 @@ class TestSegmentStorage:
         # Updated_at should be changed (or equal if very fast)
         assert updated.updated_at >= original_updated_at
 
-    async def test_update_segment_name_change(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_update_segment_name_change(self, storage: MemoryStorageBackend) -> None:
         """Test updating a segment's name updates the name index.
 
         Note: The current MemoryStorageBackend stores references to objects,
@@ -414,9 +392,7 @@ class TestSegmentStorage:
         assert new_lookup.name == "new_name"
         assert new_lookup.id == original_id
 
-    async def test_update_segment_name_conflict_raises_error(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_update_segment_name_conflict_raises_error(self, storage: MemoryStorageBackend) -> None:
         """Test updating segment name to existing name raises error.
 
         Note: Similar to above, we need to create a new segment object
@@ -439,18 +415,14 @@ class TestSegmentStorage:
         with pytest.raises(ValueError, match="already exists"):
             await storage.update_segment(conflicting_segment)
 
-    async def test_update_segment_not_found_raises_error(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_update_segment_not_found_raises_error(self, storage: MemoryStorageBackend) -> None:
         """Test updating non-existent segment raises error."""
         non_existent = create_segment(name="non_existent", segment_id=uuid4())
 
         with pytest.raises(ValueError, match="not found"):
             await storage.update_segment(non_existent)
 
-    async def test_delete_segment(
-        self, storage: MemoryStorageBackend, basic_segment: Segment
-    ) -> None:
+    async def test_delete_segment(self, storage: MemoryStorageBackend, basic_segment: Segment) -> None:
         """Test deleting a segment from storage."""
         created = await storage.create_segment(basic_segment)
 
@@ -466,9 +438,7 @@ class TestSegmentStorage:
         by_name = await storage.get_segment_by_name("premium_users")
         assert by_name is None
 
-    async def test_delete_segment_not_found(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_delete_segment_not_found(self, storage: MemoryStorageBackend) -> None:
         """Test deleting non-existent segment returns False."""
         non_existent_id = uuid4()
 
@@ -613,9 +583,7 @@ class TestNestedSegmentEvaluation:
         child = await storage.create_segment(child)
 
         # Context: premium US user - should match
-        premium_us_context = EvaluationContext(
-            attributes={"plan": "premium", "country": "US"}
-        )
+        premium_us_context = EvaluationContext(attributes={"plan": "premium", "country": "US"})
         result1 = await evaluator.is_in_segment(
             segment_id=child.id,
             context=premium_us_context,
@@ -624,9 +592,7 @@ class TestNestedSegmentEvaluation:
         assert result1 is True
 
         # Context: premium UK user - should NOT match (child condition fails)
-        premium_uk_context = EvaluationContext(
-            attributes={"plan": "premium", "country": "UK"}
-        )
+        premium_uk_context = EvaluationContext(attributes={"plan": "premium", "country": "UK"})
         result2 = await evaluator.is_in_segment(
             segment_id=child.id,
             context=premium_uk_context,
@@ -635,9 +601,7 @@ class TestNestedSegmentEvaluation:
         assert result2 is False
 
         # Context: free US user - should NOT match (parent condition fails)
-        free_us_context = EvaluationContext(
-            attributes={"plan": "free", "country": "US"}
-        )
+        free_us_context = EvaluationContext(attributes={"plan": "free", "country": "US"})
         result3 = await evaluator.is_in_segment(
             segment_id=child.id,
             context=free_us_context,
@@ -675,9 +639,7 @@ class TestNestedSegmentEvaluation:
         level3 = await storage.create_segment(level3)
 
         # Context that matches all three levels
-        full_match_context = EvaluationContext(
-            attributes={"plan": "premium", "country": "US", "beta_tester": True}
-        )
+        full_match_context = EvaluationContext(attributes={"plan": "premium", "country": "US", "beta_tester": True})
         result = await evaluator.is_in_segment(
             segment_id=level3.id,
             context=full_match_context,
@@ -686,9 +648,7 @@ class TestNestedSegmentEvaluation:
         assert result is True
 
         # Context missing beta_tester
-        partial_context = EvaluationContext(
-            attributes={"plan": "premium", "country": "US", "beta_tester": False}
-        )
+        partial_context = EvaluationContext(attributes={"plan": "premium", "country": "US", "beta_tester": False})
         result2 = await evaluator.is_in_segment(
             segment_id=level3.id,
             context=partial_context,
@@ -749,9 +709,7 @@ class TestCircularReferenceDetection:
         segment_a_id = segment_a.id
 
         # Create segment B with A as parent
-        segment_b = create_segment(
-            name="segment_b", parent_segment_id=segment_a_id
-        )
+        segment_b = create_segment(name="segment_b", parent_segment_id=segment_a_id)
         segment_b = await storage.create_segment(segment_b)
         segment_b_id = segment_b.id
 
@@ -1000,15 +958,11 @@ class TestConditionOperators:
 
         assert result is expected
 
-    async def test_in_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_in_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test IN operator for list membership."""
         segment = create_segment(
             name="in_test",
-            conditions=[
-                {"attribute": "country", "operator": "in", "value": ["US", "CA", "UK"]}
-            ],
+            conditions=[{"attribute": "country", "operator": "in", "value": ["US", "CA", "UK"]}],
         )
         created = await storage.create_segment(segment)
 
@@ -1020,15 +974,11 @@ class TestConditionOperators:
         context_de = EvaluationContext(attributes={"country": "DE"})
         assert await evaluator.is_in_segment(created.id, context_de, storage) is False
 
-    async def test_not_in_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_not_in_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test NOT_IN operator for list exclusion."""
         segment = create_segment(
             name="not_in_test",
-            conditions=[
-                {"attribute": "country", "operator": "not_in", "value": ["CN", "RU"]}
-            ],
+            conditions=[{"attribute": "country", "operator": "not_in", "value": ["CN", "RU"]}],
         )
         created = await storage.create_segment(segment)
 
@@ -1040,15 +990,11 @@ class TestConditionOperators:
         context_cn = EvaluationContext(attributes={"country": "CN"})
         assert await evaluator.is_in_segment(created.id, context_cn, storage) is False
 
-    async def test_contains_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_contains_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test CONTAINS operator for substring matching."""
         segment = create_segment(
             name="contains_test",
-            conditions=[
-                {"attribute": "email", "operator": "contains", "value": "@company.com"}
-            ],
+            conditions=[{"attribute": "email", "operator": "contains", "value": "@company.com"}],
         )
         created = await storage.create_segment(segment)
 
@@ -1060,15 +1006,11 @@ class TestConditionOperators:
         context_no = EvaluationContext(attributes={"email": "user@other.com"})
         assert await evaluator.is_in_segment(created.id, context_no, storage) is False
 
-    async def test_not_contains_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_not_contains_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test NOT_CONTAINS operator."""
         segment = create_segment(
             name="not_contains_test",
-            conditions=[
-                {"attribute": "email", "operator": "not_contains", "value": "spam"}
-            ],
+            conditions=[{"attribute": "email", "operator": "not_contains", "value": "spam"}],
         )
         created = await storage.create_segment(segment)
 
@@ -1080,15 +1022,11 @@ class TestConditionOperators:
         context_spam = EvaluationContext(attributes={"email": "spam@company.com"})
         assert await evaluator.is_in_segment(created.id, context_spam, storage) is False
 
-    async def test_starts_with_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_starts_with_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test STARTS_WITH operator."""
         segment = create_segment(
             name="starts_with_test",
-            conditions=[
-                {"attribute": "email", "operator": "starts_with", "value": "admin"}
-            ],
+            conditions=[{"attribute": "email", "operator": "starts_with", "value": "admin"}],
         )
         created = await storage.create_segment(segment)
 
@@ -1100,15 +1038,11 @@ class TestConditionOperators:
         context_user = EvaluationContext(attributes={"email": "user@company.com"})
         assert await evaluator.is_in_segment(created.id, context_user, storage) is False
 
-    async def test_ends_with_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_ends_with_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test ENDS_WITH operator."""
         segment = create_segment(
             name="ends_with_test",
-            conditions=[
-                {"attribute": "email", "operator": "ends_with", "value": "@company.com"}
-            ],
+            conditions=[{"attribute": "email", "operator": "ends_with", "value": "@company.com"}],
         )
         created = await storage.create_segment(segment)
 
@@ -1120,15 +1054,11 @@ class TestConditionOperators:
         context_other = EvaluationContext(attributes={"email": "user@other.com"})
         assert await evaluator.is_in_segment(created.id, context_other, storage) is False
 
-    async def test_matches_operator(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_matches_operator(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test MATCHES (regex) operator."""
         segment = create_segment(
             name="matches_test",
-            conditions=[
-                {"attribute": "email", "operator": "matches", "value": r".*@company\.com$"}
-            ],
+            conditions=[{"attribute": "email", "operator": "matches", "value": r".*@company\.com$"}],
         )
         created = await storage.create_segment(segment)
 
@@ -1140,15 +1070,11 @@ class TestConditionOperators:
         context_no = EvaluationContext(attributes={"email": "user@company.org"})
         assert await evaluator.is_in_segment(created.id, context_no, storage) is False
 
-    async def test_matches_invalid_regex(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_matches_invalid_regex(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test MATCHES operator with invalid regex returns False."""
         segment = create_segment(
             name="invalid_regex",
-            conditions=[
-                {"attribute": "value", "operator": "matches", "value": "[invalid(regex"}
-            ],
+            conditions=[{"attribute": "value", "operator": "matches", "value": "[invalid(regex"}],
         )
         created = await storage.create_segment(segment)
 
@@ -1157,9 +1083,7 @@ class TestConditionOperators:
 
         assert result is False
 
-    async def test_semver_operators(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_semver_operators(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test semantic version operators."""
         # SEMVER_EQ
         seg_eq = create_segment(
@@ -1200,9 +1124,7 @@ class TestConditionOperators:
         ctx_not_lt = EvaluationContext(attributes={"version": "2.0.1"})
         assert await evaluator.is_in_segment(seg_lt.id, ctx_not_lt, storage) is False
 
-    async def test_unknown_operator_skipped(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_unknown_operator_skipped(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test that unknown operators are skipped."""
         segment = create_segment(
             name="unknown_op",
@@ -1227,9 +1149,7 @@ class TestConditionOperators:
         # They are meant for flag rules only
         segment = create_segment(
             name="segment_op_test",
-            conditions=[
-                {"attribute": "segment_id", "operator": "in_segment", "value": str(uuid4())}
-            ],
+            conditions=[{"attribute": "segment_id", "operator": "in_segment", "value": str(uuid4())}],
         )
         created = await storage.create_segment(segment)
 
@@ -1254,15 +1174,11 @@ class TestConditionOperators:
         created = await storage.create_segment(segment)
 
         # All conditions match
-        ctx_all = EvaluationContext(
-            attributes={"plan": "premium", "country": "US", "age": 25}
-        )
+        ctx_all = EvaluationContext(attributes={"plan": "premium", "country": "US", "age": 25})
         assert await evaluator.is_in_segment(created.id, ctx_all, storage) is True
 
         # One condition fails
-        ctx_fail = EvaluationContext(
-            attributes={"plan": "premium", "country": "US", "age": 16}
-        )
+        ctx_fail = EvaluationContext(attributes={"plan": "premium", "country": "US", "age": 16})
         assert await evaluator.is_in_segment(created.id, ctx_fail, storage) is False
 
 
@@ -1428,9 +1344,7 @@ class TestEdgeCases:
         """Test condition when context attribute is None."""
         segment = create_segment(
             name="none_context",
-            conditions=[
-                {"attribute": "missing_attr", "operator": "gt", "value": 10}
-            ],
+            conditions=[{"attribute": "missing_attr", "operator": "gt", "value": 10}],
         )
         created = await storage.create_segment(segment)
 
@@ -1440,9 +1354,7 @@ class TestEdgeCases:
         # GT with None actual returns False
         assert result is False
 
-    async def test_in_operator_empty_list(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_in_operator_empty_list(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test IN operator with empty list returns False."""
         segment = create_segment(
             name="empty_in",
@@ -1455,9 +1367,7 @@ class TestEdgeCases:
 
         assert result is False
 
-    async def test_not_in_operator_empty_list(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_not_in_operator_empty_list(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test NOT_IN operator with empty list returns True."""
         segment = create_segment(
             name="empty_not_in",
@@ -1470,9 +1380,7 @@ class TestEdgeCases:
 
         assert result is True
 
-    async def test_parent_segment_not_found(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_parent_segment_not_found(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test nested segment with non-existent parent returns False."""
         non_existent_parent_id = uuid4()
         segment = create_segment(
@@ -1488,9 +1396,7 @@ class TestEdgeCases:
         # Parent not found, so child doesn't match
         assert result is False
 
-    async def test_parent_segment_disabled(
-        self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_parent_segment_disabled(self, evaluator: SegmentEvaluator, storage: MemoryStorageBackend) -> None:
         """Test that disabled parent segment causes child to not match."""
         parent = create_segment(name="disabled_parent", conditions=[], enabled=False)
         parent = await storage.create_segment(parent)
@@ -1508,9 +1414,7 @@ class TestEdgeCases:
         # Parent is disabled, so child doesn't match
         assert result is False
 
-    async def test_storage_close_clears_segments(
-        self, storage: MemoryStorageBackend
-    ) -> None:
+    async def test_storage_close_clears_segments(self, storage: MemoryStorageBackend) -> None:
         """Test that closing storage clears all segments."""
         segment = create_segment(name="temp_segment")
         await storage.create_segment(segment)

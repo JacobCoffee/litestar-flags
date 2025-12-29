@@ -60,6 +60,14 @@ Data models for flags, rules, and variants:
 - :doc:`models` - ``FeatureFlag``, ``FlagRule``, ``FlagVariant``, and more
 
 
+Analytics
+---------
+
+Analytics and observability components:
+
+- :doc:`analytics` - Event models, collectors, aggregators, and exporters
+
+
 .. toctree::
    :maxdepth: 2
    :hidden:
@@ -72,3 +80,4 @@ Data models for flags, rules, and variants:
    decorators
    types
    exceptions
+   analytics

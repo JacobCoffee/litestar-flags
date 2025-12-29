@@ -39,3 +39,14 @@ Explore advanced flag management capabilities:
 
    time-based-rules
    multi-environment
+
+
+Observability
+-------------
+
+Monitor and analyze your feature flag usage:
+
+.. toctree::
+   :maxdepth: 2
+
+   analytics

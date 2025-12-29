@@ -56,8 +56,11 @@ workflows = [
 openfeature = [
     "openfeature-sdk>=0.8.0",
 ]
+prometheus = [
+    "prometheus-client>=0.17.0",
+]
 all = [
-    "litestar-flags[database,redis,observability,workflows,openfeature]",
+    "litestar-flags[database,redis,observability,workflows,openfeature,prometheus]",
 ]
 
 [project.urls]

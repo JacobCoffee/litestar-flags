@@ -12,6 +12,7 @@ from litestar_flags.security import sanitize_error_message
 from litestar_flags.types import ErrorCode, EvaluationReason, FlagType
 
 if TYPE_CHECKING:
+    from litestar_flags.analytics.protocols import AnalyticsCollector
     from litestar_flags.bootstrap import BootstrapConfig
     from litestar_flags.cache import CacheProtocol, CacheStats
     from litestar_flags.models.flag import FeatureFlag
@@ -47,6 +48,7 @@ class FeatureFlagClient:
         default_context: EvaluationContext | None = None,
         rate_limiter: RateLimiter | None = None,
         cache: CacheProtocol | None = None,
+        analytics_collector: AnalyticsCollector | None = None,
     ) -> None:
         """Initialize the feature flag client.
 
@@ -57,13 +59,17 @@ class FeatureFlagClient:
             cache: Optional cache for flag data. When provided, flag lookups will
                 check the cache before hitting storage, and cache entries will be
                 populated after storage reads.
+            analytics_collector: Optional analytics collector for evaluation tracking.
+                When provided, evaluation events will be recorded for monitoring
+                and insights into flag usage.
 
         """
         self._storage = storage
         self._default_context = default_context or EvaluationContext()
-        self._engine = EvaluationEngine()
+        self._engine = EvaluationEngine(analytics_collector=analytics_collector)
         self._rate_limiter = rate_limiter
         self._cache = cache
+        self._analytics_collector = analytics_collector
         self._preloaded_flags: dict[str, FeatureFlag] = {}
         self._closed = False
 
@@ -81,6 +87,11 @@ class FeatureFlagClient:
     def cache(self) -> CacheProtocol | None:
         """Get the cache instance."""
         return self._cache
+
+    @property
+    def analytics_collector(self) -> AnalyticsCollector | None:
+        """Get the analytics collector instance."""
+        return self._analytics_collector
 
     def cache_stats(self) -> CacheStats | None:
         """Get cache statistics.
@@ -103,6 +114,7 @@ class FeatureFlagClient:
         default_context: EvaluationContext | None = None,
         rate_limiter: RateLimiter | None = None,
         cache: CacheProtocol | None = None,
+        analytics_collector: AnalyticsCollector | None = None,
     ) -> FeatureFlagClient:
         """Create a client with flags bootstrapped from a static source.
 
@@ -115,6 +127,7 @@ class FeatureFlagClient:
             default_context: Default evaluation context.
             rate_limiter: Optional rate limiter.
             cache: Optional cache for flag data.
+            analytics_collector: Optional analytics collector for evaluation tracking.
 
         Returns:
             Configured FeatureFlagClient with bootstrapped flags.
@@ -145,6 +158,7 @@ class FeatureFlagClient:
             default_context=default_context,
             rate_limiter=rate_limiter,
             cache=cache,
+            analytics_collector=analytics_collector,
         )
 
     async def preload_flags(

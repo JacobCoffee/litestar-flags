@@ -13,6 +13,7 @@ from litestar_flags.segment_evaluator import CircularSegmentReferenceError, Segm
 from litestar_flags.types import ErrorCode, EvaluationReason, FlagStatus, FlagType, RuleOperator
 
 if TYPE_CHECKING:
+    from litestar_flags.analytics.protocols import AnalyticsCollector
     from litestar_flags.context import EvaluationContext
     from litestar_flags.models.flag import FeatureFlag
     from litestar_flags.models.override import FlagOverride
@@ -39,10 +40,12 @@ class EvaluationEngine:
         5. Apply percentage rollout if configured
         6. Select variant if multivariate flag
         7. Return default value
+        8. Record analytics event (if analytics collector provided)
 
     Attributes:
         time_evaluator: Optional time-based rule evaluator for schedule support.
         segment_evaluator: Optional segment evaluator for segment-based targeting.
+        analytics_collector: Optional analytics collector for evaluation tracking.
 
     """
 
@@ -50,6 +53,7 @@ class EvaluationEngine:
         self,
         time_evaluator: TimeBasedRuleEvaluator | None = None,
         segment_evaluator: SegmentEvaluator | None = None,
+        analytics_collector: AnalyticsCollector | None = None,
     ) -> None:
         """Initialize the evaluation engine.
 
@@ -58,10 +62,13 @@ class EvaluationEngine:
                 time schedule evaluation will be skipped.
             segment_evaluator: Optional segment evaluator. If not provided,
                 a default SegmentEvaluator will be created when needed.
+            analytics_collector: Optional analytics collector. If provided,
+                evaluation events will be recorded for tracking and monitoring.
 
         """
         self._time_evaluator = time_evaluator
         self._segment_evaluator = segment_evaluator
+        self._analytics_collector = analytics_collector
 
     @property
     def time_evaluator(self) -> TimeBasedRuleEvaluator | None:
@@ -82,6 +89,16 @@ class EvaluationEngine:
     def segment_evaluator(self, evaluator: SegmentEvaluator | None) -> None:
         """Set the segment evaluator."""
         self._segment_evaluator = evaluator
+
+    @property
+    def analytics_collector(self) -> AnalyticsCollector | None:
+        """Get the analytics collector."""
+        return self._analytics_collector
+
+    @analytics_collector.setter
+    def analytics_collector(self, collector: AnalyticsCollector | None) -> None:
+        """Set the analytics collector."""
+        self._analytics_collector = collector
 
     def _get_segment_evaluator(self) -> SegmentEvaluator:
         """Get or create a segment evaluator.
@@ -116,21 +133,34 @@ class EvaluationEngine:
         Returns:
             EvaluationDetails with the result and metadata.
 
+        Note:
+            If an analytics collector is configured, evaluation events are
+            recorded after each evaluation. Analytics recording is fire-and-forget
+            and will not affect the evaluation result if it fails.
+
         """
+        import time as time_module
+
+        # Record start time for analytics
+        start_time = time_module.perf_counter()
+
         # Use provided time_evaluator or fall back to instance's evaluator
         effective_time_evaluator = time_evaluator or self.time_evaluator
 
         # 1. Check flag status
         if flag.status != FlagStatus.ACTIVE:
-            return self._create_result(
+            result = self._create_result(
                 flag=flag,
                 value=self._get_default_value(flag),
                 reason=EvaluationReason.DISABLED,
             )
+            await self._record_analytics(flag, context, result, start_time)
+            return result
 
         # 2. Check for overrides
         override_result = await self._check_overrides(flag, context, storage)
         if override_result is not None:
+            await self._record_analytics(flag, context, override_result, start_time)
             return override_result
 
         # 3. Check time schedules (if time evaluator and schedules available)
@@ -141,30 +171,102 @@ class EvaluationEngine:
                 effective_time_evaluator,
             )
             if time_result is not None:
+                await self._record_analytics(flag, context, time_result, start_time)
                 return time_result
 
         # 4. Evaluate rules (now async to support segment evaluation)
         rule_result = await self._evaluate_rules(flag, context, storage, segment_cache)
         if rule_result is not None:
+            await self._record_analytics(flag, context, rule_result, start_time)
             return rule_result
 
         # 5. Check variants (for multivariate flags)
         if flag.variants:
             variant = self._select_variant(flag, context)
             if variant is not None:
-                return self._create_result(
+                result = self._create_result(
                     flag=flag,
                     value=variant.value if flag.flag_type != FlagType.BOOLEAN else variant.value.get("enabled", False),
                     reason=EvaluationReason.SPLIT,
                     variant=variant.key,
                 )
+                await self._record_analytics(flag, context, result, start_time)
+                return result
 
         # 6. Return default
-        return self._create_result(
+        result = self._create_result(
             flag=flag,
             value=self._get_default_value(flag),
             reason=EvaluationReason.STATIC,
         )
+        await self._record_analytics(flag, context, result, start_time)
+        return result
+
+    async def _record_analytics(
+        self,
+        flag: FeatureFlag,
+        context: EvaluationContext,
+        result: EvaluationDetails[Any],
+        start_time: float,
+    ) -> None:
+        """Record an analytics event for the evaluation.
+
+        This method is fire-and-forget - it will never raise exceptions or
+        affect the evaluation result. Any errors during analytics recording
+        are silently ignored to ensure analytics never breaks flag evaluation.
+
+        Args:
+            flag: The evaluated flag.
+            context: The evaluation context.
+            result: The evaluation result.
+            start_time: The start time from time.perf_counter().
+
+        """
+        if self._analytics_collector is None:
+            return
+
+        import time as time_module
+
+        try:
+            from datetime import UTC, datetime
+
+            from litestar_flags.analytics.models import FlagEvaluationEvent
+
+            # Calculate evaluation duration in milliseconds
+            evaluation_duration_ms = (time_module.perf_counter() - start_time) * 1000
+
+            # Extract context attributes for the event
+            context_attributes: dict[str, Any] = {}
+            if context.user_id:
+                context_attributes["user_id"] = context.user_id
+            if context.organization_id:
+                context_attributes["organization_id"] = context.organization_id
+            if context.tenant_id:
+                context_attributes["tenant_id"] = context.tenant_id
+            if context.environment:
+                context_attributes["environment"] = context.environment
+            # Include custom attributes (excluding built-in ones)
+            for key, value in context.attributes.items():
+                if key not in ("user_id", "organization_id", "tenant_id", "environment", "targeting_key"):
+                    context_attributes[key] = value
+
+            # Create the analytics event
+            event = FlagEvaluationEvent(
+                timestamp=datetime.now(UTC),
+                flag_key=flag.key,
+                value=result.value,
+                reason=result.reason,
+                variant=result.variant,
+                targeting_key=context.targeting_key,
+                context_attributes=context_attributes,
+                evaluation_duration_ms=evaluation_duration_ms,
+            )
+
+            # Record the event (fire-and-forget)
+            await self._analytics_collector.record(event)
+        except Exception:  # noqa: S110
+            # Silently ignore analytics errors - they should never affect evaluation
+            pass
 
     async def _check_time_schedules(
         self,

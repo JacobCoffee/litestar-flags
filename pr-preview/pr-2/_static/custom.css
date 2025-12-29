@@ -1,0 +1,201 @@
+/* Custom styles for litestar-flags documentation */
+
+/* ============================================
+   Landing Page Hero
+   ============================================ */
+
+/* Lead text refinement */
+.lead {
+    font-size: 1.25rem;
+    line-height: 1.7;
+    color: var(--color-content-secondary);
+    max-width: 42rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Button container styling */
+.buttons {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
+}
+
+.buttons a {
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.buttons a:first-child {
+    background: var(--color-accent);
+    color: white;
+}
+
+.buttons a:first-child:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+.buttons a:not(:first-child) {
+    background: var(--color-background-secondary);
+    color: var(--color-content);
+    border: 1px solid var(--color-border);
+}
+
+.buttons a:not(:first-child):hover {
+    background: var(--color-background-tertiary);
+    border-color: var(--color-accent);
+}
+
+/* ============================================
+   Feature Grid Cards
+   ============================================ */
+
+.sd-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sd-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .sd-card:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
+}
+
+/* Card titles with octicons */
+.sd-card-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+/* Surface row styling for feature grids */
+.surface .sd-card {
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+}
+
+/* Borderless cards */
+.sd-border-0 {
+    border: none !important;
+    background: transparent !important;
+}
+
+.sd-border-0:hover {
+    background: var(--color-background-secondary) !important;
+}
+
+/* ============================================
+   Code Blocks
+   ============================================ */
+
+.highlight pre {
+    border-radius: 0.5rem;
+    border: 1px solid var(--color-border);
+}
+
+/* Code block caption */
+.code-block-caption {
+    font-size: 0.875rem;
+    color: var(--color-content-secondary);
+    padding: 0.5rem 1rem;
+    background: var(--color-background-secondary);
+    border: 1px solid var(--color-border);
+    border-bottom: none;
+    border-radius: 0.5rem 0.5rem 0 0;
+    margin-bottom: 0;
+}
+
+.code-block-caption + .highlight pre {
+    border-radius: 0 0 0.5rem 0.5rem;
+    margin-top: 0;
+}
+
+/* ============================================
+   Section Dividers
+   ============================================ */
+
+hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 3rem 0;
+}
+
+/* ============================================
+   Rounded Cards
+   ============================================ */
+
+.sd-rounded-3 {
+    border-radius: 0.75rem !important;
+}
+
+/* ============================================
+   Admonitions
+   ============================================ */
+
+.admonition {
+    border-radius: 0.5rem;
+    border-left-width: 4px;
+}
+
+/* ============================================
+   Table of Contents
+   ============================================ */
+
+.toctree-wrapper ul {
+    padding-left: 1.5rem;
+}
+
+/* ============================================
+   API Reference Styling
+   ============================================ */
+
+.sig {
+    font-weight: 500;
+}
+
+dl.field-list > dt {
+    font-weight: 600;
+}
+
+/* Version notes */
+.versionadded,
+.versionchanged,
+.deprecated {
+    font-style: italic;
+    margin-top: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    background: var(--color-background-secondary);
+    font-size: 0.875rem;
+}
+
+/* ============================================
+   Responsive Adjustments
+   ============================================ */
+
+@media (max-width: 768px) {
+    .lead {
+        font-size: 1.125rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .buttons a {
+        width: 100%;
+        max-width: 280px;
+        text-align: center;
+    }
+}

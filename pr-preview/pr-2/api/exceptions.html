@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Exceptions - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="OpenFeature Integration" href="../user-guide/openfeature.html" /><link rel="prev" title="Types and Enums" href="types.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Exceptions"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types and Enums</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#module-litestar_flags.exceptions">API Reference</a><ul>
+<li><a class="reference internal" href="#litestar_flags.exceptions.ConfigurationError"><code class="docutils literal notranslate"><span class="pre">ConfigurationError</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.FeatureFlagError"><code class="docutils literal notranslate"><span class="pre">FeatureFlagError</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.FlagNotFoundError"><code class="docutils literal notranslate"><span class="pre">FlagNotFoundError</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.exceptions.FlagNotFoundError.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.RateLimitExceededError"><code class="docutils literal notranslate"><span class="pre">RateLimitExceededError</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.exceptions.RateLimitExceededError.message"><code class="docutils literal notranslate">message</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.RateLimitExceededError.wait_time"><code class="docutils literal notranslate">wait_time</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.RateLimitExceededError.flag_key"><code class="docutils literal notranslate">flag_key</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.RateLimitExceededError.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.exceptions.StorageError"><code class="docutils literal notranslate"><span class="pre">StorageError</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#featureflagerror">FeatureFlagError</a></li>
+<li><a class="reference internal" href="#flagnotfounderror">FlagNotFoundError</a><ul>
+<li><a class="reference internal" href="#attributes">Attributes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#storageerror">StorageError</a><ul>
+<li><a class="reference internal" href="#common-causes">Common Causes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configurationerror">ConfigurationError</a><ul>
+<li><a class="reference internal" href="#id1">Common Causes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#error-handling-patterns">Error Handling Patterns</a><ul>
+<li><a class="reference internal" href="#graceful-degradation">Graceful Degradation</a></li>
+<li><a class="reference internal" href="#storage-operations">Storage Operations</a></li>
+<li><a class="reference internal" href="#configuration-validation">Configuration Validation</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#integration-with-litestar">Integration with Litestar</a><ul>
+<li><a class="reference internal" href="#custom-exception-handlers">Custom Exception Handlers</a></li>
+<li><a class="reference internal" href="#health-check-endpoints">Health Check Endpoints</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Exceptions</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="exceptions">
+<h1>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">¶</a></h1>
+<p>Custom exceptions for the litestar-flags library. These exceptions provide
+structured error handling for common failure scenarios.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The library uses a hierarchy of exceptions:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">Exception
+</span><span data-line="2">└── FeatureFlagError (base exception)
+</span><span data-line="3">    ├── FlagNotFoundError
+</span><span data-line="4">    ├── StorageError
+</span><span data-line="5">    └── ConfigurationError
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">FeatureFlagClient</span></code> is designed to <strong>never throw exceptions</strong> during
+normal flag evaluation. Instead, it returns default values and includes
+error information in the <code class="docutils literal notranslate"><span class="pre">EvaluationDetails</span></code>. These exceptions are
+primarily raised during configuration, storage operations, or direct
+storage backend usage.</p>
+</div>
+</section>
+<section id="module-litestar_flags.exceptions">
+<span id="api-reference"></span><h2>API Reference<a class="headerlink" href="#module-litestar_flags.exceptions" title="Link to this heading">¶</a></h2>
+<p>Custom exceptions for litestar-flags.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.ConfigurationError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.exceptions.</span></span><span class="sig-name descname"><span class="pre">ConfigurationError</span></span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#ConfigurationError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.ConfigurationError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litestar_flags.exceptions.FeatureFlagError" title="litestar_flags.exceptions.FeatureFlagError"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureFlagError</span></code></a></p>
+<p>Raised when configuration is invalid.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.FeatureFlagError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.exceptions.</span></span><span class="sig-name descname"><span class="pre">FeatureFlagError</span></span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#FeatureFlagError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.FeatureFlagError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#Exception" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></a></p>
+<p>Base exception for feature flag errors.</p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.FlagNotFoundError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.exceptions.</span></span><span class="sig-name descname"><span class="pre">FlagNotFoundError</span></span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#FlagNotFoundError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.FlagNotFoundError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litestar_flags.exceptions.FeatureFlagError" title="litestar_flags.exceptions.FeatureFlagError"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureFlagError</span></code></a></p>
+<p>Raised when a feature flag is not found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.FlagNotFoundError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#FlagNotFoundError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.FlagNotFoundError.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.RateLimitExceededError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.exceptions.</span></span><span class="sig-name descname"><span class="pre">RateLimitExceededError</span></span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#RateLimitExceededError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.RateLimitExceededError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litestar_flags.exceptions.FeatureFlagError" title="litestar_flags.exceptions.FeatureFlagError"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureFlagError</span></code></a></p>
+<p>Raised when rate limit for flag evaluations is exceeded.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.RateLimitExceededError.message">
+<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#litestar_flags.exceptions.RateLimitExceededError.message" title="Link to this definition">¶</a></dt>
+<dd><p>Description of the rate limit violation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.RateLimitExceededError.wait_time">
+<span class="sig-name descname"><span class="pre">wait_time</span></span><a class="headerlink" href="#litestar_flags.exceptions.RateLimitExceededError.wait_time" title="Link to this definition">¶</a></dt>
+<dd><p>Suggested time to wait before retrying (in seconds).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.RateLimitExceededError.flag_key">
+<span class="sig-name descname"><span class="pre">flag_key</span></span><a class="headerlink" href="#litestar_flags.exceptions.RateLimitExceededError.flag_key" title="Link to this definition">¶</a></dt>
+<dd><p>The flag key that triggered the limit (if per-flag limit).</p>
+</dd></dl>
+
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="k">try</span><span class="p">:</span>
+</span><span data-line="2"><span class="gp">... </span>    <span class="k">await</span> <span class="n">rate_limiter</span><span class="o">.</span><span class="n">acquire</span><span class="p">(</span><span class="s2">&quot;my-flag&quot;</span><span class="p">)</span>
+</span><span data-line="3"><span class="gp">... </span><span class="k">except</span> <span class="n">RateLimitExceededError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="4"><span class="gp">... </span>    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Rate limited. Retry after </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">wait_time</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>wait_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>flag_key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.RateLimitExceededError.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Rate</span> <span class="pre">limit</span> <span class="pre">exceeded'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_time</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#RateLimitExceededError.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.RateLimitExceededError.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the rate limit exception.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Description of the rate limit violation.</p></li>
+<li><p><strong>wait_time</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Suggested time to wait before retrying.</p></li>
+<li><p><strong>flag_key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – The flag key that triggered the limit.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="litestar_flags.exceptions.StorageError">
+<em class="property"><span class="k"><span class="pre">exception</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.exceptions.</span></span><span class="sig-name descname"><span class="pre">StorageError</span></span><a class="reference internal" href="../_modules/litestar_flags/exceptions.html#StorageError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.exceptions.StorageError" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#litestar_flags.exceptions.FeatureFlagError" title="litestar_flags.exceptions.FeatureFlagError"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureFlagError</span></code></a></p>
+<p>Raised when a storage operation fails.</p>
+</dd></dl>
+
+</section>
+<section id="featureflagerror">
+<h2>FeatureFlagError<a class="headerlink" href="#featureflagerror" title="Link to this heading">¶</a></h2>
+<p>Base exception for all feature flag errors.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagError</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="4">    <span class="c1"># Some operation that might fail</span>
+</span><span data-line="5">    <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="6"><span class="k">except</span> <span class="n">FeatureFlagError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="7">    <span class="c1"># Catch any feature flag related error</span>
+</span><span data-line="8">    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Feature flag error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="flagnotfounderror">
+<h2>FlagNotFoundError<a class="headerlink" href="#flagnotfounderror" title="Link to this heading">¶</a></h2>
+<p>Raised when attempting to access a flag that does not exist.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagNotFoundError</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="4">    <span class="c1"># Direct storage access (not via client)</span>
+</span><span data-line="5">    <span class="n">flag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="s2">&quot;non-existent&quot;</span><span class="p">)</span>
+</span><span data-line="6">    <span class="k">if</span> <span class="n">flag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="7">        <span class="k">raise</span> <span class="n">FlagNotFoundError</span><span class="p">(</span><span class="s2">&quot;non-existent&quot;</span><span class="p">)</span>
+</span><span data-line="8"><span class="k">except</span> <span class="n">FlagNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="9">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flag key: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>  <span class="c1"># Access the flag key</span>
+</span><span data-line="10">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Message: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>       <span class="c1"># &quot;Feature flag &#39;non-existent&#39; not found&quot;</span>
+</span></pre></div>
+</div>
+<section id="attributes">
+<h3>Attributes<a class="headerlink" href="#attributes" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">key</span></code></p></td>
+<td><p>The flag key that was not found</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="storageerror">
+<h2>StorageError<a class="headerlink" href="#storageerror" title="Link to this heading">¶</a></h2>
+<p>Raised when a storage backend operation fails.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageError</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="4">    <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="5"><span class="k">except</span> <span class="n">StorageError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="6">    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Storage operation failed: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="7">    <span class="c1"># Handle storage failure (retry, fallback, etc.)</span>
+</span></pre></div>
+</div>
+<section id="common-causes">
+<h3>Common Causes<a class="headerlink" href="#common-causes" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Database connection failures</p></li>
+<li><p>Redis connection timeouts</p></li>
+<li><p>Constraint violations (e.g., duplicate flag key)</p></li>
+<li><p>Permission denied errors</p></li>
+</ul>
+</section>
+</section>
+<section id="configurationerror">
+<h2>ConfigurationError<a class="headerlink" href="#configurationerror" title="Link to this heading">¶</a></h2>
+<p>Raised when the configuration is invalid.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationError</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="5">    <span class="c1"># This will raise ConfigurationError</span>
+</span><span data-line="6">    <span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="7">        <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span>
+</span><span data-line="8">        <span class="c1"># Missing required connection_string</span>
+</span><span data-line="9">    <span class="p">)</span>
+</span><span data-line="10"><span class="k">except</span> <span class="n">ConfigurationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="11">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid configuration: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<section id="id1">
+<h3>Common Causes<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Missing required configuration (e.g., <code class="docutils literal notranslate"><span class="pre">connection_string</span></code> for database backend)</p></li>
+<li><p>Invalid backend type</p></li>
+<li><p>Incompatible configuration combinations</p></li>
+</ul>
+</section>
+</section>
+<section id="error-handling-patterns">
+<h2>Error Handling Patterns<a class="headerlink" href="#error-handling-patterns" title="Link to this heading">¶</a></h2>
+<section id="graceful-degradation">
+<h3>Graceful Degradation<a class="headerlink" href="#graceful-degradation" title="Link to this heading">¶</a></h3>
+<p>The recommended pattern is to use the client’s built-in error handling:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagClient</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Client never throws during evaluation</span>
+</span><span data-line="4"><span class="n">enabled</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_boolean_value</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Check for errors in details</span>
+</span><span data-line="7"><span class="n">details</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_boolean_details</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="8"><span class="k">if</span> <span class="n">details</span><span class="o">.</span><span class="n">is_error</span><span class="p">:</span>
+</span><span data-line="9">    <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flag evaluation error: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">error_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="10">    <span class="c1"># Value will be the default</span>
+</span></pre></div>
+</div>
+</section>
+<section id="storage-operations">
+<h3>Storage Operations<a class="headerlink" href="#storage-operations" title="Link to this heading">¶</a></h3>
+<p>For direct storage operations, catch specific exceptions:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">FeatureFlagError</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">FlagNotFoundError</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">StorageError</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">safe_create_flag</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">flag</span><span class="p">):</span>
+</span><span data-line="8">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="9">        <span class="k">return</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="10">    <span class="k">except</span> <span class="n">StorageError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="11">        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to create flag: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="12">        <span class="k">raise</span>
+</span><span data-line="13">    <span class="k">except</span> <span class="n">FeatureFlagError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="14">        <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unexpected error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="15">        <span class="k">raise</span>
+</span></pre></div>
+</div>
+</section>
+<section id="configuration-validation">
+<h3>Configuration Validation<a class="headerlink" href="#configuration-validation" title="Link to this heading">¶</a></h3>
+<p>Validate configuration early in application startup:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigurationError</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">def</span><span class="w"> </span><span class="nf">get_config</span><span class="p">():</span>
+</span><span data-line="5">    <span class="k">try</span><span class="p">:</span>
+</span><span data-line="6">        <span class="k">return</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="7">            <span class="n">backend</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;FF_BACKEND&quot;</span><span class="p">,</span> <span class="s2">&quot;memory&quot;</span><span class="p">),</span>
+</span><span data-line="8">            <span class="n">connection_string</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;FF_DATABASE_URL&quot;</span><span class="p">),</span>
+</span><span data-line="9">            <span class="n">redis_url</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;FF_REDIS_URL&quot;</span><span class="p">),</span>
+</span><span data-line="10">        <span class="p">)</span>
+</span><span data-line="11">    <span class="k">except</span> <span class="n">ConfigurationError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="12">        <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid feature flag configuration: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="13">        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="integration-with-litestar">
+<h2>Integration with Litestar<a class="headerlink" href="#integration-with-litestar" title="Link to this heading">¶</a></h2>
+<section id="custom-exception-handlers">
+<h3>Custom Exception Handlers<a class="headerlink" href="#custom-exception-handlers" title="Link to this heading">¶</a></h3>
+<p>You can register custom exception handlers for feature flag errors:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">Response</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTPException</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagError</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="k">def</span><span class="w"> </span><span class="nf">feature_flag_exception_handler</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">request</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">exc</span><span class="p">:</span> <span class="n">FeatureFlagError</span><span class="p">,</span>
+</span><span data-line="8"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+</span><span data-line="9">    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+</span><span data-line="10">        <span class="n">content</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Feature flag system error&quot;</span><span class="p">},</span>
+</span><span data-line="11">        <span class="n">status_code</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+</span><span data-line="12">    <span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="15">    <span class="n">exception_handlers</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="16">        <span class="n">FeatureFlagError</span><span class="p">:</span> <span class="n">feature_flag_exception_handler</span><span class="p">,</span>
+</span><span data-line="17">    <span class="p">},</span>
+</span><span data-line="18"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="health-check-endpoints">
+<h3>Health Check Endpoints<a class="headerlink" href="#health-check-endpoints" title="Link to this heading">¶</a></h3>
+<p>Use health checks to detect storage issues:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagClient</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/health/flags&quot;</span><span class="p">)</span>
+</span><span data-line="5"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">feature_flags_health</span><span class="p">(</span><span class="n">feature_flags</span><span class="p">:</span> <span class="n">FeatureFlagClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="6">    <span class="n">healthy</span> <span class="o">=</span> <span class="k">await</span> <span class="n">feature_flags</span><span class="o">.</span><span class="n">health_check</span><span class="p">()</span>
+</span><span data-line="7">    <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="8">        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;healthy&quot;</span> <span class="k">if</span> <span class="n">healthy</span> <span class="k">else</span> <span class="s2">&quot;unhealthy&quot;</span><span class="p">,</span>
+</span><span data-line="9">        <span class="s2">&quot;service&quot;</span><span class="p">:</span> <span class="s2">&quot;feature_flags&quot;</span><span class="p">,</span>
+</span><span data-line="10">    <span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="types.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Types and Enums</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../user-guide/openfeature.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">OpenFeature Integration</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

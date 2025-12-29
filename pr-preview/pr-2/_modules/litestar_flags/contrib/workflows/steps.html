@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>litestar_flags.contrib.workflows.steps - litestar-flags</title><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="litestar_flags.contrib.workflows.steps"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../../../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">litestar_flags.contrib.workflows.steps</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <h1>Source code for litestar_flags.contrib.workflows.steps</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;Workflow steps for feature flag operations.</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="sd">This module provides workflow steps that integrate with litestar-workflows</span>
+</span><span data-line="4"><span class="sd">to enable approval-based flag management, scheduled rollouts, and</span>
+</span><span data-line="5"><span class="sd">auditable flag changes.</span>
+</span><span data-line="6"><span class="sd">&quot;&quot;&quot;</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span data-line="11"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span data-line="12"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTC</span><span class="p">,</span> <span class="n">datetime</span>
+</span><span data-line="13"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseHumanStep</span><span class="p">,</span> <span class="n">BaseMachineStep</span><span class="p">,</span> <span class="n">WorkflowContext</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ChangeType</span><span class="p">,</span> <span class="n">RolloutStage</span>
+</span><span data-line="18"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagStatus</span><span class="p">,</span> <span class="n">FlagType</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+</span><span data-line="21">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageBackend</span>
+</span><span data-line="22">
+</span><span data-line="23"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="24">    <span class="s2">&quot;ApplyFlagChangeStep&quot;</span><span class="p">,</span>
+</span><span data-line="25">    <span class="s2">&quot;FlagChangeRequest&quot;</span><span class="p">,</span>
+</span><span data-line="26">    <span class="s2">&quot;ManagerApprovalStep&quot;</span><span class="p">,</span>
+</span><span data-line="27">    <span class="s2">&quot;NotifyStakeholdersStep&quot;</span><span class="p">,</span>
+</span><span data-line="28">    <span class="s2">&quot;QAValidationStep&quot;</span><span class="p">,</span>
+</span><span data-line="29">    <span class="s2">&quot;RolloutStep&quot;</span><span class="p">,</span>
+</span><span data-line="30">    <span class="s2">&quot;ValidateFlagChangeStep&quot;</span><span class="p">,</span>
+</span><span data-line="31"><span class="p">]</span>
+</span><span data-line="32">
+</span><span data-line="33"><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span data-line="34">
+</span><span data-line="35">
+<div class="viewcode-block" id="FlagChangeRequest">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.FlagChangeRequest">[docs]</a>
+</span><span data-line="36"><span class="nd">@dataclass</span>
+</span><span data-line="37"><span class="k">class</span><span class="w"> </span><span class="nc">FlagChangeRequest</span><span class="p">:</span>
+</span><span data-line="38"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Request for a feature flag change.</span>
+</span><span data-line="39">
+</span><span data-line="40"><span class="sd">    This dataclass encapsulates all information needed to request</span>
+</span><span data-line="41"><span class="sd">    a change to a feature flag through an approval workflow.</span>
+</span><span data-line="42">
+</span><span data-line="43"><span class="sd">    Attributes:</span>
+</span><span data-line="44"><span class="sd">        flag_key: The unique key of the flag to change.</span>
+</span><span data-line="45"><span class="sd">        change_type: The type of change (create, update, delete, toggle, rollout).</span>
+</span><span data-line="46"><span class="sd">        requested_by: Email or ID of the person requesting the change.</span>
+</span><span data-line="47"><span class="sd">        flag_data: Data for the flag (for create/update operations).</span>
+</span><span data-line="48"><span class="sd">        reason: Business justification for the change.</span>
+</span><span data-line="49"><span class="sd">        environment: Target environment (e.g., &quot;production&quot;, &quot;staging&quot;).</span>
+</span><span data-line="50"><span class="sd">        rollout_percentage: Target percentage for rollout changes.</span>
+</span><span data-line="51"><span class="sd">        metadata: Additional metadata for the request.</span>
+</span><span data-line="52">
+</span><span data-line="53"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="54">
+</span><span data-line="55">    <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="56">    <span class="n">change_type</span><span class="p">:</span> <span class="n">ChangeType</span>
+</span><span data-line="57">    <span class="n">requested_by</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="58">    <span class="n">flag_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="59">    <span class="n">reason</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+</span><span data-line="60">    <span class="n">environment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;production&quot;</span>
+</span><span data-line="61">    <span class="n">rollout_percentage</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="62">    <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+</span><span data-line="63">
+<div class="viewcode-block" id="FlagChangeRequest.to_dict">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.FlagChangeRequest.to_dict">[docs]</a>
+</span><span data-line="64">    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="65"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert to dictionary for workflow context storage.&quot;&quot;&quot;</span>
+</span><span data-line="66">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="67">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="68">            <span class="s2">&quot;change_type&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">change_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="69">            <span class="s2">&quot;requested_by&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">requested_by</span><span class="p">,</span>
+</span><span data-line="70">            <span class="s2">&quot;flag_data&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">flag_data</span><span class="p">,</span>
+</span><span data-line="71">            <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span><span data-line="72">            <span class="s2">&quot;environment&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">environment</span><span class="p">,</span>
+</span><span data-line="73">            <span class="s2">&quot;rollout_percentage&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">rollout_percentage</span><span class="p">,</span>
+</span><span data-line="74">            <span class="s2">&quot;metadata&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">,</span>
+</span><span data-line="75">        <span class="p">}</span></div>
+
+</span><span data-line="76">
+<div class="viewcode-block" id="FlagChangeRequest.from_dict">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.FlagChangeRequest.from_dict">[docs]</a>
+</span><span data-line="77">    <span class="nd">@classmethod</span>
+</span><span data-line="78">    <span class="k">def</span><span class="w"> </span><span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">FlagChangeRequest</span><span class="p">:</span>
+</span><span data-line="79"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create from dictionary (from workflow context).&quot;&quot;&quot;</span>
+</span><span data-line="80">        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span>
+</span><span data-line="81">            <span class="n">flag_key</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;flag_key&quot;</span><span class="p">],</span>
+</span><span data-line="82">            <span class="n">change_type</span><span class="o">=</span><span class="n">ChangeType</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;change_type&quot;</span><span class="p">]),</span>
+</span><span data-line="83">            <span class="n">requested_by</span><span class="o">=</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;requested_by&quot;</span><span class="p">],</span>
+</span><span data-line="84">            <span class="n">flag_data</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_data&quot;</span><span class="p">),</span>
+</span><span data-line="85">            <span class="n">reason</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;reason&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">),</span>
+</span><span data-line="86">            <span class="n">environment</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;environment&quot;</span><span class="p">,</span> <span class="s2">&quot;production&quot;</span><span class="p">),</span>
+</span><span data-line="87">            <span class="n">rollout_percentage</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;rollout_percentage&quot;</span><span class="p">),</span>
+</span><span data-line="88">            <span class="n">metadata</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+</span><span data-line="89">        <span class="p">)</span></div>
+</div>
+
+</span><span data-line="90">
+</span><span data-line="91">
+<div class="viewcode-block" id="ValidateFlagChangeStep">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ValidateFlagChangeStep">[docs]</a>
+</span><span data-line="92"><span class="k">class</span><span class="w"> </span><span class="nc">ValidateFlagChangeStep</span><span class="p">(</span><span class="n">BaseMachineStep</span><span class="p">):</span>
+</span><span data-line="93"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate a flag change request.</span>
+</span><span data-line="94">
+</span><span data-line="95"><span class="sd">    This step performs validation on the incoming change request:</span>
+</span><span data-line="96"><span class="sd">    - Verifies required fields are present</span>
+</span><span data-line="97"><span class="sd">    - Checks flag key format</span>
+</span><span data-line="98"><span class="sd">    - Validates rollout percentages</span>
+</span><span data-line="99"><span class="sd">    - For updates/deletes, verifies the flag exists</span>
+</span><span data-line="100"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="101">
+<div class="viewcode-block" id="ValidateFlagChangeStep.__init__">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ValidateFlagChangeStep.__init__">[docs]</a>
+</span><span data-line="102">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="103">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="104">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="105">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;validate_flag_change&quot;</span><span class="p">,</span>
+</span><span data-line="106">        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Validate the flag change request&quot;</span><span class="p">,</span>
+</span><span data-line="107">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="108"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with optional storage backend.</span>
+</span><span data-line="109">
+</span><span data-line="110"><span class="sd">        Args:</span>
+</span><span data-line="111"><span class="sd">            storage: Storage backend for flag lookups. If None, will be</span>
+</span><span data-line="112"><span class="sd">                    retrieved from workflow context metadata.</span>
+</span><span data-line="113"><span class="sd">            name: Step name.</span>
+</span><span data-line="114"><span class="sd">            description: Step description.</span>
+</span><span data-line="115">
+</span><span data-line="116"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="117">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+</span><span data-line="118">        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="n">storage</span></div>
+
+</span><span data-line="119">
+<div class="viewcode-block" id="ValidateFlagChangeStep.execute">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ValidateFlagChangeStep.execute">[docs]</a>
+</span><span data-line="120">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="121"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute validation.</span>
+</span><span data-line="122">
+</span><span data-line="123"><span class="sd">        Args:</span>
+</span><span data-line="124"><span class="sd">            context: Workflow context containing the change request.</span>
+</span><span data-line="125">
+</span><span data-line="126"><span class="sd">        Returns:</span>
+</span><span data-line="127"><span class="sd">            Validation result with any error messages.</span>
+</span><span data-line="128">
+</span><span data-line="129"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="130">        <span class="n">request_data</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;request&quot;</span><span class="p">)</span>
+</span><span data-line="131">        <span class="k">if</span> <span class="ow">not</span> <span class="n">request_data</span><span class="p">:</span>
+</span><span data-line="132">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No change request provided&quot;</span><span class="p">}</span>
+</span><span data-line="133">
+</span><span data-line="134">        <span class="n">request</span> <span class="o">=</span> <span class="n">FlagChangeRequest</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">request_data</span><span class="p">)</span>
+</span><span data-line="135">        <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="136">
+</span><span data-line="137">        <span class="c1"># Validate flag key</span>
+</span><span data-line="138">        <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+</span><span data-line="139">            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Flag key is required&quot;</span><span class="p">)</span>
+</span><span data-line="140">        <span class="k">elif</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">isalnum</span><span class="p">():</span>
+</span><span data-line="141">            <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Flag key must be alphanumeric with underscores or hyphens&quot;</span><span class="p">)</span>
+</span><span data-line="142">
+</span><span data-line="143">        <span class="c1"># Validate rollout percentage</span>
+</span><span data-line="144">        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">rollout_percentage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="145">            <span class="k">if</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">request</span><span class="o">.</span><span class="n">rollout_percentage</span> <span class="o">&lt;=</span> <span class="mi">100</span><span class="p">:</span>
+</span><span data-line="146">                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Rollout percentage must be between 0 and 100&quot;</span><span class="p">)</span>
+</span><span data-line="147">
+</span><span data-line="148">        <span class="c1"># For create, validate flag_data</span>
+</span><span data-line="149">        <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="o">==</span> <span class="n">ChangeType</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
+</span><span data-line="150">            <span class="k">if</span> <span class="ow">not</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="151">                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Flag data is required for create operations&quot;</span><span class="p">)</span>
+</span><span data-line="152">            <span class="k">elif</span> <span class="s2">&quot;name&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="153">                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;Flag name is required in flag_data&quot;</span><span class="p">)</span>
+</span><span data-line="154">
+</span><span data-line="155">        <span class="c1"># For update/delete/toggle, check flag exists</span>
+</span><span data-line="156">        <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">context</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+</span><span data-line="157">        <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="ow">in</span> <span class="p">(</span>
+</span><span data-line="158">            <span class="n">ChangeType</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">,</span>
+</span><span data-line="159">            <span class="n">ChangeType</span><span class="o">.</span><span class="n">DELETE</span><span class="p">,</span>
+</span><span data-line="160">            <span class="n">ChangeType</span><span class="o">.</span><span class="n">TOGGLE</span><span class="p">,</span>
+</span><span data-line="161">            <span class="n">ChangeType</span><span class="o">.</span><span class="n">ROLLOUT</span><span class="p">,</span>
+</span><span data-line="162">        <span class="p">):</span>
+</span><span data-line="163">            <span class="n">flag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="164">            <span class="k">if</span> <span class="n">flag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="165">                <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flag &#39;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39; does not exist&quot;</span><span class="p">)</span>
+</span><span data-line="166">
+</span><span data-line="167">        <span class="k">if</span> <span class="n">errors</span><span class="p">:</span>
+</span><span data-line="168">            <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</span><span data-line="169">            <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;errors&quot;</span><span class="p">,</span> <span class="n">errors</span><span class="p">)</span>
+</span><span data-line="170">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;errors&quot;</span><span class="p">:</span> <span class="n">errors</span><span class="p">}</span>
+</span><span data-line="171">
+</span><span data-line="172">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span><span data-line="173">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;validated_request&quot;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+</span><span data-line="174">        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">,</span> <span class="s2">&quot;change_type&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span><span class="o">.</span><span class="n">value</span><span class="p">}</span></div>
+</div>
+
+</span><span data-line="175">
+</span><span data-line="176">
+<div class="viewcode-block" id="ManagerApprovalStep">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ManagerApprovalStep">[docs]</a>
+</span><span data-line="177"><span class="k">class</span><span class="w"> </span><span class="nc">ManagerApprovalStep</span><span class="p">(</span><span class="n">BaseHumanStep</span><span class="p">):</span>
+</span><span data-line="178"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Human step requiring manager approval.</span>
+</span><span data-line="179">
+</span><span data-line="180"><span class="sd">    This step pauses the workflow until a manager reviews and</span>
+</span><span data-line="181"><span class="sd">    approves or rejects the flag change request.</span>
+</span><span data-line="182"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="183">
+<div class="viewcode-block" id="ManagerApprovalStep.__init__">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ManagerApprovalStep.__init__">[docs]</a>
+</span><span data-line="184">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="185">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="186">        <span class="n">approver_roles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="187">        <span class="n">timeout_hours</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">72</span><span class="p">,</span>
+</span><span data-line="188">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;manager_approval&quot;</span><span class="p">,</span>
+</span><span data-line="189">        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Manager Approval Required&quot;</span><span class="p">,</span>
+</span><span data-line="190">        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Manager reviews and approves the flag change&quot;</span><span class="p">,</span>
+</span><span data-line="191">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="192"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize manager approval step.</span>
+</span><span data-line="193">
+</span><span data-line="194"><span class="sd">        Args:</span>
+</span><span data-line="195"><span class="sd">            approver_roles: List of roles that can approve (e.g., [&quot;manager&quot;, &quot;lead&quot;]).</span>
+</span><span data-line="196"><span class="sd">            timeout_hours: Hours before the approval request times out.</span>
+</span><span data-line="197"><span class="sd">            name: Step name.</span>
+</span><span data-line="198"><span class="sd">            title: Step title for display.</span>
+</span><span data-line="199"><span class="sd">            description: Step description.</span>
+</span><span data-line="200">
+</span><span data-line="201"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="202">        <span class="n">form_schema</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="203">            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span data-line="204">            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;approved&quot;</span><span class="p">,</span> <span class="s2">&quot;comments&quot;</span><span class="p">],</span>
+</span><span data-line="205">            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="206">                <span class="s2">&quot;approved&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="207">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+</span><span data-line="208">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Approve this change?&quot;</span><span class="p">,</span>
+</span><span data-line="209">                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Check to approve the flag change request&quot;</span><span class="p">,</span>
+</span><span data-line="210">                <span class="p">},</span>
+</span><span data-line="211">                <span class="s2">&quot;comments&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="212">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span data-line="213">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Comments&quot;</span><span class="p">,</span>
+</span><span data-line="214">                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Provide feedback or reason for approval/rejection&quot;</span><span class="p">,</span>
+</span><span data-line="215">                <span class="p">},</span>
+</span><span data-line="216">                <span class="s2">&quot;conditions&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="217">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span data-line="218">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Conditions (optional)&quot;</span><span class="p">,</span>
+</span><span data-line="219">                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Any conditions for the approval&quot;</span><span class="p">,</span>
+</span><span data-line="220">                <span class="p">},</span>
+</span><span data-line="221">            <span class="p">},</span>
+</span><span data-line="222">        <span class="p">}</span>
+</span><span data-line="223">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">form_schema</span><span class="o">=</span><span class="n">form_schema</span><span class="p">)</span>
+</span><span data-line="224">        <span class="bp">self</span><span class="o">.</span><span class="n">approver_roles</span> <span class="o">=</span> <span class="n">approver_roles</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;manager&quot;</span><span class="p">,</span> <span class="s2">&quot;tech_lead&quot;</span><span class="p">]</span>
+</span><span data-line="225">        <span class="bp">self</span><span class="o">.</span><span class="n">timeout_hours</span> <span class="o">=</span> <span class="n">timeout_hours</span></div>
+
+</span><span data-line="226">
+<div class="viewcode-block" id="ManagerApprovalStep.execute">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ManagerApprovalStep.execute">[docs]</a>
+</span><span data-line="227">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="228"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Process the manager&#39;s decision.</span>
+</span><span data-line="229">
+</span><span data-line="230"><span class="sd">        Args:</span>
+</span><span data-line="231"><span class="sd">            context: Workflow context with form submission data.</span>
+</span><span data-line="232">
+</span><span data-line="233"><span class="sd">        Returns:</span>
+</span><span data-line="234"><span class="sd">            Approval result.</span>
+</span><span data-line="235">
+</span><span data-line="236"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="237">        <span class="n">form_data</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;form_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
+</span><span data-line="238">        <span class="n">approved</span> <span class="o">=</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;approved&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</span><span data-line="239">        <span class="n">comments</span> <span class="o">=</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;comments&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span data-line="240">        <span class="n">approver</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">user_id</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span>
+</span><span data-line="241">
+</span><span data-line="242">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;manager_approved&quot;</span><span class="p">,</span> <span class="n">approved</span><span class="p">)</span>
+</span><span data-line="243">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;manager_comments&quot;</span><span class="p">,</span> <span class="n">comments</span><span class="p">)</span>
+</span><span data-line="244">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;manager_approver&quot;</span><span class="p">,</span> <span class="n">approver</span><span class="p">)</span>
+</span><span data-line="245">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;manager_approved_at&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+</span><span data-line="246">
+</span><span data-line="247">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="248">            <span class="s2">&quot;approved&quot;</span><span class="p">:</span> <span class="n">approved</span><span class="p">,</span>
+</span><span data-line="249">            <span class="s2">&quot;approver&quot;</span><span class="p">:</span> <span class="n">approver</span><span class="p">,</span>
+</span><span data-line="250">            <span class="s2">&quot;comments&quot;</span><span class="p">:</span> <span class="n">comments</span><span class="p">,</span>
+</span><span data-line="251">            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+</span><span data-line="252">        <span class="p">}</span></div>
+</div>
+
+</span><span data-line="253">
+</span><span data-line="254">
+<div class="viewcode-block" id="QAValidationStep">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.QAValidationStep">[docs]</a>
+</span><span data-line="255"><span class="k">class</span><span class="w"> </span><span class="nc">QAValidationStep</span><span class="p">(</span><span class="n">BaseHumanStep</span><span class="p">):</span>
+</span><span data-line="256"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Human step for QA validation.</span>
+</span><span data-line="257">
+</span><span data-line="258"><span class="sd">    This step allows QA team members to verify the flag change</span>
+</span><span data-line="259"><span class="sd">    is ready for production.</span>
+</span><span data-line="260"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="261">
+<div class="viewcode-block" id="QAValidationStep.__init__">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.QAValidationStep.__init__">[docs]</a>
+</span><span data-line="262">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="263">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="264">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;qa_validation&quot;</span><span class="p">,</span>
+</span><span data-line="265">        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;QA Validation Required&quot;</span><span class="p">,</span>
+</span><span data-line="266">        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;QA validates the flag change in staging&quot;</span><span class="p">,</span>
+</span><span data-line="267">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="268"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize QA validation step.</span>
+</span><span data-line="269">
+</span><span data-line="270"><span class="sd">        Args:</span>
+</span><span data-line="271"><span class="sd">            name: Step name.</span>
+</span><span data-line="272"><span class="sd">            title: Step title for display.</span>
+</span><span data-line="273"><span class="sd">            description: Step description.</span>
+</span><span data-line="274">
+</span><span data-line="275"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="276">        <span class="n">form_schema</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="277">            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span data-line="278">            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;validated&quot;</span><span class="p">,</span> <span class="s2">&quot;test_results&quot;</span><span class="p">],</span>
+</span><span data-line="279">            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="280">                <span class="s2">&quot;validated&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="281">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+</span><span data-line="282">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;QA Validated&quot;</span><span class="p">,</span>
+</span><span data-line="283">                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Confirm testing has passed&quot;</span><span class="p">,</span>
+</span><span data-line="284">                <span class="p">},</span>
+</span><span data-line="285">                <span class="s2">&quot;test_results&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="286">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span data-line="287">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Test Results&quot;</span><span class="p">,</span>
+</span><span data-line="288">                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Summary of testing performed&quot;</span><span class="p">,</span>
+</span><span data-line="289">                <span class="p">},</span>
+</span><span data-line="290">                <span class="s2">&quot;staging_verified&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="291">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+</span><span data-line="292">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Staging Verified&quot;</span><span class="p">,</span>
+</span><span data-line="293">                    <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Confirmed working in staging environment&quot;</span><span class="p">,</span>
+</span><span data-line="294">                    <span class="s2">&quot;default&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="295">                <span class="p">},</span>
+</span><span data-line="296">                <span class="s2">&quot;notes&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="297">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span data-line="298">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Additional Notes&quot;</span><span class="p">,</span>
+</span><span data-line="299">                <span class="p">},</span>
+</span><span data-line="300">            <span class="p">},</span>
+</span><span data-line="301">        <span class="p">}</span>
+</span><span data-line="302">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">form_schema</span><span class="o">=</span><span class="n">form_schema</span><span class="p">)</span></div>
+
+</span><span data-line="303">
+<div class="viewcode-block" id="QAValidationStep.execute">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.QAValidationStep.execute">[docs]</a>
+</span><span data-line="304">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="305"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Process QA validation results.</span>
+</span><span data-line="306">
+</span><span data-line="307"><span class="sd">        Args:</span>
+</span><span data-line="308"><span class="sd">            context: Workflow context with form submission data.</span>
+</span><span data-line="309">
+</span><span data-line="310"><span class="sd">        Returns:</span>
+</span><span data-line="311"><span class="sd">            Validation result.</span>
+</span><span data-line="312">
+</span><span data-line="313"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="314">        <span class="n">form_data</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;form_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
+</span><span data-line="315">        <span class="n">validated</span> <span class="o">=</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;validated&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</span><span data-line="316">        <span class="n">test_results</span> <span class="o">=</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;test_results&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+</span><span data-line="317">        <span class="n">validator</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">user_id</span> <span class="ow">or</span> <span class="s2">&quot;unknown&quot;</span>
+</span><span data-line="318">
+</span><span data-line="319">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;qa_validated&quot;</span><span class="p">,</span> <span class="n">validated</span><span class="p">)</span>
+</span><span data-line="320">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;qa_test_results&quot;</span><span class="p">,</span> <span class="n">test_results</span><span class="p">)</span>
+</span><span data-line="321">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;qa_validator&quot;</span><span class="p">,</span> <span class="n">validator</span><span class="p">)</span>
+</span><span data-line="322">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;qa_validated_at&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+</span><span data-line="323">
+</span><span data-line="324">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="325">            <span class="s2">&quot;validated&quot;</span><span class="p">:</span> <span class="n">validated</span><span class="p">,</span>
+</span><span data-line="326">            <span class="s2">&quot;validator&quot;</span><span class="p">:</span> <span class="n">validator</span><span class="p">,</span>
+</span><span data-line="327">            <span class="s2">&quot;test_results&quot;</span><span class="p">:</span> <span class="n">test_results</span><span class="p">,</span>
+</span><span data-line="328">            <span class="s2">&quot;staging_verified&quot;</span><span class="p">:</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;staging_verified&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+</span><span data-line="329">            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+</span><span data-line="330">        <span class="p">}</span></div>
+</div>
+
+</span><span data-line="331">
+</span><span data-line="332">
+<div class="viewcode-block" id="ApplyFlagChangeStep">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ApplyFlagChangeStep">[docs]</a>
+</span><span data-line="333"><span class="k">class</span><span class="w"> </span><span class="nc">ApplyFlagChangeStep</span><span class="p">(</span><span class="n">BaseMachineStep</span><span class="p">):</span>
+</span><span data-line="334"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply the approved flag change.</span>
+</span><span data-line="335">
+</span><span data-line="336"><span class="sd">    This step executes the actual flag modification once all</span>
+</span><span data-line="337"><span class="sd">    approvals have been obtained.</span>
+</span><span data-line="338"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="339">
+<div class="viewcode-block" id="ApplyFlagChangeStep.__init__">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ApplyFlagChangeStep.__init__">[docs]</a>
+</span><span data-line="340">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="341">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="342">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="343">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;apply_flag_change&quot;</span><span class="p">,</span>
+</span><span data-line="344">        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Apply the approved flag change to the storage backend&quot;</span><span class="p">,</span>
+</span><span data-line="345">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="346"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize with optional storage backend.</span>
+</span><span data-line="347">
+</span><span data-line="348"><span class="sd">        Args:</span>
+</span><span data-line="349"><span class="sd">            storage: Storage backend for flag operations. If None, will be</span>
+</span><span data-line="350"><span class="sd">                    retrieved from workflow context metadata.</span>
+</span><span data-line="351"><span class="sd">            name: Step name.</span>
+</span><span data-line="352"><span class="sd">            description: Step description.</span>
+</span><span data-line="353">
+</span><span data-line="354"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="355">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+</span><span data-line="356">        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="n">storage</span></div>
+
+</span><span data-line="357">
+<div class="viewcode-block" id="ApplyFlagChangeStep.execute">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.ApplyFlagChangeStep.execute">[docs]</a>
+</span><span data-line="358">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="359"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply the flag change.</span>
+</span><span data-line="360">
+</span><span data-line="361"><span class="sd">        Args:</span>
+</span><span data-line="362"><span class="sd">            context: Workflow context with validated request.</span>
+</span><span data-line="363">
+</span><span data-line="364"><span class="sd">        Returns:</span>
+</span><span data-line="365"><span class="sd">            Result of the flag operation.</span>
+</span><span data-line="366">
+</span><span data-line="367"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="368">        <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">context</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+</span><span data-line="369">        <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="370">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No storage backend available&quot;</span><span class="p">}</span>
+</span><span data-line="371">
+</span><span data-line="372">        <span class="n">request_data</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;validated_request&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;request&quot;</span><span class="p">)</span>
+</span><span data-line="373">        <span class="k">if</span> <span class="ow">not</span> <span class="n">request_data</span><span class="p">:</span>
+</span><span data-line="374">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No validated request found&quot;</span><span class="p">}</span>
+</span><span data-line="375">
+</span><span data-line="376">        <span class="n">request</span> <span class="o">=</span> <span class="n">FlagChangeRequest</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">request_data</span><span class="p">)</span>
+</span><span data-line="377">
+</span><span data-line="378">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="379">            <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="o">==</span> <span class="n">ChangeType</span><span class="o">.</span><span class="n">CREATE</span><span class="p">:</span>
+</span><span data-line="380">                <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_flag</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+</span><span data-line="381">            <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="o">==</span> <span class="n">ChangeType</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">:</span>
+</span><span data-line="382">                <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_flag</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+</span><span data-line="383">            <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="o">==</span> <span class="n">ChangeType</span><span class="o">.</span><span class="n">DELETE</span><span class="p">:</span>
+</span><span data-line="384">                <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete_flag</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+</span><span data-line="385">            <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="o">==</span> <span class="n">ChangeType</span><span class="o">.</span><span class="n">TOGGLE</span><span class="p">:</span>
+</span><span data-line="386">                <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_toggle_flag</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+</span><span data-line="387">            <span class="k">elif</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span> <span class="o">==</span> <span class="n">ChangeType</span><span class="o">.</span><span class="n">ROLLOUT</span><span class="p">:</span>
+</span><span data-line="388">                <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_update_rollout</span><span class="p">(</span><span class="n">storage</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
+</span><span data-line="389">            <span class="k">else</span><span class="p">:</span>
+</span><span data-line="390">                <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Unknown change type: </span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">change_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">}</span>
+</span><span data-line="391">
+</span><span data-line="392">            <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;change_applied&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span><span data-line="393">            <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;change_applied_at&quot;</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">())</span>
+</span><span data-line="394">            <span class="k">return</span> <span class="n">result</span>
+</span><span data-line="395">
+</span><span data-line="396">        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="397">            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to apply flag change: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="398">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)}</span></div>
+
+</span><span data-line="399">
+</span><span data-line="400">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_create_flag</span><span class="p">(</span>
+</span><span data-line="401">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="402">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span><span class="p">,</span>
+</span><span data-line="403">        <span class="n">request</span><span class="p">:</span> <span class="n">FlagChangeRequest</span><span class="p">,</span>
+</span><span data-line="404">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="405"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new flag.&quot;&quot;&quot;</span>
+</span><span data-line="406">        <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlag</span>
+</span><span data-line="407">
+</span><span data-line="408">        <span class="n">flag_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_data</span> <span class="ow">or</span> <span class="p">{}</span>
+</span><span data-line="409">        <span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="410">            <span class="n">key</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="411">            <span class="n">name</span><span class="o">=</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">),</span>
+</span><span data-line="412">            <span class="n">description</span><span class="o">=</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;description&quot;</span><span class="p">),</span>
+</span><span data-line="413">            <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="p">(</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_type&quot;</span><span class="p">,</span> <span class="s2">&quot;boolean&quot;</span><span class="p">)),</span>
+</span><span data-line="414">            <span class="n">status</span><span class="o">=</span><span class="n">FlagStatus</span><span class="p">(</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;status&quot;</span><span class="p">,</span> <span class="s2">&quot;active&quot;</span><span class="p">)),</span>
+</span><span data-line="415">            <span class="n">default_enabled</span><span class="o">=</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default_enabled&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+</span><span data-line="416">            <span class="n">default_value</span><span class="o">=</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;default_value&quot;</span><span class="p">),</span>
+</span><span data-line="417">            <span class="n">tags</span><span class="o">=</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;tags&quot;</span><span class="p">,</span> <span class="p">[]),</span>
+</span><span data-line="418">            <span class="n">metadata_</span><span class="o">=</span><span class="n">flag_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;metadata&quot;</span><span class="p">,</span> <span class="p">{}),</span>
+</span><span data-line="419">        <span class="p">)</span>
+</span><span data-line="420">
+</span><span data-line="421">        <span class="n">created</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="422">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="423">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="424">            <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;create&quot;</span><span class="p">,</span>
+</span><span data-line="425">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">created</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+</span><span data-line="426">            <span class="s2">&quot;flag_id&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">created</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+</span><span data-line="427">        <span class="p">}</span>
+</span><span data-line="428">
+</span><span data-line="429">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_update_flag</span><span class="p">(</span>
+</span><span data-line="430">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="431">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span><span class="p">,</span>
+</span><span data-line="432">        <span class="n">request</span><span class="p">:</span> <span class="n">FlagChangeRequest</span><span class="p">,</span>
+</span><span data-line="433">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="434"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Update an existing flag.&quot;&quot;&quot;</span>
+</span><span data-line="435">        <span class="n">flag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="436">        <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+</span><span data-line="437">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Flag &#39;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">}</span>
+</span><span data-line="438">
+</span><span data-line="439">        <span class="n">flag_data</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_data</span> <span class="ow">or</span> <span class="p">{}</span>
+</span><span data-line="440">        <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="441">            <span class="n">flag</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">flag_data</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span>
+</span><span data-line="442">        <span class="k">if</span> <span class="s2">&quot;description&quot;</span> <span class="ow">in</span> <span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="443">            <span class="n">flag</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">flag_data</span><span class="p">[</span><span class="s2">&quot;description&quot;</span><span class="p">]</span>
+</span><span data-line="444">        <span class="k">if</span> <span class="s2">&quot;default_enabled&quot;</span> <span class="ow">in</span> <span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="445">            <span class="n">flag</span><span class="o">.</span><span class="n">default_enabled</span> <span class="o">=</span> <span class="n">flag_data</span><span class="p">[</span><span class="s2">&quot;default_enabled&quot;</span><span class="p">]</span>
+</span><span data-line="446">        <span class="k">if</span> <span class="s2">&quot;default_value&quot;</span> <span class="ow">in</span> <span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="447">            <span class="n">flag</span><span class="o">.</span><span class="n">default_value</span> <span class="o">=</span> <span class="n">flag_data</span><span class="p">[</span><span class="s2">&quot;default_value&quot;</span><span class="p">]</span>
+</span><span data-line="448">        <span class="k">if</span> <span class="s2">&quot;status&quot;</span> <span class="ow">in</span> <span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="449">            <span class="n">flag</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">FlagStatus</span><span class="p">(</span><span class="n">flag_data</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">])</span>
+</span><span data-line="450">        <span class="k">if</span> <span class="s2">&quot;tags&quot;</span> <span class="ow">in</span> <span class="n">flag_data</span><span class="p">:</span>
+</span><span data-line="451">            <span class="n">flag</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="n">flag_data</span><span class="p">[</span><span class="s2">&quot;tags&quot;</span><span class="p">]</span>
+</span><span data-line="452">
+</span><span data-line="453">        <span class="n">updated</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">update_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="454">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="455">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="456">            <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;update&quot;</span><span class="p">,</span>
+</span><span data-line="457">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">updated</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+</span><span data-line="458">        <span class="p">}</span>
+</span><span data-line="459">
+</span><span data-line="460">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_delete_flag</span><span class="p">(</span>
+</span><span data-line="461">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="462">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span><span class="p">,</span>
+</span><span data-line="463">        <span class="n">request</span><span class="p">:</span> <span class="n">FlagChangeRequest</span><span class="p">,</span>
+</span><span data-line="464">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="465"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete a flag.&quot;&quot;&quot;</span>
+</span><span data-line="466">        <span class="n">deleted</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">delete_flag</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="467">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="468">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="n">deleted</span><span class="p">,</span>
+</span><span data-line="469">            <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;delete&quot;</span><span class="p">,</span>
+</span><span data-line="470">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="471">        <span class="p">}</span>
+</span><span data-line="472">
+</span><span data-line="473">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_toggle_flag</span><span class="p">(</span>
+</span><span data-line="474">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="475">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span><span class="p">,</span>
+</span><span data-line="476">        <span class="n">request</span><span class="p">:</span> <span class="n">FlagChangeRequest</span><span class="p">,</span>
+</span><span data-line="477">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="478"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle a flag&#39;s enabled state.&quot;&quot;&quot;</span>
+</span><span data-line="479">        <span class="n">flag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="480">        <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+</span><span data-line="481">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Flag &#39;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">}</span>
+</span><span data-line="482">
+</span><span data-line="483">        <span class="n">flag</span><span class="o">.</span><span class="n">default_enabled</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">flag</span><span class="o">.</span><span class="n">default_enabled</span>
+</span><span data-line="484">        <span class="n">updated</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">update_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="485">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="486">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="487">            <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;toggle&quot;</span><span class="p">,</span>
+</span><span data-line="488">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">updated</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+</span><span data-line="489">            <span class="s2">&quot;new_state&quot;</span><span class="p">:</span> <span class="n">updated</span><span class="o">.</span><span class="n">default_enabled</span><span class="p">,</span>
+</span><span data-line="490">        <span class="p">}</span>
+</span><span data-line="491">
+</span><span data-line="492">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_update_rollout</span><span class="p">(</span>
+</span><span data-line="493">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="494">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span><span class="p">,</span>
+</span><span data-line="495">        <span class="n">request</span><span class="p">:</span> <span class="n">FlagChangeRequest</span><span class="p">,</span>
+</span><span data-line="496">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="497"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Update rollout percentage via flag rules.&quot;&quot;&quot;</span>
+</span><span data-line="498">        <span class="n">flag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="499">        <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+</span><span data-line="500">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Flag &#39;</span><span class="si">{</span><span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">}</span>
+</span><span data-line="501">
+</span><span data-line="502">        <span class="c1"># Update metadata with rollout info</span>
+</span><span data-line="503">        <span class="n">flag</span><span class="o">.</span><span class="n">metadata_</span><span class="p">[</span><span class="s2">&quot;rollout_percentage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">rollout_percentage</span>
+</span><span data-line="504">        <span class="n">flag</span><span class="o">.</span><span class="n">metadata_</span><span class="p">[</span><span class="s2">&quot;rollout_updated_at&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</span><span data-line="505">
+</span><span data-line="506">        <span class="n">updated</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">update_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="507">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="508">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="509">            <span class="s2">&quot;operation&quot;</span><span class="p">:</span> <span class="s2">&quot;rollout&quot;</span><span class="p">,</span>
+</span><span data-line="510">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">updated</span><span class="o">.</span><span class="n">key</span><span class="p">,</span>
+</span><span data-line="511">            <span class="s2">&quot;rollout_percentage&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">rollout_percentage</span><span class="p">,</span>
+</span><span data-line="512">        <span class="p">}</span></div>
+
+</span><span data-line="513">
+</span><span data-line="514">
+<div class="viewcode-block" id="RolloutStep">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.RolloutStep">[docs]</a>
+</span><span data-line="515"><span class="k">class</span><span class="w"> </span><span class="nc">RolloutStep</span><span class="p">(</span><span class="n">BaseMachineStep</span><span class="p">):</span>
+</span><span data-line="516"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Execute a rollout stage increase.</span>
+</span><span data-line="517">
+</span><span data-line="518"><span class="sd">    This step is used in gradual rollout workflows to increase</span>
+</span><span data-line="519"><span class="sd">    the rollout percentage in stages.</span>
+</span><span data-line="520"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="521">
+<div class="viewcode-block" id="RolloutStep.__init__">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.RolloutStep.__init__">[docs]</a>
+</span><span data-line="522">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="523">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="524">        <span class="n">target_stage</span><span class="p">:</span> <span class="n">RolloutStage</span><span class="p">,</span>
+</span><span data-line="525">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="526">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="527">        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="528">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="529"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize rollout step.</span>
+</span><span data-line="530">
+</span><span data-line="531"><span class="sd">        Args:</span>
+</span><span data-line="532"><span class="sd">            target_stage: The rollout stage to reach.</span>
+</span><span data-line="533"><span class="sd">            storage: Storage backend for flag operations.</span>
+</span><span data-line="534"><span class="sd">            name: Step name (defaults to rollout_{stage}).</span>
+</span><span data-line="535"><span class="sd">            description: Step description.</span>
+</span><span data-line="536">
+</span><span data-line="537"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="538">        <span class="n">step_name</span> <span class="o">=</span> <span class="n">name</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;rollout_</span><span class="si">{</span><span class="n">target_stage</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span data-line="539">        <span class="n">step_desc</span> <span class="o">=</span> <span class="n">description</span> <span class="ow">or</span> <span class="sa">f</span><span class="s2">&quot;Increase rollout to </span><span class="si">{</span><span class="n">target_stage</span><span class="o">.</span><span class="n">percentage</span><span class="si">}</span><span class="s2">%&quot;</span>
+</span><span data-line="540">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">step_name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">step_desc</span><span class="p">)</span>
+</span><span data-line="541">        <span class="bp">self</span><span class="o">.</span><span class="n">target_stage</span> <span class="o">=</span> <span class="n">target_stage</span>
+</span><span data-line="542">        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="n">storage</span></div>
+
+</span><span data-line="543">
+<div class="viewcode-block" id="RolloutStep.execute">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.RolloutStep.execute">[docs]</a>
+</span><span data-line="544">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="545"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute the rollout stage increase.</span>
+</span><span data-line="546">
+</span><span data-line="547"><span class="sd">        Args:</span>
+</span><span data-line="548"><span class="sd">            context: Workflow context.</span>
+</span><span data-line="549">
+</span><span data-line="550"><span class="sd">        Returns:</span>
+</span><span data-line="551"><span class="sd">            Rollout result.</span>
+</span><span data-line="552">
+</span><span data-line="553"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="554">        <span class="n">storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">context</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;storage&quot;</span><span class="p">)</span>
+</span><span data-line="555">        <span class="k">if</span> <span class="n">storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="556">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No storage backend available&quot;</span><span class="p">}</span>
+</span><span data-line="557">
+</span><span data-line="558">        <span class="n">flag_key</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_key&quot;</span><span class="p">)</span>
+</span><span data-line="559">        <span class="k">if</span> <span class="ow">not</span> <span class="n">flag_key</span><span class="p">:</span>
+</span><span data-line="560">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No flag_key in context&quot;</span><span class="p">}</span>
+</span><span data-line="561">
+</span><span data-line="562">        <span class="n">flag</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_flag</span><span class="p">(</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="563">        <span class="k">if</span> <span class="ow">not</span> <span class="n">flag</span><span class="p">:</span>
+</span><span data-line="564">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Flag &#39;</span><span class="si">{</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">}</span>
+</span><span data-line="565">
+</span><span data-line="566">        <span class="n">percentage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_stage</span><span class="o">.</span><span class="n">percentage</span>
+</span><span data-line="567">        <span class="n">flag</span><span class="o">.</span><span class="n">metadata_</span><span class="p">[</span><span class="s2">&quot;rollout_percentage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">percentage</span>
+</span><span data-line="568">        <span class="n">flag</span><span class="o">.</span><span class="n">metadata_</span><span class="p">[</span><span class="s2">&quot;rollout_stage&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_stage</span><span class="o">.</span><span class="n">value</span>
+</span><span data-line="569">        <span class="n">flag</span><span class="o">.</span><span class="n">metadata_</span><span class="p">[</span><span class="s2">&quot;rollout_updated_at&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+</span><span data-line="570">
+</span><span data-line="571">        <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">update_flag</span><span class="p">(</span><span class="n">flag</span><span class="p">)</span>
+</span><span data-line="572">
+</span><span data-line="573">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;current_rollout_stage&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_stage</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span data-line="574">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;current_rollout_percentage&quot;</span><span class="p">,</span> <span class="n">percentage</span><span class="p">)</span>
+</span><span data-line="575">
+</span><span data-line="576">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="577">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="578">            <span class="s2">&quot;stage&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">target_stage</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="579">            <span class="s2">&quot;percentage&quot;</span><span class="p">:</span> <span class="n">percentage</span><span class="p">,</span>
+</span><span data-line="580">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="581">        <span class="p">}</span></div>
+</div>
+
+</span><span data-line="582">
+</span><span data-line="583">
+<div class="viewcode-block" id="NotifyStakeholdersStep">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.NotifyStakeholdersStep">[docs]</a>
+</span><span data-line="584"><span class="k">class</span><span class="w"> </span><span class="nc">NotifyStakeholdersStep</span><span class="p">(</span><span class="n">BaseMachineStep</span><span class="p">):</span>
+</span><span data-line="585"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send notifications to stakeholders.</span>
+</span><span data-line="586">
+</span><span data-line="587"><span class="sd">    This step notifies relevant parties about flag changes.</span>
+</span><span data-line="588"><span class="sd">    Override the `send_notification` method to integrate with</span>
+</span><span data-line="589"><span class="sd">    your notification system.</span>
+</span><span data-line="590"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="591">
+<div class="viewcode-block" id="NotifyStakeholdersStep.__init__">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.NotifyStakeholdersStep.__init__">[docs]</a>
+</span><span data-line="592">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="593">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="594">        <span class="n">notification_channels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="595">        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;notify_stakeholders&quot;</span><span class="p">,</span>
+</span><span data-line="596">        <span class="n">description</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Notify stakeholders about the flag change&quot;</span><span class="p">,</span>
+</span><span data-line="597">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="598"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize notification step.</span>
+</span><span data-line="599">
+</span><span data-line="600"><span class="sd">        Args:</span>
+</span><span data-line="601"><span class="sd">            notification_channels: Channels to notify (e.g., [&quot;email&quot;, &quot;slack&quot;]).</span>
+</span><span data-line="602"><span class="sd">            name: Step name.</span>
+</span><span data-line="603"><span class="sd">            description: Step description.</span>
+</span><span data-line="604">
+</span><span data-line="605"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="606">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">)</span>
+</span><span data-line="607">        <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="n">notification_channels</span> <span class="ow">or</span> <span class="p">[</span><span class="s2">&quot;email&quot;</span><span class="p">]</span></div>
+
+</span><span data-line="608">
+<div class="viewcode-block" id="NotifyStakeholdersStep.execute">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.NotifyStakeholdersStep.execute">[docs]</a>
+</span><span data-line="609">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="610"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Send notifications.</span>
+</span><span data-line="611">
+</span><span data-line="612"><span class="sd">        Args:</span>
+</span><span data-line="613"><span class="sd">            context: Workflow context.</span>
+</span><span data-line="614">
+</span><span data-line="615"><span class="sd">        Returns:</span>
+</span><span data-line="616"><span class="sd">            Notification result.</span>
+</span><span data-line="617">
+</span><span data-line="618"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="619">        <span class="n">request_data</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;validated_request&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;request&quot;</span><span class="p">)</span>
+</span><span data-line="620">        <span class="k">if</span> <span class="ow">not</span> <span class="n">request_data</span><span class="p">:</span>
+</span><span data-line="621">            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;No request data found&quot;</span><span class="p">}</span>
+</span><span data-line="622">
+</span><span data-line="623">        <span class="n">request</span> <span class="o">=</span> <span class="n">FlagChangeRequest</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">request_data</span><span class="p">)</span>
+</span><span data-line="624">
+</span><span data-line="625">        <span class="n">notification_data</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="626">            <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="627">            <span class="s2">&quot;change_type&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">change_type</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="628">            <span class="s2">&quot;requested_by&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">requested_by</span><span class="p">,</span>
+</span><span data-line="629">            <span class="s2">&quot;environment&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">environment</span><span class="p">,</span>
+</span><span data-line="630">            <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span>
+</span><span data-line="631">            <span class="s2">&quot;manager_approved&quot;</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;manager_approved&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+</span><span data-line="632">            <span class="s2">&quot;manager_approver&quot;</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;manager_approver&quot;</span><span class="p">),</span>
+</span><span data-line="633">            <span class="s2">&quot;qa_validated&quot;</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;qa_validated&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+</span><span data-line="634">            <span class="s2">&quot;qa_validator&quot;</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;qa_validator&quot;</span><span class="p">),</span>
+</span><span data-line="635">            <span class="s2">&quot;change_applied&quot;</span><span class="p">:</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;change_applied&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+</span><span data-line="636">            <span class="s2">&quot;timestamp&quot;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+</span><span data-line="637">        <span class="p">}</span>
+</span><span data-line="638">
+</span><span data-line="639">        <span class="c1"># Override this method in subclasses to implement actual notifications</span>
+</span><span data-line="640">        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">send_notification</span><span class="p">(</span><span class="n">notification_data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
+</span><span data-line="641">
+</span><span data-line="642">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="643">            <span class="s2">&quot;success&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="644">            <span class="s2">&quot;channels&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">,</span>
+</span><span data-line="645">            <span class="s2">&quot;notification_data&quot;</span><span class="p">:</span> <span class="n">notification_data</span><span class="p">,</span>
+</span><span data-line="646">        <span class="p">}</span></div>
+
+</span><span data-line="647">
+<div class="viewcode-block" id="NotifyStakeholdersStep.send_notification">
+<a class="viewcode-back" href="../../../../guides/workflows.html#litestar_flags.contrib.workflows.NotifyStakeholdersStep.send_notification">[docs]</a>
+</span><span data-line="648">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_notification</span><span class="p">(</span>
+</span><span data-line="649">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="650">        <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span>
+</span><span data-line="651">        <span class="n">channels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
+</span><span data-line="652">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="653"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Send the notification.</span>
+</span><span data-line="654">
+</span><span data-line="655"><span class="sd">        Override this method to integrate with your notification system.</span>
+</span><span data-line="656">
+</span><span data-line="657"><span class="sd">        Args:</span>
+</span><span data-line="658"><span class="sd">            data: Notification data.</span>
+</span><span data-line="659"><span class="sd">            channels: Channels to send to.</span>
+</span><span data-line="660">
+</span><span data-line="661"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="662">        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flag change notification: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s2"> via </span><span class="si">{</span><span class="n">channels</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+</div>
+
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+      <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

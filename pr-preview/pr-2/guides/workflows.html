@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Approval Workflows - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Changelog" href="../changelog.html" /><link rel="prev" title="Time-based Rules" href="../user-guide/time-based-rules.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Approval Workflows"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#key-concepts">Key Concepts</a><ul>
+<li><a class="reference internal" href="#change-request">Change Request</a></li>
+<li><a class="reference internal" href="#change-types">Change Types</a></li>
+<li><a class="reference internal" href="#workflow-steps">Workflow Steps</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flag-approval-workflow">Flag Approval Workflow</a><ul>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li><a class="reference internal" href="#starting-an-approval-workflow">Starting an Approval Workflow</a></li>
+<li><a class="reference internal" href="#customizing-the-workflow">Customizing the Workflow</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#scheduled-rollout-workflow">Scheduled Rollout Workflow</a><ul>
+<li><a class="reference internal" href="#default-stages">Default Stages</a></li>
+<li><a class="reference internal" href="#usage">Usage</a></li>
+<li><a class="reference internal" href="#custom-stages-and-timing">Custom Stages and Timing</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#custom-steps">Custom Steps</a><ul>
+<li><a class="reference internal" href="#custom-machine-step">Custom Machine Step</a></li>
+<li><a class="reference internal" href="#custom-human-step">Custom Human Step</a></li>
+<li><a class="reference internal" href="#custom-notifications">Custom Notifications</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#building-custom-workflows">Building Custom Workflows</a></li>
+<li><a class="reference internal" href="#module-litestar_flags.contrib.workflows">API Reference</a><ul>
+<li><a class="reference internal" href="#types">Types</a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType"><code class="docutils literal notranslate"><span class="pre">ChangeType</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType.CREATE"><code class="docutils literal notranslate">CREATE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType.UPDATE"><code class="docutils literal notranslate">UPDATE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType.DELETE"><code class="docutils literal notranslate">DELETE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType.TOGGLE"><code class="docutils literal notranslate">TOGGLE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType.ROLLOUT"><code class="docutils literal notranslate">ROLLOUT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage"><code class="docutils literal notranslate"><span class="pre">RolloutStage</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.INITIAL"><code class="docutils literal notranslate">INITIAL</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.EARLY"><code class="docutils literal notranslate">EARLY</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.HALF"><code class="docutils literal notranslate">HALF</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.MAJORITY"><code class="docutils literal notranslate">MAJORITY</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.FULL"><code class="docutils literal notranslate">FULL</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.percentage"><code class="docutils literal notranslate">percentage</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest"><code class="docutils literal notranslate"><span class="pre">FlagChangeRequest</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.flag_key"><code class="docutils literal notranslate">flag_key</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.change_type"><code class="docutils literal notranslate">change_type</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.requested_by"><code class="docutils literal notranslate">requested_by</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.flag_data"><code class="docutils literal notranslate">flag_data</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.reason"><code class="docutils literal notranslate">reason</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.environment"><code class="docutils literal notranslate">environment</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.rollout_percentage"><code class="docutils literal notranslate">rollout_percentage</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.metadata"><code class="docutils literal notranslate">metadata</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate">flag_key</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate">change_type</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate">requested_by</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate">flag_data</span></code></a></li>
+<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate">reason</span></code></a></li>
+<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate">environment</span></code></a></li>
+<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate">rollout_percentage</span></code></a></li>
+<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate">metadata</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.to_dict"><code class="docutils literal notranslate">to_dict()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.from_dict"><code class="docutils literal notranslate">from_dict()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#steps">Steps</a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ValidateFlagChangeStep"><code class="docutils literal notranslate"><span class="pre">ValidateFlagChangeStep</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ValidateFlagChangeStep.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ValidateFlagChangeStep.execute"><code class="docutils literal notranslate">execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ManagerApprovalStep"><code class="docutils literal notranslate"><span class="pre">ManagerApprovalStep</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ManagerApprovalStep.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ManagerApprovalStep.execute"><code class="docutils literal notranslate">execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.QAValidationStep"><code class="docutils literal notranslate"><span class="pre">QAValidationStep</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.QAValidationStep.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.QAValidationStep.execute"><code class="docutils literal notranslate">execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ApplyFlagChangeStep"><code class="docutils literal notranslate"><span class="pre">ApplyFlagChangeStep</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ApplyFlagChangeStep.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ApplyFlagChangeStep.execute"><code class="docutils literal notranslate">execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStep"><code class="docutils literal notranslate"><span class="pre">RolloutStep</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStep.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStep.execute"><code class="docutils literal notranslate">execute()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep"><code class="docutils literal notranslate"><span class="pre">NotifyStakeholdersStep</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep.execute"><code class="docutils literal notranslate">execute()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep.send_notification"><code class="docutils literal notranslate">send_notification()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#workflows">Workflows</a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagApprovalWorkflow"><code class="docutils literal notranslate"><span class="pre">FlagApprovalWorkflow</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagApprovalWorkflow.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagApprovalWorkflow.get_definition"><code class="docutils literal notranslate">get_definition()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ScheduledRolloutWorkflow"><code class="docutils literal notranslate"><span class="pre">ScheduledRolloutWorkflow</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.contrib.workflows.ScheduledRolloutWorkflow.get_definition"><code class="docutils literal notranslate">get_definition()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Approval Workflows</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="approval-workflows">
+<h1>Approval Workflows<a class="headerlink" href="#approval-workflows" title="Link to this heading">¶</a></h1>
+<p>litestar-flags integrates with <a class="reference external" href="https://github.com/JacobCoffee/litestar-workflows">litestar-workflows</a>
+to provide human-in-the-loop approval workflows for feature flag governance.</p>
+<p>This is ideal for enterprise environments where feature flag changes require:</p>
+<ul class="simple">
+<li><p>Manager approval before going live</p></li>
+<li><p>QA validation in staging</p></li>
+<li><p>Audit trails for compliance</p></li>
+<li><p>Scheduled rollouts with wait periods</p></li>
+</ul>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">¶</a></h2>
+<p>Install the workflows extra:</p>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="package-manager" data-sync-id="uv" for="sd-tab-item-0">
+uv (Recommended)</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">uv<span class="w"> </span>add<span class="w"> </span>litestar-flags<span class="o">[</span>workflows<span class="o">]</span>
+</span></pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" data-sync-group="package-manager" data-sync-id="pip" for="sd-tab-item-1">
+pip</label><div class="sd-tab-content docutils">
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span data-line="1">pip<span class="w"> </span>install<span class="w"> </span>litestar-flags<span class="o">[</span>workflows<span class="o">]</span>
+</span></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="key-concepts">
+<h2>Key Concepts<a class="headerlink" href="#key-concepts" title="Link to this heading">¶</a></h2>
+<section id="change-request">
+<h3>Change Request<a class="headerlink" href="#change-request" title="Link to this heading">¶</a></h3>
+<p>A <code class="docutils literal notranslate"><span class="pre">FlagChangeRequest</span></code> encapsulates all information needed to request a change:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagChangeRequest</span><span class="p">,</span> <span class="n">ChangeType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">request</span> <span class="o">=</span> <span class="n">FlagChangeRequest</span><span class="p">(</span>
+</span><span data-line="4">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;new_checkout_flow&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">change_type</span><span class="o">=</span><span class="n">ChangeType</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">requested_by</span><span class="o">=</span><span class="s2">&quot;developer@example.com&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Launch new checkout experience&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">flag_data</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="9">        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;New Checkout Flow&quot;</span><span class="p">,</span>
+</span><span data-line="10">        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Enables the redesigned checkout&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="s2">&quot;default_enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="12">    <span class="p">},</span>
+</span><span data-line="13"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="change-types">
+<h3>Change Types<a class="headerlink" href="#change-types" title="Link to this heading">¶</a></h3>
+<p>The following change types are supported:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ChangeType.CREATE</span></code> - Create a new feature flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChangeType.UPDATE</span></code> - Modify an existing flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChangeType.DELETE</span></code> - Remove a flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChangeType.TOGGLE</span></code> - Toggle a flag’s enabled state</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ChangeType.ROLLOUT</span></code> - Update rollout percentage</p></li>
+</ul>
+</section>
+<section id="workflow-steps">
+<h3>Workflow Steps<a class="headerlink" href="#workflow-steps" title="Link to this heading">¶</a></h3>
+<p>The integration provides several pre-built workflow steps:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Step</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Purpose</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>ValidateFlagChangeStep</p></td>
+<td><p>Machine</p></td>
+<td><p>Validates the change request</p></td>
+</tr>
+<tr class="row-odd"><td><p>ManagerApprovalStep</p></td>
+<td><p>Human</p></td>
+<td><p>Manager reviews and approves</p></td>
+</tr>
+<tr class="row-even"><td><p>QAValidationStep</p></td>
+<td><p>Human</p></td>
+<td><p>QA validates in staging</p></td>
+</tr>
+<tr class="row-odd"><td><p>ApplyFlagChangeStep</p></td>
+<td><p>Machine</p></td>
+<td><p>Executes the flag change</p></td>
+</tr>
+<tr class="row-even"><td><p>RolloutStep</p></td>
+<td><p>Machine</p></td>
+<td><p>Increases rollout percentage</p></td>
+</tr>
+<tr class="row-odd"><td><p>NotifyStakeholdersStep</p></td>
+<td><p>Machine</p></td>
+<td><p>Sends notifications</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="flag-approval-workflow">
+<h2>Flag Approval Workflow<a class="headerlink" href="#flag-approval-workflow" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">FlagApprovalWorkflow</span></code> implements a standard approval chain:</p>
+<ol class="arabic simple">
+<li><p><strong>Validate</strong> - Check the request is valid</p></li>
+<li><p><strong>Manager Approval</strong> - Wait for manager sign-off</p></li>
+<li><p><strong>QA Validation</strong> - Wait for QA to verify in staging</p></li>
+<li><p><strong>Apply Change</strong> - Execute the flag modification</p></li>
+<li><p><strong>Notify</strong> - Inform stakeholders</p></li>
+</ol>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagApprovalWorkflow</span>
+</span><span data-line="4"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowPlugin</span><span class="p">,</span> <span class="n">WorkflowRegistry</span><span class="p">,</span> <span class="n">LocalExecutionEngine</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Set up workflow registry</span>
+</span><span data-line="7"><span class="n">registry</span> <span class="o">=</span> <span class="n">WorkflowRegistry</span><span class="p">()</span>
+</span><span data-line="8"><span class="n">registry</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">FlagApprovalWorkflow</span><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Configure plugins</span>
+</span><span data-line="11"><span class="n">flags_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">FeatureFlagsConfig</span><span class="p">())</span>
+</span><span data-line="12"><span class="n">workflow_plugin</span> <span class="o">=</span> <span class="n">WorkflowPlugin</span><span class="p">(</span><span class="n">registry</span><span class="o">=</span><span class="n">registry</span><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="15">    <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+</span><span data-line="16">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">flags_plugin</span><span class="p">,</span> <span class="n">workflow_plugin</span><span class="p">],</span>
+</span><span data-line="17"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="starting-an-approval-workflow">
+<h3>Starting an Approval Workflow<a class="headerlink" href="#starting-an-approval-workflow" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagChangeRequest</span><span class="p">,</span> <span class="n">ChangeType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Create a change request</span>
+</span><span data-line="4"><span class="n">request</span> <span class="o">=</span> <span class="n">FlagChangeRequest</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;new_feature&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">change_type</span><span class="o">=</span><span class="n">ChangeType</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">requested_by</span><span class="o">=</span><span class="s2">&quot;developer@example.com&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;New feature for Q1 launch&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">flag_data</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="10">        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;New Feature&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Enables the new feature&quot;</span><span class="p">,</span>
+</span><span data-line="12">        <span class="s2">&quot;default_enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="13">        <span class="s2">&quot;tags&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;q1&quot;</span><span class="p">,</span> <span class="s2">&quot;frontend&quot;</span><span class="p">],</span>
+</span><span data-line="14">    <span class="p">},</span>
+</span><span data-line="15"><span class="p">)</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="c1"># Start the workflow</span>
+</span><span data-line="18"><span class="n">engine</span> <span class="o">=</span> <span class="n">LocalExecutionEngine</span><span class="p">(</span><span class="n">registry</span><span class="o">=</span><span class="n">registry</span><span class="p">)</span>
+</span><span data-line="19"><span class="n">instance</span> <span class="o">=</span> <span class="k">await</span> <span class="n">engine</span><span class="o">.</span><span class="n">start_workflow</span><span class="p">(</span>
+</span><span data-line="20">    <span class="s2">&quot;flag_approval&quot;</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">initial_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()},</span>
+</span><span data-line="22"><span class="p">)</span>
+</span><span data-line="23">
+</span><span data-line="24"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Workflow started: </span><span class="si">{</span><span class="n">instance</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="customizing-the-workflow">
+<h3>Customizing the Workflow<a class="headerlink" href="#customizing-the-workflow" title="Link to this heading">¶</a></h3>
+<p>You can customize the workflow when getting the definition:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Without QA step (manager approval only)</span>
+</span><span data-line="2"><span class="n">definition</span> <span class="o">=</span> <span class="n">FlagApprovalWorkflow</span><span class="o">.</span><span class="n">get_definition</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">require_qa</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Without notification</span>
+</span><span data-line="8"><span class="n">definition</span> <span class="o">=</span> <span class="n">FlagApprovalWorkflow</span><span class="o">.</span><span class="n">get_definition</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">notify_on_complete</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="11"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="scheduled-rollout-workflow">
+<h2>Scheduled Rollout Workflow<a class="headerlink" href="#scheduled-rollout-workflow" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">ScheduledRolloutWorkflow</span></code> implements gradual feature rollouts with
+configurable wait periods between stages.</p>
+<section id="default-stages">
+<h3>Default Stages<a class="headerlink" href="#default-stages" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><strong>Initial</strong>: 5% of users</p></li>
+<li><p><strong>Early</strong>: 25% of users</p></li>
+<li><p><strong>Half</strong>: 50% of users</p></li>
+<li><p><strong>Majority</strong>: 75% of users</p></li>
+<li><p><strong>Full</strong>: 100% of users</p></li>
+</ul>
+<p>Between each stage, the workflow waits for a configurable period to allow
+monitoring for issues.</p>
+</section>
+<section id="usage">
+<h3>Usage<a class="headerlink" href="#usage" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">ScheduledRolloutWorkflow</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Register the workflow</span>
+</span><span data-line="4"><span class="n">registry</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">ScheduledRolloutWorkflow</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Start a rollout</span>
+</span><span data-line="7"><span class="n">instance</span> <span class="o">=</span> <span class="k">await</span> <span class="n">engine</span><span class="o">.</span><span class="n">start_workflow</span><span class="p">(</span>
+</span><span data-line="8">    <span class="s2">&quot;scheduled_rollout&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">initial_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="s2">&quot;new_feature&quot;</span><span class="p">},</span>
+</span><span data-line="10"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="custom-stages-and-timing">
+<h3>Custom Stages and Timing<a class="headerlink" href="#custom-stages-and-timing" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">RolloutStage</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Custom stages with 2-hour delay between each</span>
+</span><span data-line="4"><span class="n">definition</span> <span class="o">=</span> <span class="n">ScheduledRolloutWorkflow</span><span class="o">.</span><span class="n">get_definition</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">stage_delay_minutes</span><span class="o">=</span><span class="mi">120</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">stages</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="8">        <span class="n">RolloutStage</span><span class="o">.</span><span class="n">INITIAL</span><span class="p">,</span>  <span class="c1"># 5%</span>
+</span><span data-line="9">        <span class="n">RolloutStage</span><span class="o">.</span><span class="n">HALF</span><span class="p">,</span>     <span class="c1"># 50%</span>
+</span><span data-line="10">        <span class="n">RolloutStage</span><span class="o">.</span><span class="n">FULL</span><span class="p">,</span>     <span class="c1"># 100%</span>
+</span><span data-line="11">    <span class="p">],</span>
+</span><span data-line="12"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="custom-steps">
+<h2>Custom Steps<a class="headerlink" href="#custom-steps" title="Link to this heading">¶</a></h2>
+<p>You can create custom steps by extending the base classes:</p>
+<section id="custom-machine-step">
+<h3>Custom Machine Step<a class="headerlink" href="#custom-machine-step" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMachineStep</span><span class="p">,</span> <span class="n">WorkflowContext</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageBackend</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">class</span><span class="w"> </span><span class="nc">CheckMetricsStep</span><span class="p">(</span><span class="n">BaseMachineStep</span><span class="p">):</span>
+</span><span data-line="5"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Check metrics before proceeding with rollout.&quot;&quot;&quot;</span>
+</span><span data-line="6">
+</span><span data-line="7">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metrics_client</span><span class="p">,</span> <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+</span><span data-line="8">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="9">            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;check_metrics&quot;</span><span class="p">,</span>
+</span><span data-line="10">            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Verify metrics are healthy before proceeding&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="p">)</span>
+</span><span data-line="12">        <span class="bp">self</span><span class="o">.</span><span class="n">metrics_client</span> <span class="o">=</span> <span class="n">metrics_client</span>
+</span><span data-line="13">        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="n">storage</span>
+</span><span data-line="14">
+</span><span data-line="15">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="16">        <span class="n">flag_key</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;flag_key&quot;</span><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18">        <span class="c1"># Check error rates, latency, etc.</span>
+</span><span data-line="19">        <span class="n">metrics</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">metrics_client</span><span class="o">.</span><span class="n">get_metrics</span><span class="p">(</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="20">
+</span><span data-line="21">        <span class="k">if</span> <span class="n">metrics</span><span class="o">.</span><span class="n">error_rate</span> <span class="o">&gt;</span> <span class="mf">0.01</span><span class="p">:</span>  <span class="c1"># 1% error threshold</span>
+</span><span data-line="22">            <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="23">                <span class="s2">&quot;healthy&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="24">                <span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;Error rate too high: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">error_rate</span><span class="si">:</span><span class="s2">.2%</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span data-line="25">            <span class="p">}</span>
+</span><span data-line="26">
+</span><span data-line="27">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;metrics_healthy&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+</span><span data-line="28">        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;healthy&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="custom-human-step">
+<h3>Custom Human Step<a class="headerlink" href="#custom-human-step" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseHumanStep</span><span class="p">,</span> <span class="n">WorkflowContext</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">class</span><span class="w"> </span><span class="nc">SecurityReviewStep</span><span class="p">(</span><span class="n">BaseHumanStep</span><span class="p">):</span>
+</span><span data-line="4"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Security team review for sensitive flags.&quot;&quot;&quot;</span>
+</span><span data-line="5">
+</span><span data-line="6">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</span><span data-line="7">        <span class="n">form_schema</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="8">            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;object&quot;</span><span class="p">,</span>
+</span><span data-line="9">            <span class="s2">&quot;required&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;approved&quot;</span><span class="p">,</span> <span class="s2">&quot;security_notes&quot;</span><span class="p">],</span>
+</span><span data-line="10">            <span class="s2">&quot;properties&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="11">                <span class="s2">&quot;approved&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="12">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+</span><span data-line="13">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Security Approved&quot;</span><span class="p">,</span>
+</span><span data-line="14">                <span class="p">},</span>
+</span><span data-line="15">                <span class="s2">&quot;security_notes&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="16">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span data-line="17">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Security Notes&quot;</span><span class="p">,</span>
+</span><span data-line="18">                <span class="p">},</span>
+</span><span data-line="19">                <span class="s2">&quot;risk_level&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="20">                    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;string&quot;</span><span class="p">,</span>
+</span><span data-line="21">                    <span class="s2">&quot;enum&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;low&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">,</span> <span class="s2">&quot;high&quot;</span><span class="p">],</span>
+</span><span data-line="22">                    <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="s2">&quot;Risk Level&quot;</span><span class="p">,</span>
+</span><span data-line="23">                <span class="p">},</span>
+</span><span data-line="24">            <span class="p">},</span>
+</span><span data-line="25">        <span class="p">}</span>
+</span><span data-line="26">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="27">            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;security_review&quot;</span><span class="p">,</span>
+</span><span data-line="28">            <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Security Review Required&quot;</span><span class="p">,</span>
+</span><span data-line="29">            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Security team reviews the flag change&quot;</span><span class="p">,</span>
+</span><span data-line="30">            <span class="n">form_schema</span><span class="o">=</span><span class="n">form_schema</span><span class="p">,</span>
+</span><span data-line="31">        <span class="p">)</span>
+</span><span data-line="32">
+</span><span data-line="33">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="n">WorkflowContext</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="34">        <span class="n">form_data</span> <span class="o">=</span> <span class="n">context</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;form_data&quot;</span><span class="p">,</span> <span class="p">{})</span>
+</span><span data-line="35">        <span class="n">approved</span> <span class="o">=</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;approved&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+</span><span data-line="36">
+</span><span data-line="37">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;security_approved&quot;</span><span class="p">,</span> <span class="n">approved</span><span class="p">)</span>
+</span><span data-line="38">        <span class="n">context</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="s2">&quot;security_notes&quot;</span><span class="p">,</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;security_notes&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">))</span>
+</span><span data-line="39">
+</span><span data-line="40">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="41">            <span class="s2">&quot;approved&quot;</span><span class="p">:</span> <span class="n">approved</span><span class="p">,</span>
+</span><span data-line="42">            <span class="s2">&quot;risk_level&quot;</span><span class="p">:</span> <span class="n">form_data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;risk_level&quot;</span><span class="p">,</span> <span class="s2">&quot;medium&quot;</span><span class="p">),</span>
+</span><span data-line="43">        <span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="custom-notifications">
+<h3>Custom Notifications<a class="headerlink" href="#custom-notifications" title="Link to this heading">¶</a></h3>
+<p>Override the <code class="docutils literal notranslate"><span class="pre">NotifyStakeholdersStep</span></code> to integrate with your notification system:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotifyStakeholdersStep</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">class</span><span class="w"> </span><span class="nc">SlackNotifyStep</span><span class="p">(</span><span class="n">NotifyStakeholdersStep</span><span class="p">):</span>
+</span><span data-line="4"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Send notifications via Slack.&quot;&quot;&quot;</span>
+</span><span data-line="5">
+</span><span data-line="6">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slack_client</span><span class="p">):</span>
+</span><span data-line="7">        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">notification_channels</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;slack&quot;</span><span class="p">])</span>
+</span><span data-line="8">        <span class="bp">self</span><span class="o">.</span><span class="n">slack_client</span> <span class="o">=</span> <span class="n">slack_client</span>
+</span><span data-line="9">
+</span><span data-line="10">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">send_notification</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">channels</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="11">        <span class="n">message</span> <span class="o">=</span> <span class="p">(</span>
+</span><span data-line="12">            <span class="sa">f</span><span class="s2">&quot;:flag-checkered: Flag Change Applied</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span data-line="13">            <span class="sa">f</span><span class="s2">&quot;*Flag:* `</span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;flag_key&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">`</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span data-line="14">            <span class="sa">f</span><span class="s2">&quot;*Type:* </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;change_type&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span data-line="15">            <span class="sa">f</span><span class="s2">&quot;*Requested by:* </span><span class="si">{</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;requested_by&#39;</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+</span><span data-line="16">            <span class="sa">f</span><span class="s2">&quot;*Approved by:* </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;manager_approver&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;N/A&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+</span><span data-line="17">        <span class="p">)</span>
+</span><span data-line="18">
+</span><span data-line="19">        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">slack_client</span><span class="o">.</span><span class="n">post_message</span><span class="p">(</span>
+</span><span data-line="20">            <span class="n">channel</span><span class="o">=</span><span class="s2">&quot;#feature-flags&quot;</span><span class="p">,</span>
+</span><span data-line="21">            <span class="n">text</span><span class="o">=</span><span class="n">message</span><span class="p">,</span>
+</span><span data-line="22">        <span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="building-custom-workflows">
+<h2>Building Custom Workflows<a class="headerlink" href="#building-custom-workflows" title="Link to this heading">¶</a></h2>
+<p>You can compose your own workflows using the provided steps:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowDefinition</span><span class="p">,</span> <span class="n">Edge</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="3">    <span class="n">ValidateFlagChangeStep</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">ManagerApprovalStep</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">ApplyFlagChangeStep</span><span class="p">,</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="k">class</span><span class="w"> </span><span class="nc">CustomFlagWorkflow</span><span class="p">:</span>
+</span><span data-line="9">    <span class="n">__workflow_name__</span> <span class="o">=</span> <span class="s2">&quot;custom_flag_approval&quot;</span>
+</span><span data-line="10">    <span class="n">__workflow_version__</span> <span class="o">=</span> <span class="s2">&quot;1.0.0&quot;</span>
+</span><span data-line="11">
+</span><span data-line="12">    <span class="nd">@classmethod</span>
+</span><span data-line="13">    <span class="k">def</span><span class="w"> </span><span class="nf">get_definition</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">storage</span><span class="p">):</span>
+</span><span data-line="14">        <span class="k">return</span> <span class="n">WorkflowDefinition</span><span class="p">(</span>
+</span><span data-line="15">            <span class="n">name</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__workflow_name__</span><span class="p">,</span>
+</span><span data-line="16">            <span class="n">version</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">__workflow_version__</span><span class="p">,</span>
+</span><span data-line="17">            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Custom approval with security review&quot;</span><span class="p">,</span>
+</span><span data-line="18">            <span class="n">steps</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="19">                <span class="s2">&quot;validate&quot;</span><span class="p">:</span> <span class="n">ValidateFlagChangeStep</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">),</span>
+</span><span data-line="20">                <span class="s2">&quot;security&quot;</span><span class="p">:</span> <span class="n">SecurityReviewStep</span><span class="p">(),</span>
+</span><span data-line="21">                <span class="s2">&quot;manager&quot;</span><span class="p">:</span> <span class="n">ManagerApprovalStep</span><span class="p">(),</span>
+</span><span data-line="22">                <span class="s2">&quot;apply&quot;</span><span class="p">:</span> <span class="n">ApplyFlagChangeStep</span><span class="p">(</span><span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">),</span>
+</span><span data-line="23">                <span class="s2">&quot;notify&quot;</span><span class="p">:</span> <span class="n">SlackNotifyStep</span><span class="p">(</span><span class="n">slack_client</span><span class="p">),</span>
+</span><span data-line="24">            <span class="p">},</span>
+</span><span data-line="25">            <span class="n">edges</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="26">                <span class="n">Edge</span><span class="p">(</span><span class="s2">&quot;validate&quot;</span><span class="p">,</span> <span class="s2">&quot;security&quot;</span><span class="p">,</span>
+</span><span data-line="27">                     <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;valid&quot;</span><span class="p">)),</span>
+</span><span data-line="28">                <span class="n">Edge</span><span class="p">(</span><span class="s2">&quot;security&quot;</span><span class="p">,</span> <span class="s2">&quot;manager&quot;</span><span class="p">,</span>
+</span><span data-line="29">                     <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;security_approved&quot;</span><span class="p">)),</span>
+</span><span data-line="30">                <span class="n">Edge</span><span class="p">(</span><span class="s2">&quot;manager&quot;</span><span class="p">,</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+</span><span data-line="31">                     <span class="n">condition</span><span class="o">=</span><span class="k">lambda</span> <span class="n">ctx</span><span class="p">:</span> <span class="n">ctx</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;manager_approved&quot;</span><span class="p">)),</span>
+</span><span data-line="32">                <span class="n">Edge</span><span class="p">(</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;notify&quot;</span><span class="p">),</span>
+</span><span data-line="33">            <span class="p">],</span>
+</span><span data-line="34">            <span class="n">initial_step</span><span class="o">=</span><span class="s2">&quot;validate&quot;</span><span class="p">,</span>
+</span><span data-line="35">            <span class="n">terminal_steps</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;notify&quot;</span><span class="p">},</span>
+</span><span data-line="36">        <span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="module-litestar_flags.contrib.workflows">
+<span id="api-reference"></span><h2>API Reference<a class="headerlink" href="#module-litestar_flags.contrib.workflows" title="Link to this heading">¶</a></h2>
+<section id="types">
+<h3>Types<a class="headerlink" href="#types" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">ChangeType</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/types.html#ChangeType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>Type of flag change being requested.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType.CREATE">
+<span class="sig-name descname"><span class="pre">CREATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'create'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType.CREATE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType.UPDATE">
+<span class="sig-name descname"><span class="pre">UPDATE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'update'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType.UPDATE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType.DELETE">
+<span class="sig-name descname"><span class="pre">DELETE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'delete'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType.DELETE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType.TOGGLE">
+<span class="sig-name descname"><span class="pre">TOGGLE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'toggle'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType.TOGGLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType.ROLLOUT">
+<span class="sig-name descname"><span class="pre">ROLLOUT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'rollout'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType.ROLLOUT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ChangeType.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.contrib.workflows.ChangeType.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">RolloutStage</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/types.html#RolloutStage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.Enum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></a></p>
+<p>Stages for gradual rollout workflows.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.INITIAL">
+<span class="sig-name descname"><span class="pre">INITIAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'initial'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.INITIAL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.EARLY">
+<span class="sig-name descname"><span class="pre">EARLY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'early'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.EARLY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.HALF">
+<span class="sig-name descname"><span class="pre">HALF</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'half'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.HALF" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.MAJORITY">
+<span class="sig-name descname"><span class="pre">MAJORITY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'majority'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.MAJORITY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.FULL">
+<span class="sig-name descname"><span class="pre">FULL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'full'</span></em><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.FULL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.percentage">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">percentage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a></em><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.percentage" title="Link to this definition">¶</a></dt>
+<dd><p>Get the rollout percentage for this stage.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStage.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStage.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">FlagChangeRequest</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#FlagChangeRequest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Request for a feature flag change.</p>
+<p>This dataclass encapsulates all information needed to request
+a change to a feature flag through an approval workflow.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.flag_key">
+<span class="sig-name descname"><span class="pre">flag_key</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.flag_key" title="Link to this definition">¶</a></dt>
+<dd><p>The unique key of the flag to change.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.change_type">
+<span class="sig-name descname"><span class="pre">change_type</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.change_type" title="Link to this definition">¶</a></dt>
+<dd><p>The type of change (create, update, delete, toggle, rollout).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.requested_by">
+<span class="sig-name descname"><span class="pre">requested_by</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.requested_by" title="Link to this definition">¶</a></dt>
+<dd><p>Email or ID of the person requesting the change.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.flag_data">
+<span class="sig-name descname"><span class="pre">flag_data</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.flag_data" title="Link to this definition">¶</a></dt>
+<dd><p>Data for the flag (for create/update operations).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.reason">
+<span class="sig-name descname"><span class="pre">reason</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.reason" title="Link to this definition">¶</a></dt>
+<dd><p>Business justification for the change.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.environment">
+<span class="sig-name descname"><span class="pre">environment</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.environment" title="Link to this definition">¶</a></dt>
+<dd><p>Target environment (e.g., “production”, “staging”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.rollout_percentage">
+<span class="sig-name descname"><span class="pre">rollout_percentage</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.rollout_percentage" title="Link to this definition">¶</a></dt>
+<dd><p>Target percentage for rollout changes.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.metadata" title="Link to this definition">¶</a></dt>
+<dd><p>Additional metadata for the request.</p>
+</dd></dl>
+
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flag_key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>change_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType" title="litestar_flags.contrib.workflows.types.ChangeType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChangeType</span></code></a></span>)</p></li>
+<li><p><strong>requested_by</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>flag_data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>reason</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>environment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>rollout_percentage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">flag_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">change_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType" title="litestar_flags.contrib.workflows.types.ChangeType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChangeType</span></code></a></em><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">requested_by</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">flag_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">reason</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">''</span></em><a class="headerlink" href="#id4" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">environment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'production'</span></em><a class="headerlink" href="#id5" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">rollout_percentage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#id6" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">metadata</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#id7" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.to_dict">
+<span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#FlagChangeRequest.to_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.to_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Convert to dictionary for workflow context storage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.from_dict">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#FlagChangeRequest.from_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.from_dict" title="Link to this definition">¶</a></dt>
+<dd><p>Create from dictionary (from workflow context).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.contrib.workflows.FlagChangeRequest" title="litestar_flags.contrib.workflows.steps.FlagChangeRequest"><code class="xref py py-class docutils literal notranslate"><span class="pre">FlagChangeRequest</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagChangeRequest.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">flag_key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">change_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">requested_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag_data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reason=''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment='production'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rollout_percentage=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata=&lt;factory&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagChangeRequest.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>flag_key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>change_type</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.contrib.workflows.ChangeType" title="litestar_flags.contrib.workflows.types.ChangeType"><code class="xref py py-class docutils literal notranslate"><span class="pre">ChangeType</span></code></a></span>)</p></li>
+<li><p><strong>requested_by</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>flag_data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>reason</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>environment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>rollout_percentage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>metadata</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="steps">
+<h3>Steps<a class="headerlink" href="#steps" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ValidateFlagChangeStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">ValidateFlagChangeStep</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ValidateFlagChangeStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ValidateFlagChangeStep" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMachineStep</span></code></p>
+<p>Validate a flag change request.</p>
+<p>This step performs validation on the incoming change request:
+- Verifies required fields are present
+- Checks flag key format
+- Validates rollout percentages
+- For updates/deletes, verifies the flag exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ValidateFlagChangeStep.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'validate_flag_change'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Validate</span> <span class="pre">the</span> <span class="pre">flag</span> <span class="pre">change</span> <span class="pre">request'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ValidateFlagChangeStep.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ValidateFlagChangeStep.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize with optional storage backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Storage backend for flag lookups. If None, will be
+retrieved from workflow context metadata.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step name.</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step description.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ValidateFlagChangeStep.execute">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ValidateFlagChangeStep.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ValidateFlagChangeStep.execute" title="Link to this definition">¶</a></dt>
+<dd><p>Execute validation.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowContext</span></code></span>) – Workflow context containing the change request.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Validation result with any error messages.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ManagerApprovalStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">ManagerApprovalStep</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ManagerApprovalStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ManagerApprovalStep" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHumanStep</span></code></p>
+<p>Human step requiring manager approval.</p>
+<p>This step pauses the workflow until a manager reviews and
+approves or rejects the flag change request.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>approver_roles</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>timeout_hours</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ManagerApprovalStep.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">approver_roles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout_hours</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">72</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'manager_approval'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Manager</span> <span class="pre">Approval</span> <span class="pre">Required'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Manager</span> <span class="pre">reviews</span> <span class="pre">and</span> <span class="pre">approves</span> <span class="pre">the</span> <span class="pre">flag</span> <span class="pre">change'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ManagerApprovalStep.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ManagerApprovalStep.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize manager approval step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>approver_roles</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – List of roles that can approve (e.g., [“manager”, “lead”]).</p></li>
+<li><p><strong>timeout_hours</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Hours before the approval request times out.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step name.</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step title for display.</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step description.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ManagerApprovalStep.execute">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ManagerApprovalStep.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ManagerApprovalStep.execute" title="Link to this definition">¶</a></dt>
+<dd><p>Process the manager’s decision.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowContext</span></code></span>) – Workflow context with form submission data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Approval result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.QAValidationStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">QAValidationStep</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#QAValidationStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.QAValidationStep" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseHumanStep</span></code></p>
+<p>Human step for QA validation.</p>
+<p>This step allows QA team members to verify the flag change
+is ready for production.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.QAValidationStep.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'qa_validation'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QA</span> <span class="pre">Validation</span> <span class="pre">Required'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'QA</span> <span class="pre">validates</span> <span class="pre">the</span> <span class="pre">flag</span> <span class="pre">change</span> <span class="pre">in</span> <span class="pre">staging'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#QAValidationStep.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.QAValidationStep.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize QA validation step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step name.</p></li>
+<li><p><strong>title</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step title for display.</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step description.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.QAValidationStep.execute">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#QAValidationStep.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.QAValidationStep.execute" title="Link to this definition">¶</a></dt>
+<dd><p>Process QA validation results.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowContext</span></code></span>) – Workflow context with form submission data.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Validation result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ApplyFlagChangeStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">ApplyFlagChangeStep</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ApplyFlagChangeStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ApplyFlagChangeStep" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMachineStep</span></code></p>
+<p>Apply the approved flag change.</p>
+<p>This step executes the actual flag modification once all
+approvals have been obtained.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ApplyFlagChangeStep.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'apply_flag_change'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Apply</span> <span class="pre">the</span> <span class="pre">approved</span> <span class="pre">flag</span> <span class="pre">change</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">storage</span> <span class="pre">backend'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ApplyFlagChangeStep.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ApplyFlagChangeStep.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize with optional storage backend.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Storage backend for flag operations. If None, will be
+retrieved from workflow context metadata.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step name.</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step description.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ApplyFlagChangeStep.execute">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#ApplyFlagChangeStep.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ApplyFlagChangeStep.execute" title="Link to this definition">¶</a></dt>
+<dd><p>Apply the flag change.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowContext</span></code></span>) – Workflow context with validated request.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Result of the flag operation.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">RolloutStep</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#RolloutStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStep" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMachineStep</span></code></p>
+<p>Execute a rollout stage increase.</p>
+<p>This step is used in gradual rollout workflows to increase
+the rollout percentage in stages.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_stage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage" title="litestar_flags.contrib.workflows.types.RolloutStage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RolloutStage</span></code></a></span>)</p></li>
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStep.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">target_stage</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#RolloutStep.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStep.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize rollout step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>target_stage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage" title="litestar_flags.contrib.workflows.types.RolloutStage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RolloutStage</span></code></a></span>) – The rollout stage to reach.</p></li>
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Storage backend for flag operations.</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Step name (defaults to rollout_{stage}).</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Step description.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.RolloutStep.execute">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#RolloutStep.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.RolloutStep.execute" title="Link to this definition">¶</a></dt>
+<dd><p>Execute the rollout stage increase.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowContext</span></code></span>) – Workflow context.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Rollout result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.NotifyStakeholdersStep">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">NotifyStakeholdersStep</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#NotifyStakeholdersStep"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseMachineStep</span></code></p>
+<p>Send notifications to stakeholders.</p>
+<p>This step notifies relevant parties about flag changes.
+Override the <cite>send_notification</cite> method to integrate with
+your notification system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>notification_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.NotifyStakeholdersStep.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">notification_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'notify_stakeholders'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'Notify</span> <span class="pre">stakeholders</span> <span class="pre">about</span> <span class="pre">the</span> <span class="pre">flag</span> <span class="pre">change'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#NotifyStakeholdersStep.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize notification step.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>notification_channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Channels to notify (e.g., [“email”, “slack”]).</p></li>
+<li><p><strong>name</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step name.</p></li>
+<li><p><strong>description</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>) – Step description.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.NotifyStakeholdersStep.execute">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">execute</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#NotifyStakeholdersStep.execute"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep.execute" title="Link to this definition">¶</a></dt>
+<dd><p>Send notifications.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>context</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowContext</span></code></span>) – Workflow context.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Notification result.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.NotifyStakeholdersStep.send_notification">
+<em class="property"><span class="k"><span class="pre">async</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">send_notification</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channels</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/steps.html#NotifyStakeholdersStep.send_notification"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.NotifyStakeholdersStep.send_notification" title="Link to this definition">¶</a></dt>
+<dd><p>Send the notification.</p>
+<p>Override this method to integrate with your notification system.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>) – Notification data.</p></li>
+<li><p><strong>channels</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>]</span>) – Channels to send to.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="workflows">
+<h3>Workflows<a class="headerlink" href="#workflows" title="Link to this heading">¶</a></h3>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagApprovalWorkflow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">FlagApprovalWorkflow</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/workflows.html#FlagApprovalWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagApprovalWorkflow" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Workflow for approving feature flag changes.</p>
+<p>This workflow implements a standard approval process:
+1. Validate the change request
+2. Manager approval (human step)
+3. QA validation (human step)
+4. Apply the change
+5. Notify stakeholders</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>Registering the workflow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">WorkflowRegistry</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagApprovalWorkflow</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">registry</span> <span class="o">=</span> <span class="n">WorkflowRegistry</span><span class="p">()</span>
+</span><span data-line="5"><span class="n">registry</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">FlagApprovalWorkflow</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Starting an approval workflow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.workflows</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagChangeRequest</span><span class="p">,</span> <span class="n">ChangeType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">request</span> <span class="o">=</span> <span class="n">FlagChangeRequest</span><span class="p">(</span>
+</span><span data-line="4">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;new_checkout_flow&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">change_type</span><span class="o">=</span><span class="n">ChangeType</span><span class="o">.</span><span class="n">CREATE</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">requested_by</span><span class="o">=</span><span class="s2">&quot;developer@example.com&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">reason</span><span class="o">=</span><span class="s2">&quot;Launch new checkout experience&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">flag_data</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="9">        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;New Checkout Flow&quot;</span><span class="p">,</span>
+</span><span data-line="10">        <span class="s2">&quot;description&quot;</span><span class="p">:</span> <span class="s2">&quot;Enables the redesigned checkout&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="s2">&quot;default_enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="12">    <span class="p">},</span>
+</span><span data-line="13"><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="n">instance</span> <span class="o">=</span> <span class="k">await</span> <span class="n">engine</span><span class="o">.</span><span class="n">start_workflow</span><span class="p">(</span>
+</span><span data-line="16">    <span class="s2">&quot;flag_approval&quot;</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">initial_data</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;request&quot;</span><span class="p">:</span> <span class="n">request</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()},</span>
+</span><span data-line="18"><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagApprovalWorkflow.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/workflows.html#FlagApprovalWorkflow.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagApprovalWorkflow.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the workflow.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Storage backend for flag operations.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.FlagApprovalWorkflow.get_definition">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">require_qa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">notify_on_complete</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/workflows.html#FlagApprovalWorkflow.get_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.FlagApprovalWorkflow.get_definition" title="Link to this definition">¶</a></dt>
+<dd><p>Get the workflow definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Storage backend for flag operations.</p></li>
+<li><p><strong>require_qa</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to require QA validation step.</p></li>
+<li><p><strong>notify_on_complete</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>) – Whether to notify stakeholders on completion.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowDefinition</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The workflow definition.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ScheduledRolloutWorkflow">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.contrib.workflows.</span></span><span class="sig-name descname"><span class="pre">ScheduledRolloutWorkflow</span></span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/workflows.html#ScheduledRolloutWorkflow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ScheduledRolloutWorkflow" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Workflow for gradual feature flag rollouts.</p>
+<p>This workflow implements a staged rollout process:
+1. Start at 5% (INITIAL stage)
+2. Wait, then increase to 25% (EARLY stage)
+3. Wait, then increase to 50% (HALF stage)
+4. Wait, then increase to 75% (MAJORITY stage)
+5. Wait, then increase to 100% (FULL stage)</p>
+<p>Between each stage, there’s a configurable wait period to
+monitor for issues before proceeding.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p>Starting a rollout workflow:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">instance</span> <span class="o">=</span> <span class="k">await</span> <span class="n">engine</span><span class="o">.</span><span class="n">start_workflow</span><span class="p">(</span>
+</span><span data-line="2">    <span class="s2">&quot;scheduled_rollout&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">initial_data</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="4">        <span class="s2">&quot;flag_key&quot;</span><span class="p">:</span> <span class="s2">&quot;new_feature&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="p">},</span>
+</span><span data-line="6"><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.contrib.workflows.ScheduledRolloutWorkflow.get_definition">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_definition</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">storage</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stage_delay_minutes</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">60</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stages</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/contrib/workflows/workflows.html#ScheduledRolloutWorkflow.get_definition"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.contrib.workflows.ScheduledRolloutWorkflow.get_definition" title="Link to this definition">¶</a></dt>
+<dd><p>Get the workflow definition.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>storage</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="../api/storage.html#litestar_flags.protocols.StorageBackend" title="litestar_flags.protocols.StorageBackend"><code class="xref py py-class docutils literal notranslate"><span class="pre">StorageBackend</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Storage backend for flag operations.</p></li>
+<li><p><strong>stage_delay_minutes</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></span>) – Minutes to wait between rollout stages.</p></li>
+<li><p><strong>stages</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference internal" href="#litestar_flags.contrib.workflows.RolloutStage" title="litestar_flags.contrib.workflows.types.RolloutStage"><code class="xref py py-class docutils literal notranslate"><span class="pre">RolloutStage</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – List of rollout stages to execute. Defaults to all stages.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkflowDefinition</span></code></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>The workflow definition.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../user-guide/time-based-rules.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Time-based Rules</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../changelog.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Changelog</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

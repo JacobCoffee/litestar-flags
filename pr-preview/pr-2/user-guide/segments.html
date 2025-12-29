@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Segment-based Targeting - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Segment-based Targeting"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/exceptions.html">Exceptions</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#what-are-segments">What are Segments?</a><ul>
+<li><a class="reference internal" href="#segments-vs-inline-conditions">Segments vs. Inline Conditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-segments">Creating Segments</a><ul>
+<li><a class="reference internal" href="#segment-model-fields">Segment Model Fields</a></li>
+<li><a class="reference internal" href="#basic-segment-creation">Basic Segment Creation</a></li>
+<li><a class="reference internal" href="#condition-format">Condition Format</a></li>
+<li><a class="reference internal" href="#supported-operators">Supported Operators</a></li>
+<li><a class="reference internal" href="#common-segment-examples">Common Segment Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#nested-segments">Nested Segments</a><ul>
+<li><a class="reference internal" href="#parent-child-relationships">Parent-Child Relationships</a></li>
+<li><a class="reference internal" href="#use-cases-for-nested-segments">Use Cases for Nested Segments</a></li>
+<li><a class="reference internal" href="#evaluation-with-nested-segments">Evaluation with Nested Segments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#using-segments-in-flag-rules">Using Segments in Flag Rules</a><ul>
+<li><a class="reference internal" href="#in-segment-operator">IN_SEGMENT Operator</a></li>
+<li><a class="reference internal" href="#not-in-segment-operator">NOT_IN_SEGMENT Operator</a></li>
+<li><a class="reference internal" href="#combining-segment-and-standard-conditions">Combining Segment and Standard Conditions</a></li>
+<li><a class="reference internal" href="#multiple-segment-conditions">Multiple Segment Conditions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#storage-backend-integration">Storage Backend Integration</a><ul>
+<li><a class="reference internal" href="#creating-and-retrieving-segments">Creating and Retrieving Segments</a></li>
+<li><a class="reference internal" href="#updating-segments">Updating Segments</a></li>
+<li><a class="reference internal" href="#deleting-segments">Deleting Segments</a></li>
+<li><a class="reference internal" href="#retrieving-child-segments">Retrieving Child Segments</a></li>
+<li><a class="reference internal" href="#caching-for-performance">Caching for Performance</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api-reference">API Reference</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Segment-based Targeting</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="segment-based-targeting">
+<h1>Segment-based Targeting<a class="headerlink" href="#segment-based-targeting" title="Link to this heading">¶</a></h1>
+<p>Segment-based targeting enables you to define reusable groups of users based on
+shared attributes. Instead of duplicating targeting conditions across multiple
+flags, you can create segments once and reference them in flag rules for
+consistent, maintainable targeting.</p>
+<section id="what-are-segments">
+<h2>What are Segments?<a class="headerlink" href="#what-are-segments" title="Link to this heading">¶</a></h2>
+<p>Segments are named collections of targeting conditions that define groups of
+users. They provide a centralized way to manage user targeting that can be
+reused across multiple feature flags.</p>
+<p><strong>Key Benefits:</strong></p>
+<ul class="simple">
+<li><p><strong>Centralized Management</strong>: Update targeting criteria in one place and
+all flags using that segment automatically reflect the change.</p></li>
+<li><p><strong>Reusability</strong>: Define a segment once (e.g., “premium_users”) and use it
+in any number of feature flags.</p></li>
+<li><p><strong>Consistency</strong>: Ensure the same definition of “premium user” or “beta tester”
+is applied uniformly across your application.</p></li>
+<li><p><strong>Composability</strong>: Nest segments to create hierarchical user groups
+(e.g., “premium_us_users” inherits from “premium_users”).</p></li>
+</ul>
+<section id="segments-vs-inline-conditions">
+<h3>Segments vs. Inline Conditions<a class="headerlink" href="#segments-vs-inline-conditions" title="Link to this heading">¶</a></h3>
+<p>You have two options for targeting users in flag rules:</p>
+<p><strong>Inline Conditions</strong> (within the rule):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Users&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="4">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">},</span>
+</span><span data-line="5">    <span class="p">],</span>
+</span><span data-line="6">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Segment-based Conditions</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Users&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="4">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in_segment&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium_users&quot;</span><span class="p">},</span>
+</span><span data-line="5">    <span class="p">],</span>
+</span><span data-line="6">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>Use <strong>inline conditions</strong> when:</p>
+<ul class="simple">
+<li><p>The targeting logic is unique to a single flag</p></li>
+<li><p>You need quick, one-off targeting rules</p></li>
+<li><p>The conditions are simple and unlikely to change</p></li>
+</ul>
+<p>Use <strong>segments</strong> when:</p>
+<ul class="simple">
+<li><p>The same user group is targeted by multiple flags</p></li>
+<li><p>You want to centrally manage who qualifies for a group</p></li>
+<li><p>You need nested or hierarchical targeting</p></li>
+<li><p>The targeting criteria may evolve over time</p></li>
+</ul>
+</section>
+</section>
+<section id="creating-segments">
+<h2>Creating Segments<a class="headerlink" href="#creating-segments" title="Link to this heading">¶</a></h2>
+<p>A segment is defined by a name, optional description, and a list of conditions
+that must all be satisfied for a user to be considered a member.</p>
+<section id="segment-model-fields">
+<h3>Segment Model Fields<a class="headerlink" href="#segment-model-fields" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 15.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Field</p></th>
+<th class="head"><p>Type</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">name</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span></code></p></td>
+<td><p>Unique identifier for the segment (e.g., “premium_users”)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">description</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">str</span> <span class="pre">|</span> <span class="pre">None</span></code></p></td>
+<td><p>Human-readable description of the segment’s purpose</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">conditions</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">list[dict]</span></code></p></td>
+<td><p>JSON array of condition objects (same format as flag rules)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">parent_segment_id</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">UUID</span> <span class="pre">|</span> <span class="pre">None</span></code></p></td>
+<td><p>Optional reference to a parent segment for nesting</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enabled</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span></code></p></td>
+<td><p>Whether the segment is active (default: <code class="docutils literal notranslate"><span class="pre">True</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="basic-segment-creation">
+<h3>Basic Segment Creation<a class="headerlink" href="#basic-segment-creation" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models.segment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Segment</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Create a segment for premium users</span>
+</span><span data-line="4"><span class="n">premium_segment</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;premium_users&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users with an active premium subscription&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="8">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">},</span>
+</span><span data-line="9">    <span class="p">],</span>
+</span><span data-line="10"><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Store the segment</span>
+</span><span data-line="13"><span class="n">created_segment</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">premium_segment</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="condition-format">
+<h3>Condition Format<a class="headerlink" href="#condition-format" title="Link to this heading">¶</a></h3>
+<p>Segment conditions use the same format as flag rule conditions. Each condition
+is a dictionary with three keys:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">attribute</span></code>: The context attribute to check</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">operator</span></code>: The comparison operator (see <a class="reference internal" href="#condition-operators"><span class="std std-ref">Supported Operators</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">value</span></code>: The expected value to compare against</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="2">    <span class="c1"># Exact match</span>
+</span><span data-line="3">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">},</span>
+</span><span data-line="4">
+</span><span data-line="5">    <span class="c1"># List membership</span>
+</span><span data-line="6">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span> <span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;UK&quot;</span><span class="p">]},</span>
+</span><span data-line="7">
+</span><span data-line="8">    <span class="c1"># Numeric comparison</span>
+</span><span data-line="9">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;account_age_days&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;gte&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">30</span><span class="p">},</span>
+</span><span data-line="10">
+</span><span data-line="11">    <span class="c1"># String matching</span>
+</span><span data-line="12">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;ends_with&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;@company.com&quot;</span><span class="p">},</span>
+</span><span data-line="13"><span class="p">]</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>All conditions within a segment use AND logic. A user must match <strong>all</strong>
+conditions to be considered a member of the segment.</p>
+</div>
+</section>
+<section id="supported-operators">
+<span id="condition-operators"></span><h3>Supported Operators<a class="headerlink" href="#supported-operators" title="Link to this heading">¶</a></h3>
+<p>All <a class="reference internal" href="../api/types.html#litestar_flags.types.RuleOperator" title="litestar_flags.types.RuleOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RuleOperator</span></code></a> values are supported in
+segment conditions:</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 20.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Value</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Equals</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">eq</span></code></p></td>
+<td><p>Exact match</p></td>
+</tr>
+<tr class="row-odd"><td><p>Not Equals</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ne</span></code></p></td>
+<td><p>Value does not match</p></td>
+</tr>
+<tr class="row-even"><td><p>Greater Than</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gt</span></code></p></td>
+<td><p>Numeric comparison</p></td>
+</tr>
+<tr class="row-odd"><td><p>Greater Than or Equal</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">gte</span></code></p></td>
+<td><p>Numeric comparison</p></td>
+</tr>
+<tr class="row-even"><td><p>Less Than</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">lt</span></code></p></td>
+<td><p>Numeric comparison</p></td>
+</tr>
+<tr class="row-odd"><td><p>Less Than or Equal</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">lte</span></code></p></td>
+<td><p>Numeric comparison</p></td>
+</tr>
+<tr class="row-even"><td><p>In</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">in</span></code></p></td>
+<td><p>Value is in the provided list</p></td>
+</tr>
+<tr class="row-odd"><td><p>Not In</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">not_in</span></code></p></td>
+<td><p>Value is not in the provided list</p></td>
+</tr>
+<tr class="row-even"><td><p>Contains</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">contains</span></code></p></td>
+<td><p>String contains substring</p></td>
+</tr>
+<tr class="row-odd"><td><p>Not Contains</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">not_contains</span></code></p></td>
+<td><p>String does not contain substring</p></td>
+</tr>
+<tr class="row-even"><td><p>Starts With</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">starts_with</span></code></p></td>
+<td><p>String starts with prefix</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ends With</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ends_with</span></code></p></td>
+<td><p>String ends with suffix</p></td>
+</tr>
+<tr class="row-even"><td><p>Matches</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">matches</span></code></p></td>
+<td><p>Regular expression match</p></td>
+</tr>
+<tr class="row-odd"><td><p>Semver Equals</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">semver_eq</span></code></p></td>
+<td><p>Semantic version equality</p></td>
+</tr>
+<tr class="row-even"><td><p>Semver Greater Than</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">semver_gt</span></code></p></td>
+<td><p>Semantic version comparison</p></td>
+</tr>
+<tr class="row-odd"><td><p>Semver Less Than</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">semver_lt</span></code></p></td>
+<td><p>Semantic version comparison</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="common-segment-examples">
+<h3>Common Segment Examples<a class="headerlink" href="#common-segment-examples" title="Link to this heading">¶</a></h3>
+<p><strong>Geographic Segments:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Users in North America</span>
+</span><span data-line="2"><span class="n">na_users</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;north_america_users&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users in US, Canada, or Mexico&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="6">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span> <span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;MX&quot;</span><span class="p">]},</span>
+</span><span data-line="7">    <span class="p">],</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Users NOT in restricted regions</span>
+</span><span data-line="11"><span class="n">allowed_regions</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;allowed_regions&quot;</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users outside restricted regions&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="15">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;not_in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;CN&quot;</span><span class="p">,</span> <span class="s2">&quot;RU&quot;</span><span class="p">,</span> <span class="s2">&quot;KP&quot;</span><span class="p">]},</span>
+</span><span data-line="16">    <span class="p">],</span>
+</span><span data-line="17"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Subscription-based Segments:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enterprise customers</span>
+</span><span data-line="2"><span class="n">enterprise_segment</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;enterprise_users&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enterprise tier customers&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="6">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;enterprise&quot;</span><span class="p">},</span>
+</span><span data-line="7">    <span class="p">],</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Users with active subscriptions</span>
+</span><span data-line="11"><span class="n">active_subscribers</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;active_subscribers&quot;</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users with any paid subscription&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="15">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">,</span> <span class="s2">&quot;pro&quot;</span><span class="p">,</span> <span class="s2">&quot;enterprise&quot;</span><span class="p">]},</span>
+</span><span data-line="16">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;subscription_status&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;active&quot;</span><span class="p">},</span>
+</span><span data-line="17">    <span class="p">],</span>
+</span><span data-line="18"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Internal User Segments:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Internal employees</span>
+</span><span data-line="2"><span class="n">internal_users</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;internal_users&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Company employees for internal testing&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="6">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;ends_with&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;@company.com&quot;</span><span class="p">},</span>
+</span><span data-line="7">    <span class="p">],</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Beta testers</span>
+</span><span data-line="11"><span class="n">beta_testers</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;beta_testers&quot;</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users who opted into beta program&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="15">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;beta_tester&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+</span><span data-line="16">    <span class="p">],</span>
+</span><span data-line="17"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Version-based Segments:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Users on latest app version</span>
+</span><span data-line="2"><span class="n">latest_version_users</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;latest_version&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users on app version 2.0.0 or later&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="6">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;app_version&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;semver_gt&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;1.9.9&quot;</span><span class="p">},</span>
+</span><span data-line="7">    <span class="p">],</span>
+</span><span data-line="8"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="nested-segments">
+<h2>Nested Segments<a class="headerlink" href="#nested-segments" title="Link to this heading">¶</a></h2>
+<p>Segments support parent-child relationships, enabling you to create hierarchical
+user groups. A child segment inherits all conditions from its parent, and a user
+must satisfy both the parent’s and child’s conditions to be a member.</p>
+<section id="parent-child-relationships">
+<h3>Parent-Child Relationships<a class="headerlink" href="#parent-child-relationships" title="Link to this heading">¶</a></h3>
+<p>When you create a nested segment:</p>
+<ol class="arabic simple">
+<li><p>The child segment specifies a <code class="docutils literal notranslate"><span class="pre">parent_segment_id</span></code></p></li>
+<li><p>During evaluation, the system first checks if the user matches the parent</p></li>
+<li><p>If the parent matches, it then checks the child’s conditions</p></li>
+<li><p>A user is only a member if <strong>both</strong> parent AND child conditions match</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Parent segment: All premium users</span>
+</span><span data-line="2"><span class="n">premium_users</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;premium_users&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;All premium subscribers&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="6">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">},</span>
+</span><span data-line="7">    <span class="p">],</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9"><span class="n">premium_users</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">premium_users</span><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Child segment: Premium users in the US</span>
+</span><span data-line="12"><span class="n">premium_us_users</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="13">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;premium_us_users&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Premium subscribers located in the United States&quot;</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">parent_segment_id</span><span class="o">=</span><span class="n">premium_users</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>  <span class="c1"># Link to parent</span>
+</span><span data-line="16">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="17">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;US&quot;</span><span class="p">},</span>
+</span><span data-line="18">    <span class="p">],</span>
+</span><span data-line="19"><span class="p">)</span>
+</span><span data-line="20"><span class="n">premium_us_users</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">premium_us_users</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="use-cases-for-nested-segments">
+<h3>Use Cases for Nested Segments<a class="headerlink" href="#use-cases-for-nested-segments" title="Link to this heading">¶</a></h3>
+<p><strong>Geographic Refinement:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Level 1: Enterprise customers</span>
+</span><span data-line="2"><span class="n">enterprise</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;enterprise&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">conditions</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;enterprise&quot;</span><span class="p">}],</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6"><span class="n">enterprise</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">enterprise</span><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Level 2: Enterprise customers in EMEA</span>
+</span><span data-line="9"><span class="n">enterprise_emea</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="10">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;enterprise_emea&quot;</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">parent_segment_id</span><span class="o">=</span><span class="n">enterprise</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="13">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;region&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;EU&quot;</span><span class="p">,</span> <span class="s2">&quot;UK&quot;</span><span class="p">,</span> <span class="s2">&quot;ME&quot;</span><span class="p">,</span> <span class="s2">&quot;AF&quot;</span><span class="p">]},</span>
+</span><span data-line="14">    <span class="p">],</span>
+</span><span data-line="15"><span class="p">)</span>
+</span><span data-line="16"><span class="n">enterprise_emea</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">enterprise_emea</span><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># Level 3: Enterprise EMEA customers with SOC2 compliance</span>
+</span><span data-line="19"><span class="n">enterprise_emea_soc2</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="20">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;enterprise_emea_soc2&quot;</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">parent_segment_id</span><span class="o">=</span><span class="n">enterprise_emea</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="22">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="23">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;soc2_compliant&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+</span><span data-line="24">    <span class="p">],</span>
+</span><span data-line="25"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Progressive Feature Access:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Base segment: Beta testers</span>
+</span><span data-line="2"><span class="n">beta_testers</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;beta_testers&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">conditions</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;beta_tester&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}],</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6"><span class="n">beta_testers</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">beta_testers</span><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Advanced beta: Beta testers who have used the feature before</span>
+</span><span data-line="9"><span class="n">advanced_beta</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="10">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;advanced_beta_testers&quot;</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">parent_segment_id</span><span class="o">=</span><span class="n">beta_testers</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="13">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;feature_experience_level&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;gte&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">},</span>
+</span><span data-line="14">    <span class="p">],</span>
+</span><span data-line="15"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="evaluation-with-nested-segments">
+<h3>Evaluation with Nested Segments<a class="headerlink" href="#evaluation-with-nested-segments" title="Link to this heading">¶</a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SegmentEvaluator</span></code> handles nested
+segment evaluation automatically:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.segment_evaluator</span><span class="w"> </span><span class="kn">import</span> <span class="n">SegmentEvaluator</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationContext</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">evaluator</span> <span class="o">=</span> <span class="n">SegmentEvaluator</span><span class="p">()</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Check if a user is in the nested segment</span>
+</span><span data-line="7"><span class="n">context</span> <span class="o">=</span> <span class="n">EvaluationContext</span><span class="p">(</span>
+</span><span data-line="8">    <span class="n">targeting_key</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">attributes</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="10">        <span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="s2">&quot;country&quot;</span><span class="p">:</span> <span class="s2">&quot;US&quot;</span><span class="p">,</span>
+</span><span data-line="12">    <span class="p">},</span>
+</span><span data-line="13"><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="c1"># This checks both parent (premium) and child (US) conditions</span>
+</span><span data-line="16"><span class="n">is_member</span> <span class="o">=</span> <span class="k">await</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">is_in_segment</span><span class="p">(</span>
+</span><span data-line="17">    <span class="n">segment_id</span><span class="o">=</span><span class="n">premium_us_users</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="18">    <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+</span><span data-line="19">    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="20"><span class="p">)</span>
+</span><span data-line="21"><span class="c1"># Returns True only if plan=&quot;premium&quot; AND country=&quot;US&quot;</span>
+</span></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Circular Reference Detection</strong></p>
+<p>The segment evaluator automatically detects and prevents circular references.
+If segment A has segment B as parent, and segment B has segment A as parent,
+a <code class="xref py py-class docutils literal notranslate"><span class="pre">CircularSegmentReferenceError</span></code>
+will be raised during evaluation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.segment_evaluator</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircularSegmentReferenceError</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="4">    <span class="k">await</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">is_in_segment</span><span class="p">(</span><span class="n">segment_id</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">storage</span><span class="p">)</span>
+</span><span data-line="5"><span class="k">except</span> <span class="n">CircularSegmentReferenceError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="6">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Circular reference detected: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="7">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Visited chain: </span><span class="si">{</span><span class="n">e</span><span class="o">.</span><span class="n">visited_chain</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="using-segments-in-flag-rules">
+<h2>Using Segments in Flag Rules<a class="headerlink" href="#using-segments-in-flag-rules" title="Link to this heading">¶</a></h2>
+<p>Once you have created segments, you can reference them in flag rules using the
+<code class="docutils literal notranslate"><span class="pre">IN_SEGMENT</span></code> and <code class="docutils literal notranslate"><span class="pre">NOT_IN_SEGMENT</span></code> operators.</p>
+<section id="in-segment-operator">
+<h3>IN_SEGMENT Operator<a class="headerlink" href="#in-segment-operator" title="Link to this heading">¶</a></h3>
+<p>Enable a feature for users who are members of a segment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models.flag</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlag</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models.rule</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagRule</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagType</span><span class="p">,</span> <span class="n">FlagStatus</span><span class="p">,</span> <span class="n">RuleOperator</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="c1"># Create a flag that targets premium users via segment</span>
+</span><span data-line="6"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="7">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;premium-dashboard&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Dashboard&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enhanced dashboard for premium subscribers&quot;</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">status</span><span class="o">=</span><span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">default_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">rules</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="14">        <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="15">            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Users Only&quot;</span><span class="p">,</span>
+</span><span data-line="16">            <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="17">            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="18">            <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="19">                <span class="p">{</span>
+</span><span data-line="20">                    <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span>
+</span><span data-line="21">                    <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="n">RuleOperator</span><span class="o">.</span><span class="n">IN_SEGMENT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="22">                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium_users&quot;</span><span class="p">,</span>  <span class="c1"># Segment name</span>
+</span><span data-line="23">                <span class="p">},</span>
+</span><span data-line="24">            <span class="p">],</span>
+</span><span data-line="25">            <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="26">        <span class="p">),</span>
+</span><span data-line="27">    <span class="p">],</span>
+</span><span data-line="28"><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">value</span></code> field can be either the segment <strong>name</strong> (string) or the
+segment <strong>UUID</strong> (string representation). When using names, the system
+looks up the segment by name during evaluation.</p>
+</div>
+</section>
+<section id="not-in-segment-operator">
+<h3>NOT_IN_SEGMENT Operator<a class="headerlink" href="#not-in-segment-operator" title="Link to this heading">¶</a></h3>
+<p>Exclude users who are members of a segment:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Disable experimental features for restricted users</span>
+</span><span data-line="2"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;experimental-api&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Experimental API Access&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">status</span><span class="o">=</span><span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">default_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Enabled by default</span>
+</span><span data-line="8">    <span class="n">rules</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="9">        <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="10">            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Block Restricted Users&quot;</span><span class="p">,</span>
+</span><span data-line="11">            <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="12">            <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="13">            <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="14">                <span class="p">{</span>
+</span><span data-line="15">                    <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span>
+</span><span data-line="16">                    <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="n">RuleOperator</span><span class="o">.</span><span class="n">NOT_IN_SEGMENT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="17">                    <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;restricted_users&quot;</span><span class="p">,</span>
+</span><span data-line="18">                <span class="p">},</span>
+</span><span data-line="19">            <span class="p">],</span>
+</span><span data-line="20">            <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Disable for users in restricted segment</span>
+</span><span data-line="21">        <span class="p">),</span>
+</span><span data-line="22">    <span class="p">],</span>
+</span><span data-line="23"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="combining-segment-and-standard-conditions">
+<h3>Combining Segment and Standard Conditions<a class="headerlink" href="#combining-segment-and-standard-conditions" title="Link to this heading">¶</a></h3>
+<p>You can mix segment conditions with other condition types in the same rule:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable for premium users who are also on the latest app version</span>
+</span><span data-line="2"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Latest Version&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="7">        <span class="p">{</span>
+</span><span data-line="8">            <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span>
+</span><span data-line="9">            <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="n">RuleOperator</span><span class="o">.</span><span class="n">IN_SEGMENT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="10">            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium_users&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="p">},</span>
+</span><span data-line="12">        <span class="p">{</span>
+</span><span data-line="13">            <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;app_version&quot;</span><span class="p">,</span>
+</span><span data-line="14">            <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="n">RuleOperator</span><span class="o">.</span><span class="n">SEMVER_GT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="15">            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0.0&quot;</span><span class="p">,</span>
+</span><span data-line="16">        <span class="p">},</span>
+</span><span data-line="17">    <span class="p">],</span>
+</span><span data-line="18">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="19"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="multiple-segment-conditions">
+<h3>Multiple Segment Conditions<a class="headerlink" href="#multiple-segment-conditions" title="Link to this heading">¶</a></h3>
+<p>Target users who are members of multiple segments:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable for users who are both beta testers AND enterprise customers</span>
+</span><span data-line="2"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Enterprise Beta&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="7">        <span class="p">{</span>
+</span><span data-line="8">            <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span>
+</span><span data-line="9">            <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="n">RuleOperator</span><span class="o">.</span><span class="n">IN_SEGMENT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="10">            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;beta_testers&quot;</span><span class="p">,</span>
+</span><span data-line="11">        <span class="p">},</span>
+</span><span data-line="12">        <span class="p">{</span>
+</span><span data-line="13">            <span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span>
+</span><span data-line="14">            <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="n">RuleOperator</span><span class="o">.</span><span class="n">IN_SEGMENT</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="15">            <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;enterprise_users&quot;</span><span class="p">,</span>
+</span><span data-line="16">        <span class="p">},</span>
+</span><span data-line="17">    <span class="p">],</span>
+</span><span data-line="18">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="19"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="storage-backend-integration">
+<h2>Storage Backend Integration<a class="headerlink" href="#storage-backend-integration" title="Link to this heading">¶</a></h2>
+<p>All storage backends support full CRUD operations for segments.</p>
+<section id="creating-and-retrieving-segments">
+<h3>Creating and Retrieving Segments<a class="headerlink" href="#creating-and-retrieving-segments" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryStorageBackend</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models.segment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Segment</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">storage</span> <span class="o">=</span> <span class="n">MemoryStorageBackend</span><span class="p">()</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Create a segment</span>
+</span><span data-line="7"><span class="n">segment</span> <span class="o">=</span> <span class="n">Segment</span><span class="p">(</span>
+</span><span data-line="8">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;early_adopters&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Users who signed up in the first month&quot;</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="11">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;signup_date&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;date_before&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;2025-02-01T00:00:00Z&quot;</span><span class="p">},</span>
+</span><span data-line="12">    <span class="p">],</span>
+</span><span data-line="13"><span class="p">)</span>
+</span><span data-line="14"><span class="n">created</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">create_segment</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="c1"># Retrieve by ID</span>
+</span><span data-line="17"><span class="n">segment</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_segment</span><span class="p">(</span><span class="n">created</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span data-line="18">
+</span><span data-line="19"><span class="c1"># Retrieve by name</span>
+</span><span data-line="20"><span class="n">segment</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_segment_by_name</span><span class="p">(</span><span class="s2">&quot;early_adopters&quot;</span><span class="p">)</span>
+</span><span data-line="21">
+</span><span data-line="22"><span class="c1"># Get all segments</span>
+</span><span data-line="23"><span class="n">all_segments</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_all_segments</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="updating-segments">
+<h3>Updating Segments<a class="headerlink" href="#updating-segments" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Update segment conditions</span>
+</span><span data-line="2"><span class="n">segment</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_segment_by_name</span><span class="p">(</span><span class="s2">&quot;premium_users&quot;</span><span class="p">)</span>
+</span><span data-line="3"><span class="n">segment</span><span class="o">.</span><span class="n">conditions</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="4">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;premium&quot;</span><span class="p">,</span> <span class="s2">&quot;enterprise&quot;</span><span class="p">]},</span>
+</span><span data-line="5"><span class="p">]</span>
+</span><span data-line="6"><span class="n">segment</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="s2">&quot;Premium and Enterprise subscribers&quot;</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="n">updated</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">update_segment</span><span class="p">(</span><span class="n">segment</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="deleting-segments">
+<h3>Deleting Segments<a class="headerlink" href="#deleting-segments" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Delete a segment by ID</span>
+</span><span data-line="2"><span class="n">deleted</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">delete_segment</span><span class="p">(</span><span class="n">segment</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">if</span> <span class="n">deleted</span><span class="p">:</span>
+</span><span data-line="5">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Segment deleted successfully&quot;</span><span class="p">)</span>
+</span><span data-line="6"><span class="k">else</span><span class="p">:</span>
+</span><span data-line="7">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Segment not found&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Deleting a segment that is referenced by flag rules or as a parent of other
+segments may cause evaluation failures. Consider disabling segments instead
+of deleting them, or update dependent rules first.</p>
+</div>
+</section>
+<section id="retrieving-child-segments">
+<h3>Retrieving Child Segments<a class="headerlink" href="#retrieving-child-segments" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Get all child segments of a parent</span>
+</span><span data-line="2"><span class="n">children</span> <span class="o">=</span> <span class="k">await</span> <span class="n">storage</span><span class="o">.</span><span class="n">get_child_segments</span><span class="p">(</span><span class="n">parent_segment</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">children</span><span class="p">:</span>
+</span><span data-line="5">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Child segment: </span><span class="si">{</span><span class="n">child</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="caching-for-performance">
+<h3>Caching for Performance<a class="headerlink" href="#caching-for-performance" title="Link to this heading">¶</a></h3>
+<p>The <code class="xref py py-class docutils literal notranslate"><span class="pre">SegmentEvaluator</span></code> supports an
+optional segment cache to avoid repeated storage lookups during evaluation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">uuid</span><span class="w"> </span><span class="kn">import</span> <span class="n">UUID</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models.segment</span><span class="w"> </span><span class="kn">import</span> <span class="n">Segment</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Create a cache dict</span>
+</span><span data-line="5"><span class="n">segment_cache</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">UUID</span><span class="p">,</span> <span class="n">Segment</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># The cache is populated during evaluation</span>
+</span><span data-line="8"><span class="k">await</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">is_in_segment</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">segment_id</span><span class="o">=</span><span class="n">segment</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">segment_cache</span><span class="o">=</span><span class="n">segment_cache</span><span class="p">,</span>  <span class="c1"># Pass the cache</span>
+</span><span data-line="13"><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="c1"># Subsequent evaluations will use cached segments</span>
+</span><span data-line="16"><span class="k">await</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">is_in_segment</span><span class="p">(</span>
+</span><span data-line="17">    <span class="n">segment_id</span><span class="o">=</span><span class="n">another_segment</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="18">    <span class="n">context</span><span class="o">=</span><span class="n">context</span><span class="p">,</span>
+</span><span data-line="19">    <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="20">    <span class="n">segment_cache</span><span class="o">=</span><span class="n">segment_cache</span><span class="p">,</span>  <span class="c1"># Same cache</span>
+</span><span data-line="21"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>The cache is particularly useful when:</p>
+<ul class="simple">
+<li><p>Evaluating multiple flags that reference the same segments</p></li>
+<li><p>Evaluating nested segments (parent segments are cached)</p></li>
+<li><p>Processing batch evaluations for multiple users</p></li>
+</ul>
+</section>
+</section>
+<section id="api-reference">
+<h2>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h2>
+<p>For complete API documentation, see:</p>
+<ul class="simple">
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Segment</span></code> - Segment model</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">SegmentEvaluator</span></code> - Segment evaluation engine</p></li>
+<li><p><code class="xref py py-class docutils literal notranslate"><span class="pre">CircularSegmentReferenceError</span></code> - Error for circular references</p></li>
+<li><p><a class="reference internal" href="../api/types.html#litestar_flags.types.RuleOperator" title="litestar_flags.types.RuleOperator"><code class="xref py py-class docutils literal notranslate"><span class="pre">RuleOperator</span></code></a> - Includes <code class="docutils literal notranslate"><span class="pre">IN_SEGMENT</span></code> and <code class="docutils literal notranslate"><span class="pre">NOT_IN_SEGMENT</span></code></p></li>
+</ul>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../guides/user-targeting.html"><span class="doc">User Targeting</span></a> - User targeting fundamentals</p></li>
+<li><p><a class="reference internal" href="../guides/percentage-rollouts.html"><span class="doc">Percentage Rollouts</span></a> - Combining segments with percentage rollouts</p></li>
+<li><p><a class="reference internal" href="../api/models.html"><span class="doc">Models</span></a> - Complete model reference</p></li>
+<li><p><a class="reference internal" href="../api/storage.html"><span class="doc">Storage Backends</span></a> - Storage backend operations</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2025, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

@@ -24,7 +24,6 @@ from __future__ import annotations
 
 import asyncio
 import json
-import logging
 import time
 from collections import OrderedDict
 from dataclasses import dataclass
@@ -39,8 +38,6 @@ __all__ = [
     "LRUCache",
     "RedisCache",
 ]
-
-logger = logging.getLogger(__name__)
 
 
 @dataclass(slots=True)
@@ -382,22 +379,19 @@ class RedisCache:
         Returns:
             The cached value if found, None otherwise.
 
-        """
-        try:
-            data = await self._redis.get(self._make_key(key))
-            if data is None:
-                self._misses += 1
-                return None
+        Raises:
+            redis.RedisError: If the Redis operation fails.
 
-            self._hits += 1
-            # Handle both string and bytes responses
-            if isinstance(data, bytes):
-                data = data.decode("utf-8")
-            return json.loads(data)
-        except Exception as e:
-            logger.warning(f"Redis cache get error for key '{key}': {e}")
+        """
+        data = await self._redis.get(self._make_key(key))
+        if data is None:
             self._misses += 1
             return None
+
+        self._hits += 1
+        if isinstance(data, bytes):
+            data = data.decode("utf-8")
+        return json.loads(data)
 
     async def set(self, key: str, value: Any, ttl: int | None = None) -> None:
         """Store a value in the cache.
@@ -407,17 +401,17 @@ class RedisCache:
             value: The value to store (must be JSON serializable).
             ttl: Time-to-live in seconds. If None, uses the default TTL.
 
-        """
-        try:
-            effective_ttl = ttl if ttl is not None else self._default_ttl
-            serialized = json.dumps(value)
+        Raises:
+            redis.RedisError: If the Redis operation fails.
 
-            if effective_ttl is not None:
-                await self._redis.setex(self._make_key(key), effective_ttl, serialized)
-            else:
-                await self._redis.set(self._make_key(key), serialized)
-        except Exception as e:
-            logger.warning(f"Redis cache set error for key '{key}': {e}")
+        """
+        effective_ttl = ttl if ttl is not None else self._default_ttl
+        serialized = json.dumps(value)
+
+        if effective_ttl is not None:
+            await self._redis.setex(self._make_key(key), effective_ttl, serialized)
+        else:
+            await self._redis.set(self._make_key(key), serialized)
 
     async def delete(self, key: str) -> None:
         """Remove a value from the cache.
@@ -425,11 +419,11 @@ class RedisCache:
         Args:
             key: The cache key to remove.
 
+        Raises:
+            redis.RedisError: If the Redis operation fails.
+
         """
-        try:
-            await self._redis.delete(self._make_key(key))
-        except Exception as e:
-            logger.warning(f"Redis cache delete error for key '{key}': {e}")
+        await self._redis.delete(self._make_key(key))
 
     async def clear(self) -> None:
         """Remove all values with the cache prefix.
@@ -438,18 +432,18 @@ class RedisCache:
             This method uses SCAN to find and delete keys, which may
             be slow for large datasets. Use with caution in production.
 
+        Raises:
+            redis.RedisError: If the Redis operation fails.
+
         """
-        try:
-            cursor = 0
-            pattern = f"{self._prefix}*"
-            while True:
-                cursor, keys = await self._redis.scan(cursor=cursor, match=pattern, count=100)
-                if keys:
-                    await self._redis.delete(*keys)
-                if cursor == 0:
-                    break
-        except Exception as e:
-            logger.warning(f"Redis cache clear error: {e}")
+        cursor = 0
+        pattern = f"{self._prefix}*"
+        while True:
+            cursor, keys = await self._redis.scan(cursor=cursor, match=pattern, count=100)
+            if keys:
+                await self._redis.delete(*keys)
+            if cursor == 0:
+                break
 
     def stats(self) -> CacheStats:
         """Get cache statistics.
@@ -474,18 +468,16 @@ class RedisCache:
         Returns:
             Dictionary containing Redis memory and keyspace statistics.
 
+        Raises:
+            redis.RedisError: If the Redis INFO command fails.
+
         """
-        try:
-            info = await self._redis.info("memory")
-            keyspace_info = await self._redis.info("keyspace")
-            return {
-                "used_memory": info.get("used_memory", 0),
-                "used_memory_human": info.get("used_memory_human", "0B"),
-                "keyspace": keyspace_info,
-            }
-        except Exception as e:
-            logger.warning(f"Redis stats error: {e}")
-            return {}
+        info = await self._redis.info()
+        return {
+            "used_memory": info.get("used_memory", 0),
+            "used_memory_human": info.get("used_memory_human", "0B"),
+            "keyspace": {k: v for k, v in info.items() if k.startswith("db")},
+        }
 
     async def delete_pattern(self, pattern: str) -> int:
         """Delete all keys matching a pattern.
@@ -496,17 +488,17 @@ class RedisCache:
         Returns:
             The number of keys deleted.
 
+        Raises:
+            redis.RedisError: If the Redis operation fails.
+
         """
         deleted = 0
-        try:
-            cursor = 0
-            full_pattern = f"{self._prefix}{pattern}"
-            while True:
-                cursor, keys = await self._redis.scan(cursor=cursor, match=full_pattern, count=100)
-                if keys:
-                    deleted += await self._redis.delete(*keys)
-                if cursor == 0:
-                    break
-        except Exception as e:
-            logger.warning(f"Redis delete pattern error: {e}")
+        cursor = 0
+        full_pattern = f"{self._prefix}{pattern}"
+        while True:
+            cursor, keys = await self._redis.scan(cursor=cursor, match=full_pattern, count=100)
+            if keys:
+                deleted += await self._redis.delete(*keys)
+            if cursor == 0:
+                break
         return deleted

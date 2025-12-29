@@ -97,6 +97,7 @@ from litestar_flags.security import (
     sanitize_log_context,
     validate_flag_key,
 )
+from litestar_flags.segment_evaluator import CircularSegmentReferenceError, SegmentEvaluator
 from litestar_flags.storage import MemoryStorageBackend, ResilientStorageBackend, with_resilience
 from litestar_flags.time_rules import TimeBasedRuleEvaluator
 from litestar_flags.types import (
@@ -119,6 +120,7 @@ __all__ = [
     "CircuitBreaker",
     "CircuitBreakerError",
     "CircuitState",
+    "CircularSegmentReferenceError",
     "ConfigurationError",
     "ErrorCode",
     "EvaluationContext",
@@ -150,6 +152,7 @@ __all__ = [
     "RuleOperator",
     "ScheduleProcessor",
     "ScheduleProcessorTask",
+    "SegmentEvaluator",
     "StorageBackend",
     "StorageError",
     "TimeBasedRuleEvaluator",
@@ -193,6 +196,7 @@ try:
         FlagOverride,
         FlagRule,
         FlagVariant,
+        Segment,
     )
     from litestar_flags.models.schedule import (  # noqa: F401
         RolloutPhase,
@@ -208,6 +212,7 @@ try:
             "FlagVariant",
             "RolloutPhase",
             "ScheduledFlagChange",
+            "Segment",
             "TimeSchedule",
         ]
     )

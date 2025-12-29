@@ -138,82 +138,82 @@ class TestConditionEvaluation:
     def engine(self) -> EvaluationEngine:
         return EvaluationEngine()
 
-    def test_equals_operator(self, engine: EvaluationEngine) -> None:
+    async def test_equals_operator(self, engine: EvaluationEngine) -> None:
         """Test EQUALS operator."""
         conditions = [{"attribute": "plan", "operator": "eq", "value": "premium"}]
         context = EvaluationContext(attributes={"plan": "premium"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"plan": "free"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_not_equals_operator(self, engine: EvaluationEngine) -> None:
+    async def test_not_equals_operator(self, engine: EvaluationEngine) -> None:
         """Test NOT_EQUALS operator."""
         conditions = [{"attribute": "plan", "operator": "ne", "value": "free"}]
         context = EvaluationContext(attributes={"plan": "premium"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
-    def test_in_operator(self, engine: EvaluationEngine) -> None:
+    async def test_in_operator(self, engine: EvaluationEngine) -> None:
         """Test IN operator."""
         conditions = [{"attribute": "country", "operator": "in", "value": ["US", "CA", "UK"]}]
 
         context = EvaluationContext(attributes={"country": "US"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"country": "DE"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_not_in_operator(self, engine: EvaluationEngine) -> None:
+    async def test_not_in_operator(self, engine: EvaluationEngine) -> None:
         """Test NOT_IN operator."""
         conditions = [{"attribute": "country", "operator": "not_in", "value": ["CN", "RU"]}]
 
         context = EvaluationContext(attributes={"country": "US"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"country": "CN"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_greater_than_operator(self, engine: EvaluationEngine) -> None:
+    async def test_greater_than_operator(self, engine: EvaluationEngine) -> None:
         """Test GREATER_THAN operator."""
         conditions = [{"attribute": "age", "operator": "gt", "value": 18}]
 
         context = EvaluationContext(attributes={"age": 21})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"age": 18})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_contains_operator(self, engine: EvaluationEngine) -> None:
+    async def test_contains_operator(self, engine: EvaluationEngine) -> None:
         """Test CONTAINS operator."""
         conditions = [{"attribute": "email", "operator": "contains", "value": "@company.com"}]
 
         context = EvaluationContext(attributes={"email": "user@company.com"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"email": "user@other.com"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_starts_with_operator(self, engine: EvaluationEngine) -> None:
+    async def test_starts_with_operator(self, engine: EvaluationEngine) -> None:
         """Test STARTS_WITH operator."""
         conditions = [{"attribute": "email", "operator": "starts_with", "value": "admin"}]
 
         context = EvaluationContext(attributes={"email": "admin@company.com"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"email": "user@company.com"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_matches_operator(self, engine: EvaluationEngine) -> None:
+    async def test_matches_operator(self, engine: EvaluationEngine) -> None:
         """Test MATCHES (regex) operator."""
         conditions = [{"attribute": "email", "operator": "matches", "value": r".*@company\.com$"}]
 
         context = EvaluationContext(attributes={"email": "user@company.com"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"email": "user@other.com"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_multiple_conditions_and_logic(self, engine: EvaluationEngine) -> None:
+    async def test_multiple_conditions_and_logic(self, engine: EvaluationEngine) -> None:
         """Test that multiple conditions use AND logic."""
         conditions = [
             {"attribute": "plan", "operator": "eq", "value": "premium"},
@@ -222,17 +222,17 @@ class TestConditionEvaluation:
 
         # Both match
         context = EvaluationContext(attributes={"plan": "premium", "country": "US"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         # Only one matches
         context = EvaluationContext(attributes={"plan": "premium", "country": "DE"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_empty_conditions_match_all(self, engine: EvaluationEngine) -> None:
+    async def test_empty_conditions_match_all(self, engine: EvaluationEngine) -> None:
         """Test that empty conditions match all contexts."""
         conditions: list[dict] = []
         context = EvaluationContext()
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
 
 class TestPercentageRollout:
@@ -504,113 +504,113 @@ class TestSemverOperators:
     def engine(self) -> EvaluationEngine:
         return EvaluationEngine()
 
-    def test_semver_eq_exact_match(self, engine: EvaluationEngine) -> None:
+    async def test_semver_eq_exact_match(self, engine: EvaluationEngine) -> None:
         """Test SEMVER_EQ with exact version match."""
         conditions = [{"attribute": "app_version", "operator": "semver_eq", "value": "1.2.3"}]
 
         context = EvaluationContext(app_version="1.2.3")
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(app_version="1.2.4")
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_eq_with_different_lengths(self, engine: EvaluationEngine) -> None:
+    async def test_semver_eq_with_different_lengths(self, engine: EvaluationEngine) -> None:
         """Test SEMVER_EQ when versions have different segment counts."""
         conditions = [{"attribute": "version", "operator": "semver_eq", "value": "1.0"}]
 
         # 1.0 should equal 1.0.0 (padded with zeros)
         context = EvaluationContext(attributes={"version": "1.0.0"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"version": "1.0.1"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_gt_basic(self, engine: EvaluationEngine) -> None:
+    async def test_semver_gt_basic(self, engine: EvaluationEngine) -> None:
         """Test SEMVER_GT basic comparisons."""
         conditions = [{"attribute": "version", "operator": "semver_gt", "value": "2.0.0"}]
 
         # Greater versions
         context = EvaluationContext(attributes={"version": "2.0.1"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"version": "2.1.0"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"version": "3.0.0"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         # Equal version (not greater)
         context = EvaluationContext(attributes={"version": "2.0.0"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # Lesser versions
         context = EvaluationContext(attributes={"version": "1.9.9"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_lt_basic(self, engine: EvaluationEngine) -> None:
+    async def test_semver_lt_basic(self, engine: EvaluationEngine) -> None:
         """Test SEMVER_LT basic comparisons."""
         conditions = [{"attribute": "version", "operator": "semver_lt", "value": "2.0.0"}]
 
         # Lesser versions
         context = EvaluationContext(attributes={"version": "1.9.9"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"version": "1.0.0"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         # Equal version (not less)
         context = EvaluationContext(attributes={"version": "2.0.0"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # Greater versions
         context = EvaluationContext(attributes={"version": "2.0.1"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_with_none_value(self, engine: EvaluationEngine) -> None:
+    async def test_semver_with_none_value(self, engine: EvaluationEngine) -> None:
         """Test semver comparison when actual value is None."""
         conditions = [{"attribute": "version", "operator": "semver_eq", "value": "1.0.0"}]
 
         context = EvaluationContext(attributes={"version": None})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         context = EvaluationContext(attributes={})  # Missing attribute
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_with_none_expected(self, engine: EvaluationEngine) -> None:
+    async def test_semver_with_none_expected(self, engine: EvaluationEngine) -> None:
         """Test semver comparison when expected value is None."""
         conditions = [{"attribute": "version", "operator": "semver_eq", "value": None}]
 
         context = EvaluationContext(attributes={"version": "1.0.0"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_with_invalid_format(self, engine: EvaluationEngine) -> None:
+    async def test_semver_with_invalid_format(self, engine: EvaluationEngine) -> None:
         """Test semver comparison with invalid version format."""
         conditions = [{"attribute": "version", "operator": "semver_eq", "value": "1.0.0"}]
 
         # Non-numeric version parts
         context = EvaluationContext(attributes={"version": "1.x.0"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # Empty string
         context = EvaluationContext(attributes={"version": ""})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # Non-string value
         context = EvaluationContext(attributes={"version": 100})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_semver_multi_segment(self, engine: EvaluationEngine) -> None:
+    async def test_semver_multi_segment(self, engine: EvaluationEngine) -> None:
         """Test semver with 4+ segments."""
         conditions = [{"attribute": "version", "operator": "semver_gt", "value": "1.2.3.4"}]
 
         context = EvaluationContext(attributes={"version": "1.2.3.5"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"version": "1.2.3.4"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         context = EvaluationContext(attributes={"version": "1.2.3.3"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
 
 class TestRulePriority:
@@ -1115,66 +1115,66 @@ class TestAdditionalOperators:
     def engine(self) -> EvaluationEngine:
         return EvaluationEngine()
 
-    def test_less_than_operator(self, engine: EvaluationEngine) -> None:
+    async def test_less_than_operator(self, engine: EvaluationEngine) -> None:
         """Test LESS_THAN operator."""
         conditions = [{"attribute": "age", "operator": "lt", "value": 18}]
 
         context = EvaluationContext(attributes={"age": 17})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"age": 18})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         context = EvaluationContext(attributes={"age": 19})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_greater_than_or_equal_operator(self, engine: EvaluationEngine) -> None:
+    async def test_greater_than_or_equal_operator(self, engine: EvaluationEngine) -> None:
         """Test GREATER_THAN_OR_EQUAL operator."""
         conditions = [{"attribute": "age", "operator": "gte", "value": 18}]
 
         context = EvaluationContext(attributes={"age": 18})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"age": 19})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"age": 17})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_less_than_or_equal_operator(self, engine: EvaluationEngine) -> None:
+    async def test_less_than_or_equal_operator(self, engine: EvaluationEngine) -> None:
         """Test LESS_THAN_OR_EQUAL operator."""
         conditions = [{"attribute": "age", "operator": "lte", "value": 18}]
 
         context = EvaluationContext(attributes={"age": 18})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"age": 17})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"age": 19})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_ends_with_operator(self, engine: EvaluationEngine) -> None:
+    async def test_ends_with_operator(self, engine: EvaluationEngine) -> None:
         """Test ENDS_WITH operator."""
         conditions = [{"attribute": "email", "operator": "ends_with", "value": "@company.com"}]
 
         context = EvaluationContext(attributes={"email": "user@company.com"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"email": "user@other.com"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_not_contains_operator(self, engine: EvaluationEngine) -> None:
+    async def test_not_contains_operator(self, engine: EvaluationEngine) -> None:
         """Test NOT_CONTAINS operator."""
         conditions = [{"attribute": "email", "operator": "not_contains", "value": "spam"}]
 
         context = EvaluationContext(attributes={"email": "user@company.com"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"email": "spam@company.com"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_unknown_operator_skipped(self, engine: EvaluationEngine) -> None:
+    async def test_unknown_operator_skipped(self, engine: EvaluationEngine) -> None:
         """Test that unknown operators are skipped (condition continues to next)."""
         conditions = [
             {"attribute": "plan", "operator": "unknown_op", "value": "premium"},
@@ -1183,66 +1183,66 @@ class TestAdditionalOperators:
 
         # Unknown operator is skipped, second condition should still be evaluated
         context = EvaluationContext(attributes={"plan": "premium", "country": "US"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"plan": "premium", "country": "UK"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_operators_with_none_actual_value(self, engine: EvaluationEngine) -> None:
+    async def test_operators_with_none_actual_value(self, engine: EvaluationEngine) -> None:
         """Test operators when actual value is None."""
         # GT with None
         conditions = [{"attribute": "age", "operator": "gt", "value": 18}]
         context = EvaluationContext(attributes={"age": None})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         context = EvaluationContext(attributes={})  # Missing attribute
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # CONTAINS with None
         conditions = [{"attribute": "name", "operator": "contains", "value": "test"}]
         context = EvaluationContext(attributes={"name": None})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # NOT_CONTAINS with None actual (returns True)
         conditions = [{"attribute": "name", "operator": "not_contains", "value": "test"}]
         context = EvaluationContext(attributes={"name": None})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         # STARTS_WITH with None
         conditions = [{"attribute": "name", "operator": "starts_with", "value": "test"}]
         context = EvaluationContext(attributes={"name": None})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # ENDS_WITH with None
         conditions = [{"attribute": "name", "operator": "ends_with", "value": "test"}]
         context = EvaluationContext(attributes={"name": None})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
         # MATCHES with None
         conditions = [{"attribute": "name", "operator": "matches", "value": ".*"}]
         context = EvaluationContext(attributes={"name": None})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_in_operator_with_empty_list(self, engine: EvaluationEngine) -> None:
+    async def test_in_operator_with_empty_list(self, engine: EvaluationEngine) -> None:
         """Test IN operator with empty list."""
         conditions = [{"attribute": "country", "operator": "in", "value": []}]
 
         context = EvaluationContext(attributes={"country": "US"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
-    def test_not_in_operator_with_empty_list(self, engine: EvaluationEngine) -> None:
+    async def test_not_in_operator_with_empty_list(self, engine: EvaluationEngine) -> None:
         """Test NOT_IN operator with empty list."""
         conditions = [{"attribute": "country", "operator": "not_in", "value": []}]
 
         context = EvaluationContext(attributes={"country": "US"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
-    def test_matches_with_invalid_regex(self, engine: EvaluationEngine) -> None:
+    async def test_matches_with_invalid_regex(self, engine: EvaluationEngine) -> None:
         """Test MATCHES operator with invalid regex pattern."""
         conditions = [{"attribute": "name", "operator": "matches", "value": "[invalid(regex"}]
 
         context = EvaluationContext(attributes={"name": "test"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
 
 class TestRolloutPercentageWithRules:

@@ -520,10 +520,10 @@ class TestDateOperators:
         conditions = [{"attribute": "signup_date", "operator": "date_after", "value": "2024-01-01T00:00:00Z"}]
 
         context = EvaluationContext(attributes={"signup_date": "2024-06-15T00:00:00Z"})
-        assert engine._matches_conditions(conditions, context) is True
+        assert await engine._matches_conditions(conditions, context) is True
 
         context = EvaluationContext(attributes={"signup_date": "2023-06-15T00:00:00Z"})
-        assert engine._matches_conditions(conditions, context) is False
+        assert await engine._matches_conditions(conditions, context) is False
 
 
 # =============================================================================

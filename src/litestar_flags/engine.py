@@ -6,8 +6,10 @@ import re
 import struct
 from datetime import UTC, datetime, time, timezone
 from typing import TYPE_CHECKING, Any
+from uuid import UUID
 
 from litestar_flags.results import EvaluationDetails
+from litestar_flags.segment_evaluator import CircularSegmentReferenceError, SegmentEvaluator
 from litestar_flags.types import ErrorCode, EvaluationReason, FlagStatus, FlagType, RuleOperator
 
 if TYPE_CHECKING:
@@ -15,6 +17,7 @@ if TYPE_CHECKING:
     from litestar_flags.models.flag import FeatureFlag
     from litestar_flags.models.override import FlagOverride
     from litestar_flags.models.rule import FlagRule
+    from litestar_flags.models.segment import Segment
     from litestar_flags.models.variant import FlagVariant
     from litestar_flags.protocols import StorageBackend
     from litestar_flags.time_rules import TimeBasedRuleEvaluator
@@ -39,21 +42,26 @@ class EvaluationEngine:
 
     Attributes:
         time_evaluator: Optional time-based rule evaluator for schedule support.
+        segment_evaluator: Optional segment evaluator for segment-based targeting.
 
     """
 
     def __init__(
         self,
         time_evaluator: TimeBasedRuleEvaluator | None = None,
+        segment_evaluator: SegmentEvaluator | None = None,
     ) -> None:
         """Initialize the evaluation engine.
 
         Args:
             time_evaluator: Optional time-based rule evaluator. If not provided,
                 time schedule evaluation will be skipped.
+            segment_evaluator: Optional segment evaluator. If not provided,
+                a default SegmentEvaluator will be created when needed.
 
         """
         self._time_evaluator = time_evaluator
+        self._segment_evaluator = segment_evaluator
 
     @property
     def time_evaluator(self) -> TimeBasedRuleEvaluator | None:
@@ -65,12 +73,34 @@ class EvaluationEngine:
         """Set the time-based rule evaluator."""
         self._time_evaluator = evaluator
 
+    @property
+    def segment_evaluator(self) -> SegmentEvaluator | None:
+        """Get the segment evaluator."""
+        return self._segment_evaluator
+
+    @segment_evaluator.setter
+    def segment_evaluator(self, evaluator: SegmentEvaluator | None) -> None:
+        """Set the segment evaluator."""
+        self._segment_evaluator = evaluator
+
+    def _get_segment_evaluator(self) -> SegmentEvaluator:
+        """Get or create a segment evaluator.
+
+        Returns:
+            The configured segment evaluator or a new default instance.
+
+        """
+        if self._segment_evaluator is None:
+            self._segment_evaluator = SegmentEvaluator()
+        return self._segment_evaluator
+
     async def evaluate(
         self,
         flag: FeatureFlag,
         context: EvaluationContext,
         storage: StorageBackend,
         time_evaluator: TimeBasedRuleEvaluator | None = None,
+        segment_cache: dict[UUID, Segment] | None = None,
     ) -> EvaluationDetails[Any]:
         """Evaluate a flag against the provided context.
 
@@ -80,6 +110,8 @@ class EvaluationEngine:
             storage: The storage backend for fetching overrides.
             time_evaluator: Optional time evaluator override. If not provided,
                 uses the instance's time_evaluator.
+            segment_cache: Optional cache for segment lookups. If provided,
+                segments will be cached here for reuse across evaluations.
 
         Returns:
             EvaluationDetails with the result and metadata.
@@ -111,8 +143,8 @@ class EvaluationEngine:
             if time_result is not None:
                 return time_result
 
-        # 4. Evaluate rules
-        rule_result = self._evaluate_rules(flag, context)
+        # 4. Evaluate rules (now async to support segment evaluation)
+        rule_result = await self._evaluate_rules(flag, context, storage, segment_cache)
         if rule_result is not None:
             return rule_result
 
@@ -239,17 +271,30 @@ class EvaluationEngine:
             reason=EvaluationReason.OVERRIDE,
         )
 
-    def _evaluate_rules(
+    async def _evaluate_rules(
         self,
         flag: FeatureFlag,
         context: EvaluationContext,
+        storage: StorageBackend,
+        segment_cache: dict[UUID, Segment] | None = None,
     ) -> EvaluationDetails[Any] | None:
-        """Evaluate targeting rules in priority order."""
+        """Evaluate targeting rules in priority order.
+
+        Args:
+            flag: The feature flag to evaluate.
+            context: The evaluation context.
+            storage: The storage backend for segment lookups.
+            segment_cache: Optional cache for segment lookups.
+
+        Returns:
+            EvaluationDetails if a rule matches, None otherwise.
+
+        """
         for rule in sorted(flag.rules, key=lambda r: r.priority):
             if not rule.enabled:
                 continue
 
-            if self._matches_conditions(rule.conditions, context):
+            if await self._matches_conditions(rule.conditions, context, storage, segment_cache):
                 # Check percentage rollout
                 if rule.rollout_percentage is not None:
                     if not self._in_rollout(
@@ -283,16 +328,20 @@ class EvaluationEngine:
             variant=rule.name,
         )
 
-    def _matches_conditions(
+    async def _matches_conditions(
         self,
         conditions: list[dict[str, Any]],
         context: EvaluationContext,
+        storage: StorageBackend | None = None,
+        segment_cache: dict[UUID, Segment] | None = None,
     ) -> bool:
         """Check if all conditions match (AND logic).
 
         Args:
             conditions: List of condition dictionaries.
             context: The evaluation context.
+            storage: Optional storage backend for segment lookups.
+            segment_cache: Optional cache for segment lookups.
 
         Returns:
             True if all conditions match, False otherwise.
@@ -316,12 +365,95 @@ class EvaluationEngine:
                 # Unknown operator, skip this condition
                 continue
 
+            # Handle segment operators separately (they are async)
+            if operator in (RuleOperator.IN_SEGMENT, RuleOperator.NOT_IN_SEGMENT):
+                if storage is None or expected is None:
+                    # Cannot evaluate segment condition without storage or segment ID
+                    return False
+                try:
+                    segment_result = await self._evaluate_segment_condition(
+                        operator=operator,
+                        segment_id=str(expected),
+                        context=context,
+                        storage=storage,
+                        segment_cache=segment_cache,
+                    )
+                    if not segment_result:
+                        return False
+                except CircularSegmentReferenceError:
+                    # Circular reference detected, condition fails
+                    return False
+                continue
+
             actual = context.get(attribute)
 
             if not self._evaluate_condition(actual, operator, expected):
                 return False
 
         return True
+
+    async def _evaluate_segment_condition(
+        self,
+        operator: RuleOperator,
+        segment_id: str,
+        context: EvaluationContext,
+        storage: StorageBackend,
+        segment_cache: dict[UUID, Segment] | None = None,
+    ) -> bool:
+        """Evaluate a segment-based condition.
+
+        The segment_id can be either a segment name or a UUID string.
+        This method first tries to parse it as a UUID; if that fails,
+        it looks up the segment by name.
+
+        Args:
+            operator: The segment operator (IN_SEGMENT or NOT_IN_SEGMENT).
+            segment_id: The segment name or UUID string from the condition value.
+            context: The evaluation context.
+            storage: The storage backend for segment lookups.
+            segment_cache: Optional cache for segment lookups.
+
+        Returns:
+            True if the segment condition matches, False otherwise.
+
+        Raises:
+            CircularSegmentReferenceError: If a circular segment reference is detected.
+
+        """
+        evaluator = self._get_segment_evaluator()
+
+        # Try to parse as UUID first
+        segment_uuid: UUID | None = None
+        try:
+            segment_uuid = UUID(segment_id)
+        except (ValueError, TypeError):
+            # Not a valid UUID, treat as segment name
+            pass
+
+        if segment_uuid is None:
+            # Look up segment by name
+            segment = await storage.get_segment_by_name(segment_id)
+            if segment is None:
+                # Segment not found by name, condition fails for IN_SEGMENT
+                # and succeeds for NOT_IN_SEGMENT
+                return operator == RuleOperator.NOT_IN_SEGMENT
+            segment_uuid = segment.id
+            # Cache the segment if cache is provided
+            if segment_cache is not None:
+                segment_cache[segment_uuid] = segment
+
+        # Evaluate segment membership
+        is_in_segment = await evaluator.is_in_segment(
+            segment_id=segment_uuid,
+            context=context,
+            storage=storage,
+            segment_cache=segment_cache,
+        )
+
+        if operator == RuleOperator.IN_SEGMENT:
+            return is_in_segment
+        else:  # NOT_IN_SEGMENT
+            return not is_in_segment
 
     def _evaluate_condition(
         self,
@@ -378,6 +510,10 @@ class EvaluationEngine:
                 return self._compare_date_before(actual, expected)
             case RuleOperator.TIME_WINDOW:
                 return self._check_time_window(actual, expected)
+            case RuleOperator.IN_SEGMENT | RuleOperator.NOT_IN_SEGMENT:
+                # Segment operators are handled in _matches_conditions
+                # They should not reach here
+                return False
             case _:
                 return False
 

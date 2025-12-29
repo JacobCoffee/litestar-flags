@@ -13,6 +13,7 @@ if TYPE_CHECKING:
     from litestar_flags.models.flag import FeatureFlag
     from litestar_flags.models.override import FlagOverride
     from litestar_flags.models.schedule import RolloutPhase, ScheduledFlagChange, TimeSchedule
+    from litestar_flags.models.segment import Segment
 
 __all__ = ["MemoryStorageBackend"]
 
@@ -38,6 +39,8 @@ class MemoryStorageBackend:
         self._scheduled_changes: dict[UUID, ScheduledFlagChange] = {}
         self._time_schedules: dict[UUID, TimeSchedule] = {}
         self._rollout_phases: dict[UUID, RolloutPhase] = {}
+        self._segments: dict[UUID, Segment] = {}
+        self._segments_by_name: dict[str, Segment] = {}
 
     def _override_key(self, flag_id: UUID, entity_type: str, entity_id: str) -> str:
         """Generate a unique key for an override."""
@@ -270,6 +273,8 @@ class MemoryStorageBackend:
         self._scheduled_changes.clear()
         self._time_schedules.clear()
         self._rollout_phases.clear()
+        self._segments.clear()
+        self._segments_by_name.clear()
 
     def __len__(self) -> int:
         """Return the number of flags stored."""
@@ -443,3 +448,121 @@ class MemoryStorageBackend:
 
         self._rollout_phases[phase.id] = phase
         return phase
+
+    # Segment methods
+
+    async def get_segment(self, segment_id: UUID) -> Segment | None:
+        """Retrieve a segment by ID.
+
+        Args:
+            segment_id: The UUID of the segment.
+
+        Returns:
+            The Segment if found, None otherwise.
+
+        """
+        return self._segments.get(segment_id)
+
+    async def get_segment_by_name(self, name: str) -> Segment | None:
+        """Retrieve a segment by name.
+
+        Args:
+            name: The unique segment name.
+
+        Returns:
+            The Segment if found, None otherwise.
+
+        """
+        return self._segments_by_name.get(name)
+
+    async def get_all_segments(self) -> list[Segment]:
+        """Retrieve all segments.
+
+        Returns:
+            List of all Segment objects.
+
+        """
+        return list(self._segments.values())
+
+    async def get_child_segments(self, parent_id: UUID) -> list[Segment]:
+        """Retrieve all child segments of a parent segment.
+
+        Args:
+            parent_id: The UUID of the parent segment.
+
+        Returns:
+            List of child Segment objects.
+
+        """
+        return [segment for segment in self._segments.values() if segment.parent_segment_id == parent_id]
+
+    async def create_segment(self, segment: Segment) -> Segment:
+        """Create a new segment.
+
+        Args:
+            segment: The segment to create.
+
+        Returns:
+            The created segment.
+
+        Raises:
+            ValueError: If a segment with the same name already exists.
+
+        """
+        if segment.name in self._segments_by_name:
+            raise ValueError(f"Segment with name '{segment.name}' already exists")
+
+        now = datetime.now(UTC)
+        if segment.created_at is None:
+            segment.created_at = now  # type: ignore[misc]
+        if segment.updated_at is None:
+            segment.updated_at = now  # type: ignore[misc]
+
+        self._segments[segment.id] = segment
+        self._segments_by_name[segment.name] = segment
+        return segment
+
+    async def update_segment(self, segment: Segment) -> Segment:
+        """Update an existing segment.
+
+        Args:
+            segment: The segment with updated values.
+
+        Returns:
+            The updated segment.
+
+        Raises:
+            ValueError: If the segment does not exist or name conflict occurs.
+
+        """
+        if segment.id not in self._segments:
+            raise ValueError(f"Segment with id '{segment.id}' not found")
+
+        old_segment = self._segments[segment.id]
+
+        # Handle name change
+        if old_segment.name != segment.name:
+            if segment.name in self._segments_by_name:
+                raise ValueError(f"Segment with name '{segment.name}' already exists")
+            del self._segments_by_name[old_segment.name]
+            self._segments_by_name[segment.name] = segment
+
+        segment.updated_at = datetime.now(UTC)  # type: ignore[misc]
+        self._segments[segment.id] = segment
+        return segment
+
+    async def delete_segment(self, segment_id: UUID) -> bool:
+        """Delete a segment by ID.
+
+        Args:
+            segment_id: The UUID of the segment to delete.
+
+        Returns:
+            True if the segment was deleted, False if not found.
+
+        """
+        segment = self._segments.pop(segment_id, None)
+        if segment is not None:
+            self._segments_by_name.pop(segment.name, None)
+            return True
+        return False

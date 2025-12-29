@@ -12,7 +12,7 @@ __all__ = ["EvaluationDetails"]
 T = TypeVar("T")
 
 
-@dataclass
+@dataclass(slots=True)
 class EvaluationDetails(Generic[T]):
     """Detailed result of flag evaluation.
 

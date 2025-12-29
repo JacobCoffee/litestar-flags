@@ -168,7 +168,7 @@ else:
     from dataclasses import dataclass, field
     from uuid import uuid4
 
-    @dataclass
+    @dataclass(slots=True)
     class ScheduledFlagChange:  # type: ignore[no-redef]
         """Scheduled flag change model (dataclass fallback)."""
 
@@ -188,7 +188,7 @@ else:
         def __repr__(self) -> str:
             return f"<ScheduledFlagChange(type={self.change_type.value!r}, scheduled_at={self.scheduled_at!r})>"
 
-    @dataclass
+    @dataclass(slots=True)
     class TimeSchedule:  # type: ignore[no-redef]
         """Time schedule model (dataclass fallback)."""
 
@@ -212,7 +212,7 @@ else:
         def __repr__(self) -> str:
             return f"<TimeSchedule(name={self.name!r}, type={self.recurrence_type.value!r})>"
 
-    @dataclass
+    @dataclass(slots=True)
     class RolloutPhase:  # type: ignore[no-redef]
         """Rollout phase model (dataclass fallback)."""
 

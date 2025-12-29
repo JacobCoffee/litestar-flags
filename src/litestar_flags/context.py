@@ -2,14 +2,14 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import UTC, datetime
 from typing import Any
 
 __all__ = ["EvaluationContext"]
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class EvaluationContext:
     """Immutable context for flag evaluation.
 
@@ -107,19 +107,7 @@ class EvaluationContext:
             A new EvaluationContext with the updated targeting key.
 
         """
-        return EvaluationContext(
-            targeting_key=targeting_key,
-            user_id=self.user_id,
-            organization_id=self.organization_id,
-            tenant_id=self.tenant_id,
-            environment=self.environment,
-            app_version=self.app_version,
-            attributes=self.attributes,
-            ip_address=self.ip_address,
-            user_agent=self.user_agent,
-            country=self.country,
-            timestamp=self.timestamp,
-        )
+        return replace(self, targeting_key=targeting_key)
 
     def with_attributes(self, **kwargs: Any) -> EvaluationContext:
         """Create a new context with additional attributes.
@@ -131,17 +119,4 @@ class EvaluationContext:
             A new EvaluationContext with the additional attributes.
 
         """
-        merged_attrs = {**self.attributes, **kwargs}
-        return EvaluationContext(
-            targeting_key=self.targeting_key,
-            user_id=self.user_id,
-            organization_id=self.organization_id,
-            tenant_id=self.tenant_id,
-            environment=self.environment,
-            app_version=self.app_version,
-            attributes=merged_attrs,
-            ip_address=self.ip_address,
-            user_agent=self.user_agent,
-            country=self.country,
-            timestamp=self.timestamp,
-        )
+        return replace(self, attributes={**self.attributes, **kwargs})

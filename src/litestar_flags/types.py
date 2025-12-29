@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from enum import Enum
+from enum import StrEnum
 
 __all__ = [
     "ChangeType",
@@ -15,7 +15,7 @@ __all__ = [
 ]
 
 
-class FlagType(str, Enum):
+class FlagType(StrEnum):
     """Types of feature flags."""
 
     BOOLEAN = "boolean"
@@ -24,7 +24,7 @@ class FlagType(str, Enum):
     JSON = "json"
 
 
-class FlagStatus(str, Enum):
+class FlagStatus(StrEnum):
     """Flag lifecycle status."""
 
     ACTIVE = "active"
@@ -32,7 +32,7 @@ class FlagStatus(str, Enum):
     ARCHIVED = "archived"
 
 
-class RuleOperator(str, Enum):
+class RuleOperator(StrEnum):
     """Operators for rule conditions."""
 
     EQUALS = "eq"
@@ -60,7 +60,7 @@ class RuleOperator(str, Enum):
     TIME_WINDOW = "time_window"
 
 
-class RecurrenceType(str, Enum):
+class RecurrenceType(StrEnum):
     """Types of recurrence for time schedules."""
 
     DAILY = "daily"
@@ -69,7 +69,7 @@ class RecurrenceType(str, Enum):
     CRON = "cron"
 
 
-class ChangeType(str, Enum):
+class ChangeType(StrEnum):
     """Types of scheduled flag changes."""
 
     ENABLE = "enable"
@@ -78,7 +78,7 @@ class ChangeType(str, Enum):
     UPDATE_ROLLOUT = "update_rollout"
 
 
-class EvaluationReason(str, Enum):
+class EvaluationReason(StrEnum):
     """Reason for evaluation result."""
 
     DEFAULT = "DEFAULT"
@@ -90,7 +90,7 @@ class EvaluationReason(str, Enum):
     ERROR = "ERROR"
 
 
-class ErrorCode(str, Enum):
+class ErrorCode(StrEnum):
     """Error codes for failed evaluations."""
 
     FLAG_NOT_FOUND = "FLAG_NOT_FOUND"

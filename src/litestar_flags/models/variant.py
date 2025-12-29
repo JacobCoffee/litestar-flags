@@ -68,7 +68,7 @@ else:
     from dataclasses import dataclass, field
     from uuid import uuid4
 
-    @dataclass
+    @dataclass(slots=True)
     class FlagVariant:  # type: ignore[no-redef]
         """Flag variant model (dataclass fallback when advanced-alchemy not installed)."""
 

@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 __all__ = ["FeatureFlagsConfig"]
 
 
-@dataclass
+@dataclass(slots=True)
 class FeatureFlagsConfig:
     """Configuration for the feature flags plugin.
 

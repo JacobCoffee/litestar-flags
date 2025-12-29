@@ -118,7 +118,7 @@ class EvaluationEngine:
 
         """
         # Use provided time_evaluator or fall back to instance's evaluator
-        effective_time_evaluator = time_evaluator or self._time_evaluator
+        effective_time_evaluator = time_evaluator or self.time_evaluator
 
         # 1. Check flag status
         if flag.status != FlagStatus.ACTIVE:
@@ -187,11 +187,7 @@ class EvaluationEngine:
 
         """
         # Check if flag has time_schedules attribute
-        if not hasattr(flag, "time_schedules"):
-            return None
-
-        schedules = getattr(flag, "time_schedules", None)
-        if not schedules:
+        if not (schedules := getattr(flag, "time_schedules", None)):
             return None
 
         # Evaluate each schedule
@@ -205,17 +201,12 @@ class EvaluationEngine:
                     variant=f"schedule:{schedule.name}",
                 )
 
-        # No active schedule found - check if we should return disabled
-        # Only if there are schedules defined but none are active
-        if schedules:
-            # If schedules exist but none are active, the flag is disabled by schedule
-            return self._create_result(
-                flag=flag,
-                value=False if flag.flag_type == FlagType.BOOLEAN else None,
-                reason=EvaluationReason.DISABLED,
-            )
-
-        return None
+        # No active schedule found - flag is disabled by schedule
+        return self._create_result(
+            flag=flag,
+            value=False if flag.flag_type == FlagType.BOOLEAN else None,
+            reason=EvaluationReason.DISABLED,
+        )
 
     async def _check_overrides(
         self,
@@ -748,10 +739,8 @@ class EvaluationEngine:
             end_parts = [int(p) for p in end_str.split(":")]
 
             # Pad to 3 parts (hour, minute, second)
-            while len(start_parts) < 3:
-                start_parts.append(0)
-            while len(end_parts) < 3:
-                end_parts.append(0)
+            start_parts += [0] * (3 - len(start_parts))
+            end_parts += [0] * (3 - len(end_parts))
 
             start_time = time(start_parts[0], start_parts[1], start_parts[2])
             end_time = time(end_parts[0], end_parts[1], end_parts[2])

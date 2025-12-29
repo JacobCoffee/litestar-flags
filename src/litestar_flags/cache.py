@@ -23,6 +23,7 @@ Example:
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 import time
 from collections import OrderedDict
@@ -42,7 +43,7 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(slots=True)
 class CacheStats:
     """Statistics for cache performance monitoring.
 
@@ -139,7 +140,7 @@ class CacheProtocol(Protocol):
         ...
 
 
-@dataclass
+@dataclass(slots=True)
 class _CacheEntry:
     """Internal representation of a cached entry with TTL support."""
 
@@ -379,8 +380,6 @@ class RedisCache:
             The cached value if found, None otherwise.
 
         """
-        import json
-
         try:
             data = await self._redis.get(self._make_key(key))
             if data is None:
@@ -406,8 +405,6 @@ class RedisCache:
             ttl: Time-to-live in seconds. If None, uses the default TTL.
 
         """
-        import json
-
         try:
             effective_ttl = ttl if ttl is not None else self._default_ttl
             serialized = json.dumps(value)

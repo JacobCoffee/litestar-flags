@@ -27,7 +27,7 @@ __all__ = [
 logger = logging.getLogger(__name__)
 
 
-@dataclass
+@dataclass(slots=True)
 class RateLimitConfig:
     """Configuration for rate limiting flag evaluations.
 
@@ -93,7 +93,7 @@ class RateLimiter(Protocol):
         ...
 
 
-@dataclass
+@dataclass(slots=True)
 class _TokenBucket:
     """Token bucket for rate limiting.
 

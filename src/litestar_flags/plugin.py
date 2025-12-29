@@ -98,6 +98,18 @@ class FeatureFlagsPlugin(InitPlugin):
             )
             app_config.middleware.append(middleware)
 
+        # Add environment middleware if enabled
+        if self._config.enable_environment_middleware:
+            from litestar_flags.middleware import create_environment_middleware
+
+            env_middleware = create_environment_middleware(
+                default_environment=self._config.default_environment,
+                environment_header=self._config.environment_header,
+                environment_query_param=self._config.environment_query_param,
+                allowed_environments=self._config.allowed_environments,
+            )
+            app_config.middleware.append(env_middleware)
+
         # Add health endpoint if enabled
         if self._config.enable_health_endpoint:
             health_handler = self._create_health_handler()

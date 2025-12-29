@@ -149,6 +149,7 @@ Quick Start
 
    user-guide/openfeature
    user-guide/time-based-rules
+   user-guide/multi-environment
    guides/workflows
 
 

@@ -7,6 +7,8 @@ from typing import TYPE_CHECKING, Protocol, runtime_checkable
 from uuid import UUID
 
 if TYPE_CHECKING:
+    from litestar_flags.models.environment import Environment
+    from litestar_flags.models.environment_flag import EnvironmentFlag
     from litestar_flags.models.flag import FeatureFlag
     from litestar_flags.models.override import FlagOverride
     from litestar_flags.models.schedule import RolloutPhase, ScheduledFlagChange, TimeSchedule
@@ -327,6 +329,175 @@ class StorageBackend(Protocol):
 
         Returns:
             True if the segment was deleted, False if not found.
+
+        """
+        ...
+
+    # Environment methods
+
+    async def get_environment(self, slug: str) -> Environment | None:
+        """Retrieve an environment by slug.
+
+        Args:
+            slug: The unique URL-safe identifier for the environment.
+
+        Returns:
+            The Environment if found, None otherwise.
+
+        """
+        ...
+
+    async def get_environment_by_id(self, env_id: UUID) -> Environment | None:
+        """Retrieve an environment by ID.
+
+        Args:
+            env_id: The UUID of the environment.
+
+        Returns:
+            The Environment if found, None otherwise.
+
+        """
+        ...
+
+    async def get_all_environments(self) -> list[Environment]:
+        """Retrieve all environments.
+
+        Returns:
+            List of all Environment objects.
+
+        """
+        ...
+
+    async def get_child_environments(self, parent_id: UUID) -> list[Environment]:
+        """Retrieve all child environments of a parent environment.
+
+        Args:
+            parent_id: The UUID of the parent environment.
+
+        Returns:
+            List of child Environment objects.
+
+        """
+        ...
+
+    async def create_environment(self, env: Environment) -> Environment:
+        """Create a new environment.
+
+        Args:
+            env: The environment to create.
+
+        Returns:
+            The created environment with any generated fields populated.
+
+        """
+        ...
+
+    async def update_environment(self, env: Environment) -> Environment:
+        """Update an existing environment.
+
+        Args:
+            env: The environment with updated values.
+
+        Returns:
+            The updated environment.
+
+        """
+        ...
+
+    async def delete_environment(self, slug: str) -> bool:
+        """Delete an environment by slug.
+
+        Args:
+            slug: The unique URL-safe identifier of the environment to delete.
+
+        Returns:
+            True if the environment was deleted, False if not found.
+
+        """
+        ...
+
+    # EnvironmentFlag methods
+
+    async def get_environment_flag(
+        self,
+        env_id: UUID,
+        flag_id: UUID,
+    ) -> EnvironmentFlag | None:
+        """Retrieve environment-specific flag configuration.
+
+        Args:
+            env_id: The UUID of the environment.
+            flag_id: The UUID of the feature flag.
+
+        Returns:
+            The EnvironmentFlag if found, None otherwise.
+
+        """
+        ...
+
+    async def get_environment_flags(self, env_id: UUID) -> list[EnvironmentFlag]:
+        """Retrieve all flag configurations for an environment.
+
+        Args:
+            env_id: The UUID of the environment.
+
+        Returns:
+            List of EnvironmentFlag objects for the specified environment.
+
+        """
+        ...
+
+    async def get_flag_environments(self, flag_id: UUID) -> list[EnvironmentFlag]:
+        """Retrieve all environment configurations for a flag.
+
+        Args:
+            flag_id: The UUID of the feature flag.
+
+        Returns:
+            List of EnvironmentFlag objects for the specified flag.
+
+        """
+        ...
+
+    async def create_environment_flag(
+        self,
+        env_flag: EnvironmentFlag,
+    ) -> EnvironmentFlag:
+        """Create a new environment-specific flag configuration.
+
+        Args:
+            env_flag: The environment flag configuration to create.
+
+        Returns:
+            The created EnvironmentFlag with any generated fields populated.
+
+        """
+        ...
+
+    async def update_environment_flag(
+        self,
+        env_flag: EnvironmentFlag,
+    ) -> EnvironmentFlag:
+        """Update an existing environment-specific flag configuration.
+
+        Args:
+            env_flag: The environment flag configuration with updated values.
+
+        Returns:
+            The updated EnvironmentFlag.
+
+        """
+        ...
+
+    async def delete_environment_flag(self, env_id: UUID, flag_id: UUID) -> bool:
+        """Delete an environment-specific flag configuration.
+
+        Args:
+            env_id: The UUID of the environment.
+            flag_id: The UUID of the feature flag.
+
+        Returns:
+            True if the configuration was deleted, False if not found.
 
         """
         ...

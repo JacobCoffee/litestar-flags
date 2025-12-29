@@ -478,6 +478,86 @@ class TestMultiplePluginInstances:
         assert plugin.config.client_dependency_key == "my_flags"
 
 
+class TestEnvironmentConfiguration:
+    """Tests for environment configuration options."""
+
+    def test_default_environment_config(self) -> None:
+        """Test setting default environment in config."""
+        config = FeatureFlagsConfig(
+            backend="memory",
+            default_environment="production",
+        )
+        assert config.default_environment == "production"
+
+    def test_allowed_environments_config(self) -> None:
+        """Test setting allowed environments in config."""
+        config = FeatureFlagsConfig(
+            backend="memory",
+            default_environment="production",
+            allowed_environments=["production", "staging", "development"],
+        )
+        assert config.allowed_environments == ["production", "staging", "development"]
+        assert config.default_environment == "production"
+
+    def test_invalid_default_environment_raises_error(self) -> None:
+        """Test that invalid default_environment raises ValueError."""
+        with pytest.raises(ValueError, match="must be a valid slug"):
+            FeatureFlagsConfig(
+                backend="memory",
+                default_environment="invalid environment!",
+            )
+
+    def test_invalid_allowed_environment_raises_error(self) -> None:
+        """Test that invalid allowed_environments raises ValueError."""
+        with pytest.raises(ValueError, match="must contain valid slugs"):
+            FeatureFlagsConfig(
+                backend="memory",
+                allowed_environments=["valid", "invalid environment!"],
+            )
+
+    def test_default_environment_must_be_in_allowed_list(self) -> None:
+        """Test that default_environment must be in allowed_environments."""
+        with pytest.raises(ValueError, match="must be in allowed_environments"):
+            FeatureFlagsConfig(
+                backend="memory",
+                default_environment="production",
+                allowed_environments=["staging", "development"],
+            )
+
+    def test_environment_header_config(self) -> None:
+        """Test custom environment header configuration."""
+        config = FeatureFlagsConfig(
+            backend="memory",
+            environment_header="X-Custom-Environment",
+        )
+        assert config.environment_header == "X-Custom-Environment"
+
+    def test_environment_query_param_config(self) -> None:
+        """Test custom environment query param configuration."""
+        config = FeatureFlagsConfig(
+            backend="memory",
+            environment_query_param="environment",
+        )
+        assert config.environment_query_param == "environment"
+
+    def test_environment_query_param_disabled(self) -> None:
+        """Test disabling environment query param."""
+        config = FeatureFlagsConfig(
+            backend="memory",
+            environment_query_param=None,
+        )
+        assert config.environment_query_param is None
+
+    def test_enable_environment_middleware_config(self) -> None:
+        """Test enabling environment middleware via config."""
+        config = FeatureFlagsConfig(
+            backend="memory",
+            enable_environment_middleware=True,
+            default_environment="production",
+        )
+        assert config.enable_environment_middleware is True
+
+
 class TestErrorHandling:
     """Tests for error handling in plugin operations."""
 

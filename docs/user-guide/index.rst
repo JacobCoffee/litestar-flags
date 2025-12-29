@@ -38,3 +38,4 @@ Explore advanced flag management capabilities:
    :maxdepth: 2
 
    time-based-rules
+   multi-environment

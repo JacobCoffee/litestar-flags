@@ -58,6 +58,11 @@ from litestar_flags.config import FeatureFlagsConfig
 from litestar_flags.context import EvaluationContext
 from litestar_flags.decorators import feature_flag, require_flag
 from litestar_flags.engine import EvaluationEngine
+from litestar_flags.environment_middleware import (
+    EnvironmentMiddleware,
+    get_request_environment,
+)
+from litestar_flags.environment_resolver import InheritanceResolver
 from litestar_flags.exceptions import (
     ConfigurationError,
     FeatureFlagError,
@@ -72,6 +77,13 @@ from litestar_flags.middleware import (
     get_request_context,
 )
 from litestar_flags.plugin import FeatureFlagsPlugin
+from litestar_flags.promotion import (
+    EnvironmentNotFoundError,
+    EnvironmentResolver,
+    FlagPromoter,
+    PromotionError,
+    PromotionResult,
+)
 from litestar_flags.protocols import StorageBackend
 from litestar_flags.rate_limit import (
     RateLimitConfig,
@@ -122,6 +134,9 @@ __all__ = [
     "CircuitState",
     "CircularSegmentReferenceError",
     "ConfigurationError",
+    "EnvironmentMiddleware",
+    "EnvironmentNotFoundError",
+    "EnvironmentResolver",
     "ErrorCode",
     "EvaluationContext",
     "EvaluationDetails",
@@ -133,13 +148,17 @@ __all__ = [
     "FeatureFlagsMiddleware",
     "FeatureFlagsPlugin",
     "FlagNotFoundError",
+    "FlagPromoter",
     "FlagStatus",
     "FlagType",
     "HealthCheckResult",
     "HealthStatus",
+    "InheritanceResolver",
     "LRUCache",
     "MemoryStorageBackend",
     "OfflineClient",
+    "PromotionError",
+    "PromotionResult",
     "RateLimitConfig",
     "RateLimitExceededError",
     "RateLimitHook",
@@ -161,6 +180,7 @@ __all__ = [
     "create_safe_log_context",
     "feature_flag",
     "get_request_context",
+    "get_request_environment",
     "hash_targeting_key",
     "health_check",
     "is_sensitive_field",

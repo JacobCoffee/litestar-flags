@@ -10,6 +10,8 @@ from uuid import UUID
 from litestar_flags.types import FlagStatus
 
 if TYPE_CHECKING:
+    from litestar_flags.models.environment import Environment
+    from litestar_flags.models.environment_flag import EnvironmentFlag
     from litestar_flags.models.flag import FeatureFlag
     from litestar_flags.models.override import FlagOverride
     from litestar_flags.models.schedule import RolloutPhase, ScheduledFlagChange, TimeSchedule
@@ -41,6 +43,9 @@ class MemoryStorageBackend:
         self._rollout_phases: dict[UUID, RolloutPhase] = {}
         self._segments: dict[UUID, Segment] = {}
         self._segments_by_name: dict[str, Segment] = {}
+        self._environments: dict[str, Environment] = {}  # keyed by slug
+        self._environments_by_id: dict[UUID, Environment] = {}  # keyed by id
+        self._environment_flags: dict[str, EnvironmentFlag] = {}  # keyed by "{env_id}:{flag_id}"
 
     def _override_key(self, flag_id: UUID, entity_type: str, entity_id: str) -> str:
         """Generate a unique key for an override."""
@@ -275,6 +280,9 @@ class MemoryStorageBackend:
         self._rollout_phases.clear()
         self._segments.clear()
         self._segments_by_name.clear()
+        self._environments.clear()
+        self._environments_by_id.clear()
+        self._environment_flags.clear()
 
     def __len__(self) -> int:
         """Return the number of flags stored."""
@@ -564,5 +572,257 @@ class MemoryStorageBackend:
         segment = self._segments.pop(segment_id, None)
         if segment is not None:
             self._segments_by_name.pop(segment.name, None)
+            return True
+        return False
+
+    # Environment methods
+
+    def _environment_flag_key(self, env_id: UUID, flag_id: UUID) -> str:
+        """Generate a unique key for an environment flag.
+
+        Args:
+            env_id: The environment's UUID.
+            flag_id: The flag's UUID.
+
+        Returns:
+            A unique string key for the environment flag combination.
+
+        """
+        return f"{env_id}:{flag_id}"
+
+    async def get_environment(self, slug: str) -> Environment | None:
+        """Retrieve an environment by slug.
+
+        Args:
+            slug: The unique environment slug.
+
+        Returns:
+            The Environment if found, None otherwise.
+
+        """
+        return self._environments.get(slug)
+
+    async def get_environment_by_id(self, env_id: UUID) -> Environment | None:
+        """Retrieve an environment by ID.
+
+        Args:
+            env_id: The UUID of the environment.
+
+        Returns:
+            The Environment if found, None otherwise.
+
+        """
+        return self._environments_by_id.get(env_id)
+
+    async def get_all_environments(self) -> list[Environment]:
+        """Retrieve all environments.
+
+        Returns:
+            List of all Environment objects.
+
+        """
+        return list(self._environments.values())
+
+    async def get_child_environments(self, parent_id: UUID) -> list[Environment]:
+        """Retrieve all child environments of a parent environment.
+
+        Args:
+            parent_id: The UUID of the parent environment.
+
+        Returns:
+            List of child Environment objects.
+
+        """
+        return [env for env in self._environments.values() if env.parent_id == parent_id]
+
+    async def create_environment(self, env: Environment) -> Environment:
+        """Create a new environment.
+
+        Args:
+            env: The environment to create.
+
+        Returns:
+            The created environment.
+
+        Raises:
+            ValueError: If an environment with the same slug already exists.
+
+        """
+        if env.slug in self._environments:
+            raise ValueError(f"Environment with slug '{env.slug}' already exists")
+
+        now = datetime.now(UTC)
+        if env.created_at is None:
+            env.created_at = now  # type: ignore[misc]
+        if env.updated_at is None:
+            env.updated_at = now  # type: ignore[misc]
+
+        self._environments[env.slug] = env
+        self._environments_by_id[env.id] = env
+        return env
+
+    async def update_environment(self, env: Environment) -> Environment:
+        """Update an existing environment.
+
+        Args:
+            env: The environment with updated values.
+
+        Returns:
+            The updated environment.
+
+        Raises:
+            ValueError: If the environment does not exist or slug conflict occurs.
+
+        """
+        if env.id not in self._environments_by_id:
+            raise ValueError(f"Environment with id '{env.id}' not found")
+
+        old_env = self._environments_by_id[env.id]
+
+        # Handle slug change
+        if old_env.slug != env.slug:
+            if env.slug in self._environments:
+                raise ValueError(f"Environment with slug '{env.slug}' already exists")
+            del self._environments[old_env.slug]
+            self._environments[env.slug] = env
+
+        env.updated_at = datetime.now(UTC)  # type: ignore[misc]
+        self._environments[env.slug] = env
+        self._environments_by_id[env.id] = env
+        return env
+
+    async def delete_environment(self, slug: str) -> bool:
+        """Delete an environment by slug.
+
+        Also deletes all related environment flags.
+
+        Args:
+            slug: The unique environment slug.
+
+        Returns:
+            True if the environment was deleted, False if not found.
+
+        """
+        env = self._environments.pop(slug, None)
+        if env is not None:
+            self._environments_by_id.pop(env.id, None)
+            # Remove associated environment flags
+            keys_to_remove = [k for k in self._environment_flags if k.startswith(f"{env.id}:")]
+            for k in keys_to_remove:
+                del self._environment_flags[k]
+            return True
+        return False
+
+    # Environment flag methods
+
+    async def get_environment_flag(
+        self,
+        env_id: UUID,
+        flag_id: UUID,
+    ) -> EnvironmentFlag | None:
+        """Retrieve an environment-specific flag configuration.
+
+        Args:
+            env_id: The environment's UUID.
+            flag_id: The flag's UUID.
+
+        Returns:
+            The EnvironmentFlag if found, None otherwise.
+
+        """
+        key = self._environment_flag_key(env_id, flag_id)
+        return self._environment_flags.get(key)
+
+    async def get_environment_flags(self, env_id: UUID) -> list[EnvironmentFlag]:
+        """Retrieve all flag configurations for an environment.
+
+        Args:
+            env_id: The environment's UUID.
+
+        Returns:
+            List of EnvironmentFlag objects for the environment.
+
+        """
+        return [ef for ef in self._environment_flags.values() if ef.environment_id == env_id]
+
+    async def get_flag_environments(self, flag_id: UUID) -> list[EnvironmentFlag]:
+        """Retrieve all environment configurations for a flag.
+
+        Args:
+            flag_id: The flag's UUID.
+
+        Returns:
+            List of EnvironmentFlag objects for the flag.
+
+        """
+        return [ef for ef in self._environment_flags.values() if ef.flag_id == flag_id]
+
+    async def create_environment_flag(self, env_flag: EnvironmentFlag) -> EnvironmentFlag:
+        """Create a new environment flag configuration.
+
+        Args:
+            env_flag: The environment flag configuration to create.
+
+        Returns:
+            The created environment flag.
+
+        Raises:
+            ValueError: If the environment flag already exists.
+
+        """
+        key = self._environment_flag_key(env_flag.environment_id, env_flag.flag_id)
+        if key in self._environment_flags:
+            raise ValueError(
+                f"EnvironmentFlag for environment '{env_flag.environment_id}' "
+                f"and flag '{env_flag.flag_id}' already exists"
+            )
+
+        now = datetime.now(UTC)
+        if env_flag.created_at is None:
+            env_flag.created_at = now  # type: ignore[misc]
+        if env_flag.updated_at is None:
+            env_flag.updated_at = now  # type: ignore[misc]
+
+        self._environment_flags[key] = env_flag
+        return env_flag
+
+    async def update_environment_flag(self, env_flag: EnvironmentFlag) -> EnvironmentFlag:
+        """Update an existing environment flag configuration.
+
+        Args:
+            env_flag: The environment flag with updated values.
+
+        Returns:
+            The updated environment flag.
+
+        Raises:
+            ValueError: If the environment flag does not exist.
+
+        """
+        key = self._environment_flag_key(env_flag.environment_id, env_flag.flag_id)
+        if key not in self._environment_flags:
+            raise ValueError(
+                f"EnvironmentFlag for environment '{env_flag.environment_id}' "
+                f"and flag '{env_flag.flag_id}' not found"
+            )
+
+        env_flag.updated_at = datetime.now(UTC)  # type: ignore[misc]
+        self._environment_flags[key] = env_flag
+        return env_flag
+
+    async def delete_environment_flag(self, env_id: UUID, flag_id: UUID) -> bool:
+        """Delete an environment flag configuration.
+
+        Args:
+            env_id: The environment's UUID.
+            flag_id: The flag's UUID.
+
+        Returns:
+            True if the environment flag was deleted, False if not found.
+
+        """
+        key = self._environment_flag_key(env_id, flag_id)
+        if key in self._environment_flags:
+            del self._environment_flags[key]
             return True
         return False

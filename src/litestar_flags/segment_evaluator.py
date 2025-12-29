@@ -366,7 +366,7 @@ class SegmentEvaluator:
             except (ValueError, AttributeError):
                 return None
 
-        if isinstance(value, (int, float)):
+        if isinstance(value, int | float):
             try:
                 return datetime.fromtimestamp(value, tz=UTC)
             except (ValueError, OSError, OverflowError):

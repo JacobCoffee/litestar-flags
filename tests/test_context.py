@@ -90,3 +90,38 @@ class TestEvaluationContext:
         ctx = EvaluationContext(targeting_key="user-123")
         with pytest.raises(Exception):  # FrozenInstanceError
             ctx.targeting_key = "user-456"  # type: ignore[misc]
+
+    def test_with_environment(self) -> None:
+        """Test creating context with new environment."""
+        ctx = EvaluationContext(
+            targeting_key="user-123",
+            user_id="user-123",
+            environment="development",
+        )
+        new_ctx = ctx.with_environment("production")
+
+        assert new_ctx.environment == "production"
+        assert new_ctx.targeting_key == "user-123"
+        assert new_ctx.user_id == "user-123"
+        # Original unchanged
+        assert ctx.environment == "development"
+
+    def test_with_environment_preserves_attributes(self) -> None:
+        """Test that with_environment preserves custom attributes."""
+        ctx = EvaluationContext(
+            targeting_key="user-123",
+            attributes={"plan": "premium", "beta_tester": True},
+        )
+        new_ctx = ctx.with_environment("staging")
+
+        assert new_ctx.environment == "staging"
+        assert new_ctx.attributes == {"plan": "premium", "beta_tester": True}
+
+    def test_with_environment_on_empty_context(self) -> None:
+        """Test with_environment on an empty context."""
+        ctx = EvaluationContext()
+        new_ctx = ctx.with_environment("production")
+
+        assert new_ctx.environment == "production"
+        assert new_ctx.targeting_key is None
+        assert new_ctx.user_id is None

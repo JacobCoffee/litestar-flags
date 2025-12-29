@@ -105,6 +105,15 @@ class TestOTelHookImport:
         assert OTelHook is not None
 
 
+try:
+    import opentelemetry  # noqa: F401
+
+    HAS_OTEL = True
+except ImportError:
+    HAS_OTEL = False
+
+
+@pytest.mark.skipif(not HAS_OTEL, reason="opentelemetry-api not installed")
 class TestOTelHookWithMocks:
     """Test OTelHook with mocked OpenTelemetry."""
 
@@ -838,6 +847,7 @@ class TestLoggerProtocol:
 # =============================================================================
 
 
+@pytest.mark.skipif(not HAS_OTEL, reason="opentelemetry-api not installed")
 class TestContribIntegration:
     """Integration tests for contrib modules working together."""
 

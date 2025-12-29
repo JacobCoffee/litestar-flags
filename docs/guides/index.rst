@@ -32,6 +32,7 @@ Best practices for integrating feature flags into your codebase:
 
 - **Dependency Injection**: Using feature flags with Litestar's DI system
 - **Middleware Integration**: Apply feature flags at the middleware level
+- **Multi-Environment**: Configure flags across dev/staging/production
 - **Testing**: Strategies for testing code with feature flags
 
 
@@ -43,4 +44,5 @@ Best practices for integrating feature flags into your codebase:
    percentage-rollouts
    user-targeting
    ab-testing
+   environments
    testing

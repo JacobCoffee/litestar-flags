@@ -10,9 +10,12 @@ from litestar.testing import TestClient
 
 from litestar_flags.context import EvaluationContext
 from litestar_flags.middleware import (
+    EnvironmentMiddleware,
     FeatureFlagsMiddleware,
     create_context_middleware,
+    create_environment_middleware,
     get_request_context,
+    get_request_environment,
 )
 
 
@@ -564,3 +567,402 @@ class TestDefaultExtractor:
             )
             assert response.status_code == 200
             assert response.json()["ip"] == "1.1.1.1"
+
+
+class TestEnvironmentMiddlewareFromHeader:
+    """Tests for environment extraction from request headers."""
+
+    def test_extract_environment_from_header(self) -> None:
+        """Test extracting environment from X-Environment header."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware()],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "staging"})
+            assert response.status_code == 200
+            assert response.json()["environment"] == "staging"
+
+    def test_extract_environment_from_custom_header(self) -> None:
+        """Test extracting environment from custom header."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware(environment_header="X-App-Environment")],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-App-Environment": "production"})
+            assert response.status_code == 200
+            assert response.json()["environment"] == "production"
+
+
+class TestEnvironmentMiddlewareFromQueryParam:
+    """Tests for environment extraction from query parameters."""
+
+    def test_extract_environment_from_query_param(self) -> None:
+        """Test extracting environment from query parameter."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware()],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test?env=development")
+            assert response.status_code == 200
+            assert response.json()["environment"] == "development"
+
+    def test_extract_environment_from_custom_query_param(self) -> None:
+        """Test extracting environment from custom query parameter."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware(environment_query_param="environment")],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test?environment=staging")
+            assert response.status_code == 200
+            assert response.json()["environment"] == "staging"
+
+    def test_query_param_disabled(self) -> None:
+        """Test that query param extraction can be disabled."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware(environment_query_param=None)],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test?env=staging")
+            assert response.status_code == 200
+            assert response.json()["environment"] is None
+
+
+class TestEnvironmentMiddlewarePriority:
+    """Tests for environment source priority."""
+
+    def test_header_takes_priority_over_query_param(self) -> None:
+        """Test that header takes priority over query parameter."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware()],
+        )
+
+        with TestClient(app) as client:
+            response = client.get(
+                "/test?env=development",
+                headers={"X-Environment": "production"},
+            )
+            assert response.status_code == 200
+            assert response.json()["environment"] == "production"
+
+
+class TestEnvironmentMiddlewareDefault:
+    """Tests for default environment fallback."""
+
+    def test_fallback_to_default_environment(self) -> None:
+        """Test fallback to default environment when none specified."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware(default_environment="production")],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test")
+            assert response.status_code == 200
+            assert response.json()["environment"] == "production"
+
+    def test_no_default_returns_none(self) -> None:
+        """Test that no default environment returns None."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware()],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test")
+            assert response.status_code == 200
+            assert response.json()["environment"] is None
+
+
+class TestEnvironmentMiddlewareAllowedEnvironments:
+    """Tests for allowed environments validation."""
+
+    def test_allowed_environment_passes(self) -> None:
+        """Test that allowed environment passes validation."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[
+                create_environment_middleware(
+                    allowed_environments=["production", "staging", "development"],
+                )
+            ],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "staging"})
+            assert response.status_code == 200
+            assert response.json()["environment"] == "staging"
+
+    def test_disallowed_environment_falls_back_to_default(self) -> None:
+        """Test that disallowed environment falls back to default."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[
+                create_environment_middleware(
+                    default_environment="production",
+                    allowed_environments=["production", "staging"],
+                )
+            ],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "invalid"})
+            assert response.status_code == 200
+            assert response.json()["environment"] == "production"
+
+    def test_disallowed_environment_without_default(self) -> None:
+        """Test disallowed environment without default returns None."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[
+                create_environment_middleware(
+                    allowed_environments=["production", "staging"],
+                )
+            ],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "development"})
+            assert response.status_code == 200
+            assert response.json()["environment"] is None
+
+
+class TestEnvironmentMiddlewareContextInjection:
+    """Tests for environment injection into EvaluationContext."""
+
+    def test_environment_injected_into_context(self) -> None:
+        """Test that environment is injected into existing context."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            context = get_request_context(request)
+            env = get_request_environment(request)
+            return {
+                "context_environment": context.environment if context else None,
+                "resolved_environment": env,
+            }
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[
+                create_context_middleware(),
+                create_environment_middleware(),
+            ],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "staging"})
+            assert response.status_code == 200
+            data = response.json()
+            assert data["context_environment"] == "staging"
+            assert data["resolved_environment"] == "staging"
+
+    def test_context_preserves_other_fields(self) -> None:
+        """Test that context preserves other fields when environment is injected."""
+
+        def custom_extractor(request: Request[Any, Any, Any]) -> EvaluationContext:
+            return EvaluationContext(
+                targeting_key="user-123",
+                user_id="user-123",
+                attributes={"plan": "premium"},
+            )
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            context = get_request_context(request)
+            if context:
+                return {
+                    "targeting_key": context.targeting_key,
+                    "user_id": context.user_id,
+                    "environment": context.environment,
+                    "plan": context.get("plan"),
+                }
+            return {}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[
+                create_context_middleware(context_extractor=custom_extractor),
+                create_environment_middleware(),
+            ],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "production"})
+            assert response.status_code == 200
+            data = response.json()
+            assert data["targeting_key"] == "user-123"
+            assert data["user_id"] == "user-123"
+            assert data["environment"] == "production"
+            assert data["plan"] == "premium"
+
+
+class TestEnvironmentMiddlewareClass:
+    """Tests for EnvironmentMiddleware class directly."""
+
+    def test_middleware_initialization_defaults(self) -> None:
+        """Test middleware initializes with default values."""
+        mock_app = MagicMock()
+        middleware = EnvironmentMiddleware(app=mock_app)
+
+        assert middleware.app is mock_app
+        assert middleware._default_environment is None
+        assert middleware._environment_header == "X-Environment"
+        assert middleware._environment_query_param == "env"
+        assert middleware._allowed_environments is None
+
+    def test_middleware_initialization_custom_values(self) -> None:
+        """Test middleware initializes with custom values."""
+        mock_app = MagicMock()
+        middleware = EnvironmentMiddleware(
+            app=mock_app,
+            default_environment="production",
+            environment_header="X-App-Env",
+            environment_query_param="environment",
+            allowed_environments=["production", "staging"],
+        )
+
+        assert middleware._default_environment == "production"
+        assert middleware._environment_header == "X-App-Env"
+        assert middleware._environment_query_param == "environment"
+        assert middleware._allowed_environments == {"production", "staging"}
+
+
+class TestCreateEnvironmentMiddleware:
+    """Tests for create_environment_middleware factory function."""
+
+    def test_create_middleware_without_options(self) -> None:
+        """Test creating middleware without options."""
+        middleware_def = create_environment_middleware()
+
+        assert middleware_def is not None
+        assert middleware_def.middleware is EnvironmentMiddleware
+
+    def test_create_middleware_with_options(self) -> None:
+        """Test creating middleware with options."""
+        middleware_def = create_environment_middleware(
+            default_environment="production",
+            environment_header="X-Env",
+            environment_query_param="environment",
+            allowed_environments=["production", "staging"],
+        )
+
+        assert middleware_def is not None
+        assert middleware_def.middleware is EnvironmentMiddleware
+        assert middleware_def.kwargs.get("default_environment") == "production"
+        assert middleware_def.kwargs.get("environment_header") == "X-Env"
+        assert middleware_def.kwargs.get("environment_query_param") == "environment"
+        assert middleware_def.kwargs.get("allowed_environments") == ["production", "staging"]
+
+
+class TestGetRequestEnvironment:
+    """Tests for get_request_environment helper function."""
+
+    def test_get_environment_returns_value(self) -> None:
+        """Test getting environment from request with middleware."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(
+            route_handlers=[handler],
+            middleware=[create_environment_middleware()],
+        )
+
+        with TestClient(app) as client:
+            response = client.get("/test", headers={"X-Environment": "staging"})
+            assert response.status_code == 200
+            assert response.json()["environment"] == "staging"
+
+    def test_get_environment_returns_none_without_middleware(self) -> None:
+        """Test getting environment from request without middleware."""
+
+        @get("/test")
+        async def handler(request: Request[Any, Any, Any]) -> dict[str, Any]:
+            env = get_request_environment(request)
+            return {"environment": env}
+
+        app = Litestar(route_handlers=[handler])
+
+        with TestClient(app) as client:
+            response = client.get("/test")
+            assert response.status_code == 200
+            assert response.json()["environment"] is None

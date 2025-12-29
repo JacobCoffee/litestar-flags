@@ -120,3 +120,24 @@ class EvaluationContext:
 
         """
         return replace(self, attributes={**self.attributes, **kwargs})
+
+    def with_environment(self, environment: str) -> EvaluationContext:
+        """Create a new context with the specified environment.
+
+        This is useful for switching environments during request processing
+        or for testing flag behavior in different environments.
+
+        Args:
+            environment: The environment name (e.g., "production", "staging").
+
+        Returns:
+            A new EvaluationContext with the updated environment.
+
+        Example:
+            >>> context = EvaluationContext(user_id="user-123")
+            >>> staging_context = context.with_environment("staging")
+            >>> staging_context.environment
+            'staging'
+
+        """
+        return replace(self, environment=environment)

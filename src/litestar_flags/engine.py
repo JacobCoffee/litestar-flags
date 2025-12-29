@@ -588,7 +588,7 @@ class EvaluationEngine:
             except (ValueError, AttributeError):
                 return None
 
-        if isinstance(value, (int, float)):
+        if isinstance(value, int | float):
             try:
                 # Assume Unix timestamp
                 return datetime.fromtimestamp(value, tz=UTC)

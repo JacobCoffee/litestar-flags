@@ -26,17 +26,17 @@ import pytest
 
 openfeature = pytest.importorskip("openfeature")
 
-from openfeature.evaluation_context import EvaluationContext as OFEvaluationContext  # noqa: E402
-from openfeature.exception import ErrorCode as OFErrorCode  # noqa: E402
-from openfeature.flag_evaluation import FlagResolutionDetails, Reason  # noqa: E402
-from openfeature.hook import Hook  # noqa: E402
-from openfeature.provider import Metadata  # noqa: E402
+from openfeature.evaluation_context import EvaluationContext as OFEvaluationContext
+from openfeature.exception import ErrorCode as OFErrorCode
+from openfeature.flag_evaluation import FlagResolutionDetails, Reason
+from openfeature.hook import Hook
+from openfeature.provider import Metadata
 
-from litestar_flags.context import EvaluationContext  # noqa: E402
-from litestar_flags.models.flag import FeatureFlag  # noqa: E402
-from litestar_flags.models.variant import FlagVariant  # noqa: E402
-from litestar_flags.storage.memory import MemoryStorageBackend  # noqa: E402
-from litestar_flags.types import ErrorCode, EvaluationReason, FlagStatus, FlagType  # noqa: E402
+from litestar_flags.context import EvaluationContext
+from litestar_flags.models.flag import FeatureFlag
+from litestar_flags.models.variant import FlagVariant
+from litestar_flags.storage.memory import MemoryStorageBackend
+from litestar_flags.types import ErrorCode, EvaluationReason, FlagStatus, FlagType
 
 if TYPE_CHECKING:
     from litestar_flags.client import FeatureFlagClient

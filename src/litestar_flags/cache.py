@@ -160,7 +160,7 @@ class _CacheEntry:
 
 
 class LRUCache:
-    """Thread-safe in-memory LRU cache with TTL support.
+    """Async-safe in-memory LRU cache with TTL support.
 
     This cache implementation uses an ordered dictionary to maintain
     LRU ordering and supports per-entry TTL. It is suitable for
@@ -176,9 +176,12 @@ class LRUCache:
         >>> value = await cache.get("key")
         >>> stats = cache.stats()
 
-    Thread Safety:
-        This implementation uses asyncio.Lock for thread safety in
-        async contexts. All public methods are protected.
+    Note:
+        This implementation uses ``asyncio.Lock`` for coroutine safety,
+        protecting against race conditions between concurrent coroutines
+        in the same event loop. It is NOT thread-safe for multi-threaded
+        access. For thread safety, use external synchronization or a
+        thread-safe cache implementation.
 
     """
 

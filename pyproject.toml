@@ -106,6 +106,7 @@ ignore = [
 "tests/**/*" = ["S101", "S105", "D", "B017", "C401", "E402"]
 "benchmarks/**/*" = ["S101", "D", "T201", "UP038"]
 "examples/**/*" = ["D", "T201", "S101"]
+"src/litestar_flags/admin/controllers/**/*" = ["B008"]  # Litestar Parameter defaults
 
 [tool.ty]
 

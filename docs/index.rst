@@ -151,6 +151,7 @@ Quick Start
    user-guide/time-based-rules
    user-guide/multi-environment
    user-guide/analytics
+   usage/admin-api
    guides/workflows
 
 

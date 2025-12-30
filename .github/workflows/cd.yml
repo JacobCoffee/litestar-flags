@@ -1,0 +1,48 @@
+name: CD
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to generate changelog for"
+        required: false
+        type: string
+
+jobs:
+  update-changelog:
+    name: Update changelog
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5  # v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.CHANGELOG_PAT }}
+          persist-credentials: true
+
+      - name: Generate changelog
+        uses: orhun/git-cliff-action@e16f179f0be49ecdfe63753837f20b9531642772  # v4.7.0
+        with:
+          config: pyproject.toml
+          args: --output docs/changelog.md
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit and push changelog
+        env:
+          TAG_NAME: ${{ github.event.inputs.tag || github.ref_name }}
+        run: |
+          if git diff --quiet docs/changelog.md; then
+            echo "No changelog changes to commit"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/changelog.md
+          git commit -m "docs: regenerate changelog for ${TAG_NAME}"
+          git push origin HEAD:main

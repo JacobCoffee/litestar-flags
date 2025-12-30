@@ -8,7 +8,8 @@ litestar-flags
 
    Ship features with confidence. Production-ready feature flags
    for `Litestar <https://litestar.dev>`_ with percentage rollouts,
-   A/B testing, user targeting, and time-based scheduling.
+   A/B testing, segment targeting, multi-environment support,
+   analytics, and a complete Admin API.
 
 .. container:: buttons
 
@@ -37,15 +38,30 @@ litestar-flags
       Built-in variant support for experimentation.
       Measure impact with confidence.
 
-   .. grid-item-card:: :octicon:`people` User Targeting
+   .. grid-item-card:: :octicon:`people` Segment Targeting
 
-      Target specific users, groups, or segments.
-      Personalize experiences at scale.
+      Define reusable user segments with complex
+      conditions for powerful targeting rules.
 
    .. grid-item-card:: :octicon:`clock` Time-based Rules
 
       Schedule launches, maintenance windows,
       and recurring availability patterns.
+
+   .. grid-item-card:: :octicon:`globe` Multi-Environment
+
+      Environment inheritance, promotion workflows,
+      and per-environment configurations.
+
+   .. grid-item-card:: :octicon:`gear` Admin API
+
+      REST endpoints for flag management with
+      RBAC, audit logging, and pagination.
+
+   .. grid-item-card:: :octicon:`pulse` Analytics
+
+      Track evaluations, collect metrics, and
+      export to Prometheus for monitoring.
 
    .. grid-item-card:: :octicon:`plug` OpenFeature
 

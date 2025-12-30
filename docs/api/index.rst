@@ -68,6 +68,15 @@ Analytics and observability components:
 - :doc:`analytics` - Event models, collectors, aggregators, and exporters
 
 
+Admin API
+---------
+
+Administration components for flag management:
+
+- See :doc:`/usage/admin-api` for the Admin API usage guide with REST endpoints,
+  RBAC guards, and audit logging documentation.
+
+
 .. toctree::
    :maxdepth: 2
    :hidden:

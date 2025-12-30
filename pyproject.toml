@@ -4,7 +4,7 @@ requires = ["uv_build>=0.9.11,<0.10.0"]
 
 [project]
 name = "litestar-flags"
-version = "0.1.1"
+version = "0.2.0"
 description = "Production-ready feature flags library for Litestar"
 readme = "README.md"
 license = "MIT"
@@ -236,6 +236,14 @@ trim = true
 
 [tool.git-cliff.git]
 commit_parsers = [
+  # Skip non-conventional commits
+  {message = "^Initial commit", skip = true},
+  {message = "^Merge", skip = true},
+  {message = "^Bump the", skip = true},
+  {message = "^perf$", skip = true},
+  {message = "^improvement$", skip = true},
+  {message = "^thou shalt", skip = true},
+  # Conventional commit types
   {message = "^feat", group = "Features"},
   {message = "^fix", group = "Bug Fixes"},
   {message = "^doc", group = "Documentation"},
@@ -249,9 +257,9 @@ commit_parsers = [
   {body = ".*security", group = "Security"},
 ]
 commit_preprocessors = []
-conventional_commits = true
+conventional_commits = false
 filter_commits = false
-filter_unconventional = true
+filter_unconventional = false
 ignore_tags = ""
 protect_breaking_commits = false
 skip_tags = ""

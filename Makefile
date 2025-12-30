@@ -4,7 +4,7 @@
 .PHONY: security
 .PHONY: test test-cov test-fast test-debug test-failed
 .PHONY: benchmark benchmark-eval benchmark-storage benchmark-memory
-.PHONY: docs docs-serve docs-clean
+.PHONY: docs docs-serve docs-clean changelog
 .PHONY: build clean destroy
 .PHONY: wt worktree wt-ls worktree-list wt-j worktree-jump worktree-prune
 .PHONY: ci ci-install act act-ci act-list
@@ -146,6 +146,9 @@ docs-serve: docs-clean ## Serve documentation with live reload
 
 docs-clean: ## Clean built documentation
 	@rm -rf $(DOCS_DIR)/_build
+
+changelog: ## Generate changelog with git-cliff
+	@uvx git-cliff -o $(DOCS_DIR)/changelog.md
 
 # =============================================================================
 # Build & Release

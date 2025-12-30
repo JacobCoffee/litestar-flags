@@ -81,18 +81,33 @@ jobs:
     outputs:
       release_id: ${{ steps.create_release.outputs.id }}
     steps:
+      - name: Check out repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
       - name: Download signed artifacts
         uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131  # v7.0.0
         with:
           name: dist-signed
           path: dist/
 
+      - name: Generate release notes
+        id: release_notes
+        uses: orhun/git-cliff-action@e16f179f0be49ecdfe63753837f20b9531642772  # v4.7.0
+        with:
+          config: pyproject.toml
+          args: --latest --strip header
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Create draft release
         id: create_release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b  # v2
         with:
           draft: true
-          generate_release_notes: true
+          body: ${{ steps.release_notes.outputs.content }}
           files: |
             dist/*
         env:

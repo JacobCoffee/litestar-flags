@@ -448,7 +448,7 @@ Base path: ``/admin/flags``
 
 **List Flags**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags?page=1&page_size=20&status=active&tag=beta&search=checkout
 
@@ -492,19 +492,19 @@ Response:
 
 **Get Flag by ID**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags/{flag_id}
 
 **Get Flag by Key**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags/by-key/{key}
 
 **Create Flag**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags
    Content-Type: application/json
@@ -522,7 +522,7 @@ Response:
 
 **Update Flag (Full)**
 
-.. code-block:: http
+.. code-block:: text
 
    PUT /admin/flags/{flag_id}
    Content-Type: application/json
@@ -540,7 +540,7 @@ Response:
 
 **Update Flag (Partial)**
 
-.. code-block:: http
+.. code-block:: text
 
    PATCH /admin/flags/{flag_id}
    Content-Type: application/json
@@ -551,19 +551,19 @@ Response:
 
 **Delete Flag**
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/flags/{flag_id}
 
 **Archive Flag**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags/{flag_id}/archive
 
 **Restore Archived Flag**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags/{flag_id}/restore
 
@@ -578,19 +578,19 @@ flag values. Rules are evaluated in priority order (lowest number first).
 
 **List Rules**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags/{flag_id}/rules?page=1&page_size=20
 
 **Get Rule**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags/{flag_id}/rules/{rule_id}
 
 **Create Rule**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags/{flag_id}/rules
    Content-Type: application/json
@@ -655,7 +655,7 @@ flag values. Rules are evaluated in priority order (lowest number first).
 
 **Update Rule**
 
-.. code-block:: http
+.. code-block:: text
 
    PUT /admin/flags/{flag_id}/rules/{rule_id}
    Content-Type: application/json
@@ -671,7 +671,7 @@ flag values. Rules are evaluated in priority order (lowest number first).
 
 **Partial Update Rule**
 
-.. code-block:: http
+.. code-block:: text
 
    PATCH /admin/flags/{flag_id}/rules/{rule_id}
    Content-Type: application/json
@@ -682,13 +682,13 @@ flag values. Rules are evaluated in priority order (lowest number first).
 
 **Delete Rule**
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/flags/{flag_id}/rules/{rule_id}
 
 **Reorder Rules**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags/{flag_id}/rules/reorder
    Content-Type: application/json
@@ -703,7 +703,7 @@ flag values. Rules are evaluated in priority order (lowest number first).
 
 **Toggle Rule Enabled State**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags/{flag_id}/rules/{rule_id}/toggle
 
@@ -718,19 +718,19 @@ different flag values than what targeting rules would determine.
 
 **List Overrides for Flag**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags/{flag_id}/overrides?include_expired=false&entity_type=user
 
 **Get Override**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/flags/{flag_id}/overrides/{entity_type}/{entity_id}
 
 **Create Override**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/flags/{flag_id}/overrides
    Content-Type: application/json
@@ -747,7 +747,7 @@ Supported entity types: ``user``, ``organization``, ``team``, ``device``, ``cust
 
 **Update Override**
 
-.. code-block:: http
+.. code-block:: text
 
    PUT /admin/flags/{flag_id}/overrides/{entity_type}/{entity_id}
    Content-Type: application/json
@@ -760,7 +760,7 @@ Supported entity types: ``user``, ``organization``, ``team``, ``device``, ``cust
 
 **Delete Override**
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/flags/{flag_id}/overrides/{entity_type}/{entity_id}
 
@@ -768,13 +768,13 @@ Supported entity types: ``user``, ``organization``, ``team``, ``device``, ``cust
 
 List all overrides for a specific entity across all flags:
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/overrides/entity/{entity_type}/{entity_id}
 
 Delete all overrides for an entity:
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/overrides/entity/{entity_type}/{entity_id}
 
@@ -789,25 +789,25 @@ Segments support hierarchical relationships.
 
 **List Segments**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/segments?page=1&page_size=20&enabled=true&search=premium
 
 **Get Segment**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/segments/{segment_id}
 
 **Get Segment by Name**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/segments/by-name/{name}
 
 **Create Segment**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/segments
    Content-Type: application/json
@@ -828,7 +828,7 @@ Segments support hierarchical relationships.
 
 **Update Segment**
 
-.. code-block:: http
+.. code-block:: text
 
    PATCH /admin/segments/{segment_id}
    Content-Type: application/json
@@ -839,7 +839,7 @@ Segments support hierarchical relationships.
 
 **Delete Segment**
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/segments/{segment_id}
 
@@ -848,7 +848,7 @@ children first.
 
 **Get Child Segments**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/segments/{segment_id}/children
 
@@ -856,7 +856,7 @@ children first.
 
 Test whether a context matches segment conditions:
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/segments/{segment_id}/evaluate
    Content-Type: application/json
@@ -894,25 +894,25 @@ production) with hierarchical inheritance support.
 
 **List Environments**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/environments?active_only=true&root_only=false
 
 **Get Environment**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/environments/{env_id}
 
 **Get Environment by Slug**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/environments/by-slug/{slug}
 
 **Create Environment**
 
-.. code-block:: http
+.. code-block:: text
 
    POST /admin/environments
    Content-Type: application/json
@@ -934,7 +934,7 @@ Slug format: lowercase alphanumeric with hyphens (e.g., ``staging-eu``, ``prod-1
 
 **Update Environment**
 
-.. code-block:: http
+.. code-block:: text
 
    PATCH /admin/environments/{env_id}
    Content-Type: application/json
@@ -945,7 +945,7 @@ Slug format: lowercase alphanumeric with hyphens (e.g., ``staging-eu``, ``prod-1
 
 **Delete Environment**
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/environments/{env_id}?force=false
 
@@ -953,7 +953,7 @@ Use ``force=true`` to delete production environments.
 
 **Get Child Environments**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/environments/{env_id}/children
 
@@ -961,13 +961,13 @@ Use ``force=true`` to delete production environments.
 
 Get flag configurations for an environment (includes inherited):
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/environments/{env_id}/flags?include_inherited=true
 
 Set environment-specific flag configuration:
 
-.. code-block:: http
+.. code-block:: text
 
    PUT /admin/environments/{env_id}/flags/{flag_id}
    Content-Type: application/json
@@ -981,7 +981,7 @@ Set environment-specific flag configuration:
 
 Remove environment-specific configuration (revert to inherited/base):
 
-.. code-block:: http
+.. code-block:: text
 
    DELETE /admin/environments/{env_id}/flags/{flag_id}
 
@@ -995,7 +995,7 @@ Query flag evaluation metrics, events, and trends.
 
 **Get Flag Metrics**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/metrics/{flag_key}?window_seconds=3600
 
@@ -1026,13 +1026,13 @@ Response:
 
 **Get All Flags Metrics**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/metrics?window_seconds=3600
 
 **Query Events**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/events?flag_key=checkout&targeting_key=user-123&page=1&page_size=50
 
@@ -1049,13 +1049,13 @@ Query parameters:
 
 **Get Events for Flag**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/events/{flag_key}?page=1&page_size=50
 
 **Get Dashboard Summary**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/dashboard?window_seconds=86400&limit=10
 
@@ -1084,7 +1084,7 @@ Response:
 
 **Get Trend Data**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/trends/{flag_key}?granularity=hour&window_seconds=86400
 
@@ -1092,7 +1092,7 @@ Granularity options: ``hour``, ``day``, ``week``
 
 **Export Events**
 
-.. code-block:: http
+.. code-block:: text
 
    GET /admin/analytics/export?format=csv&flag_key=checkout&limit=10000
 

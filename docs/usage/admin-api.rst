@@ -5,10 +5,6 @@ The Admin API provides a complete RESTful interface for managing feature flags,
 targeting rules, user segments, environments, and analytics. It includes
 role-based access control, audit logging, and OpenAPI documentation.
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-
 
 Overview
 --------

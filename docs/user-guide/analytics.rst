@@ -5,10 +5,6 @@ litestar-flags provides a comprehensive analytics module for tracking and
 analyzing feature flag evaluations. This enables insights into flag usage,
 performance monitoring, and targeting effectiveness.
 
-.. contents:: On This Page
-   :local:
-   :depth: 2
-
 
 Introduction
 ------------

@@ -5,11 +5,6 @@ Multi-environment support enables you to manage feature flags across different
 deployment environments (development, staging, production) with environment-specific
 configurations and hierarchical inheritance.
 
-.. contents:: On this page
-   :depth: 2
-   :local:
-   :backlinks: none
-
 
 What is Multi-Environment Support?
 ----------------------------------

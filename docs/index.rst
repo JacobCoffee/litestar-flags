@@ -147,10 +147,7 @@ Quick Start
    :hidden:
    :caption: Integrations
 
-   user-guide/openfeature
-   user-guide/time-based-rules
-   user-guide/multi-environment
-   user-guide/analytics
+   user-guide/index
    usage/admin-api
    guides/workflows
 

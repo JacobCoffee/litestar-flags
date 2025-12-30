@@ -34,7 +34,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create PR with changelog update
+      - name: Commit and push changelog
         env:
           TAG_NAME: ${{ github.event.inputs.tag || github.ref_name }}
           GH_TOKEN: ${{ secrets.CHANGELOG_PAT }}
@@ -43,18 +43,9 @@ jobs:
             echo "No changelog changes to commit"
             exit 0
           fi
-
-          BRANCH="changelog/${TAG_NAME}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
-          git checkout -b "${BRANCH}"
           git add docs/changelog.md
           git commit -m "docs: regenerate changelog for ${TAG_NAME}"
-          git push origin "${BRANCH}"
-
-          gh pr create \
-            --title "docs: regenerate changelog for ${TAG_NAME}" \
-            --body "Automated changelog update for release ${TAG_NAME}" \
-            --base main \
-            --head "${BRANCH}"
+          git push origin main

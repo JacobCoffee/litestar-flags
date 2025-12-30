@@ -8,6 +8,19 @@ All notable changes to this project will be documented in this file.
 ### Bug Fixes
 
 
+- fix: checkout main branch in CD workflow for changelog push - ([92f334a](https://github.com/JacobCoffee/litestar-flags/commit/92f334a884b4229341cea80465ae98c175d744f3)) - Jacob Coffee
+
+- fix: explicitly set remote URL with PAT for changelog push - ([18b836a](https://github.com/JacobCoffee/litestar-flags/commit/18b836a9e99f796cdf52bd6c94b93bd20f31cb97)) - Jacob Coffee
+
+- fix: create PR instead of direct push for changelog updates - ([ecc2469](https://github.com/JacobCoffee/litestar-flags/commit/ecc24699b179a9bafafefb9452014d6f0bc4eeb8)) - Jacob Coffee
+
+- fix: revert to direct push for changelog - ([95c0fd1](https://github.com/JacobCoffee/litestar-flags/commit/95c0fd1c22966f410cd6ead4a8e48f3883bd2d51)) - Jacob Coffee
+## [0.2.0](https://github.com/JacobCoffee/litestar-flags/compare/v0.1.1..v0.2.0) - 2025-12-30
+
+
+### Bug Fixes
+
+
 - fix: use text lexer instead of http for code blocks in docs
 
 The http lexer is strict about format and was causing warnings.
@@ -110,6 +123,24 @@ Documentation:
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
 
 Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com> - ([a9dfb20](https://github.com/JacobCoffee/litestar-flags/commit/a9dfb203ee46b7fa924a1dbfb506cc4e9667a600)) - Jacob Coffee
+
+- feat: add CD workflow for changelog automation and update docs
+
+- Add cd.yml workflow for automated changelog generation on release
+- Update publish.yml to use git-cliff for release notes
+- Add `make changelog` target to Makefile
+- Update README with new features (Admin API, Analytics, Segments, Multi-env)
+- Update README with missing extras (openfeature, prometheus, observability)
+- Fix FeatureFlagClient class name in README
+- Add new feature cards to docs index
+- Add Admin API reference to API docs
+- Configure git-cliff to skip non-conventional commits
+- Remove duplicate CHANGELOG.md (now in docs/changelog.md)
+- Bump version to 0.2.0
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com> - ([d1de4ba](https://github.com/JacobCoffee/litestar-flags/commit/d1de4babf2896c2278d5ff5789f333b8a5a5ee6a)) - Jacob Coffee
 
 
 ### Miscellaneous Chores

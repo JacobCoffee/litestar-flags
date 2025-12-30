@@ -214,12 +214,12 @@ body = """
 {% for commit in commits
 | filter(attribute="scope")
 | sort(attribute="scope") %}
-- **({{commit.scope}})**{% if commit.breaking %} [**breaking**]{% endif %} {{ commit.message }} - ([{{ commit.id | truncate(length=7, end="") }}]($REPO/commit/{{ commit.id }})) - {{ commit.author.name }}
+- **({{commit.scope}})**{% if commit.breaking %} [**breaking**]{% endif %} {{ commit.message | split(pat="\n") | first | trim }} - ([{{ commit.id | truncate(length=7, end="") }}]($REPO/commit/{{ commit.id }}))
 {%- endfor -%}
 {%- for commit in commits %}
 {%- if commit.scope -%}
 {% else %}
-- {% if commit.breaking %}[**breaking**] {% endif %}{{ commit.message }} - ([{{ commit.id | truncate(length=7, end="") }}]($REPO/commit/{{ commit.id }})) - {{ commit.author.name }}
+- {% if commit.breaking %}[**breaking**] {% endif %}{{ commit.message | split(pat="\n") | first | trim }} - ([{{ commit.id | truncate(length=7, end="") }}]($REPO/commit/{{ commit.id }}))
 {% endif -%}
 {% endfor -%}
 {% endfor %}

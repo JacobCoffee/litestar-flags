@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.2.1](https://github.com/JacobCoffee/litestar-flags/compare/v0.2.0..v0.2.1) - 2025-12-30
 
 
 ### Bug Fixes
@@ -16,11 +16,29 @@ All notable changes to this project will be documented in this file.
 
 - fix: revert to direct push for changelog - ([95c0fd1](https://github.com/JacobCoffee/litestar-flags/commit/95c0fd1c22966f410cd6ead4a8e48f3883bd2d51))
 
+- fix: show only commit summary line in changelog, not full body - ([fa63c00](https://github.com/JacobCoffee/litestar-flags/commit/fa63c0099c9545135e26eac16a861e98edb24628))
+
+- fix: resolve ruff lint errors (D401 imperative mood, RUF022 __all__ sorting) - ([dc7113d](https://github.com/JacobCoffee/litestar-flags/commit/dc7113dc7dad8705a8324913c47e634d17d7e809))
+
+- fix(storage): Use OrderBy filter objects for repository ordering - ([29d7a2c](https://github.com/JacobCoffee/litestar-flags/commit/29d7a2cc7a52d91eb4f7a320a305511b9aed9d49))
+
 
 ### Documentation
 
 
 - docs: regenerate changelog for v0.2.0 - ([9ac26ff](https://github.com/JacobCoffee/litestar-flags/commit/9ac26ffa9b9223046ab2a54de15ca41cbff7b03e))
+
+
+### Miscellaneous Chores
+
+
+- chore: bump version to 0.2.1 - ([2745fe0](https://github.com/JacobCoffee/litestar-flags/commit/2745fe0c3d6993aeb045fe5107dd0845ab8d7997))
+
+
+### Style
+
+
+- style: apply ruff formatting - ([d0bde0b](https://github.com/JacobCoffee/litestar-flags/commit/d0bde0ba0ffb57662ddddf0e23295ab167ebcb00))
 ## [0.2.0](https://github.com/JacobCoffee/litestar-flags/compare/v0.1.1..v0.2.0) - 2025-12-30
 
 

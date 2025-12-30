@@ -156,6 +156,11 @@ docs = [
     "myst-parser>=2.0.0",
     "linkify-it-py>=2.0.0",
     "uuid-utils>=0.6.0",  # Suppress advanced-alchemy warnings
+    # Optional deps for autodoc type resolution
+    "prometheus-client>=0.17.0",
+    "opentelemetry-api>=1.20.0",
+    "openfeature-sdk>=0.8.0",
+    "structlog>=24.1.0",
 ]
 lint = [
     "ty>=0.0.1a27",

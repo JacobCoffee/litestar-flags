@@ -4,17 +4,17 @@ Provides REST API endpoints for managing feature flags, rules, segments,
 environments, and analytics with role-based access control and audit logging.
 
 Example:
-    Basic usage with the AdminPlugin::
+    Basic usage with the FeatureFlagsAdminPlugin::
 
         from litestar import Litestar
         from litestar_flags import FeatureFlagsPlugin
-        from litestar_flags.admin import AdminPlugin, AdminConfig
+        from litestar_flags.admin import FeatureFlagsAdminPlugin, FeatureFlagsAdminConfig
 
-        config = AdminConfig(path_prefix="/api/admin")
+        config = FeatureFlagsAdminConfig(path_prefix="/api/admin")
         app = Litestar(
             plugins=[
                 FeatureFlagsPlugin(),
-                AdminPlugin(config=config),
+                FeatureFlagsAdminPlugin(config=config),
             ],
         )
 
@@ -116,12 +116,12 @@ from litestar_flags.admin.guards import (
     require_role,
     require_superadmin,
 )
-from litestar_flags.admin.plugin import AdminConfig, AdminPlugin
+from litestar_flags.admin.plugin import FeatureFlagsAdminConfig, FeatureFlagsAdminPlugin
 
 __all__ = [
     # Plugin
-    "AdminConfig",
-    "AdminPlugin",
+    "FeatureFlagsAdminConfig",
+    "FeatureFlagsAdminPlugin",
     # Audit
     "AuditAction",
     "AuditEntry",

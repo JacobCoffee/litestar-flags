@@ -16,7 +16,7 @@ from litestar import Litestar
 from litestar.testing import TestClient
 
 from litestar_flags import FeatureFlagsConfig, FeatureFlagsPlugin
-from litestar_flags.admin import AdminConfig, AdminPlugin
+from litestar_flags.admin import FeatureFlagsAdminConfig, FeatureFlagsAdminPlugin
 from litestar_flags.admin.guards import Permission, Role
 from litestar_flags.models.environment import Environment
 from litestar_flags.models.flag import FeatureFlag
@@ -99,11 +99,11 @@ def app_with_admin(admin_user: MockUser) -> Litestar:
     feature_flags_config = FeatureFlagsConfig(backend="memory")
     feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-    admin_config = AdminConfig(
+    admin_config = FeatureFlagsAdminConfig(
         require_auth=True,
         auth_guard=auth_guard,
     )
-    admin_plugin = AdminPlugin(config=admin_config)
+    admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
     app = Litestar(
         route_handlers=[],
@@ -1120,8 +1120,8 @@ class TestPermissionGuards:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(require_auth=True)  # No auth_guard set
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_config = FeatureFlagsAdminConfig(require_auth=True)  # No auth_guard set
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1150,11 +1150,11 @@ class TestPermissionGuards:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             require_auth=True,
             auth_guard=auth_guard,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1183,11 +1183,11 @@ class TestPermissionGuards:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             require_auth=True,
             auth_guard=auth_guard,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1220,11 +1220,11 @@ class TestPermissionGuards:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             require_auth=True,
             auth_guard=auth_guard,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1262,11 +1262,11 @@ class TestPermissionGuards:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             require_auth=True,
             auth_guard=auth_guard,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1300,20 +1300,20 @@ class TestPermissionGuards:
 
 
 # =============================================================================
-# AdminPlugin Configuration Tests
+# FeatureFlagsAdminPlugin Configuration Tests
 # =============================================================================
 
 
-class TestAdminPluginConfiguration:
-    """Tests for AdminPlugin configuration options."""
+class TestFeatureFlagsAdminPluginConfiguration:
+    """Tests for FeatureFlagsAdminPlugin configuration options."""
 
     def test_admin_plugin_disabled(self, storage: MemoryStorageBackend) -> None:
         """Test that disabled admin plugin does not register routes."""
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(enabled=False)
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_config = FeatureFlagsAdminConfig(enabled=False)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1343,11 +1343,11 @@ class TestAdminPluginConfiguration:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             path_prefix="/api/v1",
             auth_guard=auth_guard,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1382,7 +1382,7 @@ class TestAdminPluginConfiguration:
         feature_flags_config = FeatureFlagsConfig(backend="memory")
         feature_flags_plugin = FeatureFlagsPlugin(config=feature_flags_config)
 
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             enable_flags=True,
             enable_rules=False,
             enable_segments=False,
@@ -1391,7 +1391,7 @@ class TestAdminPluginConfiguration:
             enable_overrides=False,
             auth_guard=auth_guard,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         app = Litestar(
             route_handlers=[],
@@ -1414,7 +1414,7 @@ class TestAdminPluginConfiguration:
 
     def test_get_enabled_controllers(self) -> None:
         """Test getting list of enabled controllers."""
-        admin_config = AdminConfig(
+        admin_config = FeatureFlagsAdminConfig(
             enable_flags=True,
             enable_rules=True,
             enable_segments=False,
@@ -1422,7 +1422,7 @@ class TestAdminPluginConfiguration:
             enable_analytics=False,
             enable_overrides=False,
         )
-        admin_plugin = AdminPlugin(config=admin_config)
+        admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
         enabled = admin_plugin.get_enabled_controllers()
         assert "FlagsController" in enabled

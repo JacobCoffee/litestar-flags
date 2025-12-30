@@ -45,20 +45,20 @@ Installation & Setup
 Basic Setup
 ~~~~~~~~~~~
 
-Register the ``AdminPlugin`` alongside the ``FeatureFlagsPlugin``:
+Register the ``FeatureFlagsAdminPlugin`` alongside the ``FeatureFlagsPlugin``:
 
 .. code-block:: python
 
    from litestar import Litestar
    from litestar_flags import FeatureFlagsPlugin, FeatureFlagsConfig
-   from litestar_flags.admin import AdminPlugin, AdminConfig
+   from litestar_flags.admin import FeatureFlagsAdminPlugin, FeatureFlagsAdminConfig
 
    # Feature flags configuration
    flags_config = FeatureFlagsConfig()
    flags_plugin = FeatureFlagsPlugin(config=flags_config)
 
    # Admin API configuration
-   admin_plugin = AdminPlugin()
+   admin_plugin = FeatureFlagsAdminPlugin()
 
    app = Litestar(
        plugins=[flags_plugin, admin_plugin],
@@ -74,10 +74,10 @@ Use a custom path prefix for API versioning or organizational needs:
 
 .. code-block:: python
 
-   admin_config = AdminConfig(
+   admin_config = FeatureFlagsAdminConfig(
        path_prefix="/api/v1",  # Results in /api/v1/admin/flags, etc.
    )
-   admin_plugin = AdminPlugin(config=admin_config)
+   admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
    app = Litestar(
        plugins=[flags_plugin, admin_plugin],
@@ -91,7 +91,7 @@ Enable only the controllers you need:
 
 .. code-block:: python
 
-   admin_config = AdminConfig(
+   admin_config = FeatureFlagsAdminConfig(
        enable_flags=True,           # /admin/flags
        enable_rules=True,           # /admin/flags/{flag_id}/rules
        enable_overrides=True,       # /admin/flags/{flag_id}/overrides
@@ -100,19 +100,19 @@ Enable only the controllers you need:
        enable_analytics=True,       # /admin/analytics
    )
 
-   admin_plugin = AdminPlugin(config=admin_config)
+   admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
 
 Configuration Options
 ---------------------
 
-The ``AdminConfig`` dataclass provides comprehensive configuration:
+The ``FeatureFlagsAdminConfig`` dataclass provides comprehensive configuration:
 
 .. code-block:: python
 
-   from litestar_flags.admin import AdminConfig
+   from litestar_flags.admin import FeatureFlagsAdminConfig
 
-   config = AdminConfig(
+   config = FeatureFlagsAdminConfig(
        # Core settings
        enabled=True,                    # Enable/disable the entire Admin API
        path_prefix="/api/v1",           # URL prefix for all endpoints
@@ -367,7 +367,7 @@ Integrate with JWT authentication:
    from litestar import Litestar, Request
    from litestar.middleware import AbstractAuthenticationMiddleware, AuthenticationResult
    from litestar.connection import ASGIConnection
-   from litestar_flags.admin import Role, AdminPlugin, AdminConfig
+   from litestar_flags.admin import Role, FeatureFlagsAdminPlugin, FeatureFlagsAdminConfig
    import jwt
 
    @dataclass
@@ -397,8 +397,8 @@ Integrate with JWT authentication:
                return AuthenticationResult(user=None, auth=None)
 
    # Configure Admin API with auth middleware
-   admin_config = AdminConfig(require_auth=True)
-   admin_plugin = AdminPlugin(config=admin_config)
+   admin_config = FeatureFlagsAdminConfig(require_auth=True)
+   admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
    app = Litestar(
        plugins=[flags_plugin, admin_plugin],
@@ -426,7 +426,7 @@ Apply a custom authentication guard to all Admin API routes:
        if not api_key or not await validate_api_key(api_key):
            raise NotAuthorizedException(detail="Invalid API key")
 
-   admin_config = AdminConfig(
+   admin_config = FeatureFlagsAdminConfig(
        auth_guard=my_auth_guard,
    )
 
@@ -1109,8 +1109,8 @@ Configure an audit logger when setting up the Admin API:
 .. code-block:: python
 
    from litestar_flags.admin import (
-       AdminConfig,
-       AdminPlugin,
+       FeatureFlagsAdminConfig,
+       FeatureFlagsAdminPlugin,
        InMemoryAuditLogger,
    )
 
@@ -1118,11 +1118,11 @@ Configure an audit logger when setting up the Admin API:
    audit_logger = InMemoryAuditLogger(max_entries=10000)
 
    # Configure Admin API with audit logging
-   admin_config = AdminConfig(
+   admin_config = FeatureFlagsAdminConfig(
        audit_logger=audit_logger,
    )
 
-   admin_plugin = AdminPlugin(config=admin_config)
+   admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
 
 Audit Entry Structure
@@ -1324,8 +1324,8 @@ Full example with all features:
    from litestar_flags import FeatureFlagsPlugin, FeatureFlagsConfig
    from litestar_flags.storage import MemoryStorageBackend
    from litestar_flags.admin import (
-       AdminPlugin,
-       AdminConfig,
+       FeatureFlagsAdminPlugin,
+       FeatureFlagsAdminConfig,
        InMemoryAuditLogger,
        Role,
    )
@@ -1353,13 +1353,13 @@ Full example with all features:
 
    # Admin API setup with audit logging
    audit_logger = InMemoryAuditLogger(max_entries=10000)
-   admin_config = AdminConfig(
+   admin_config = FeatureFlagsAdminConfig(
        path_prefix="/api/v1",
        require_auth=True,
        audit_logger=audit_logger,
        enable_analytics=True,
    )
-   admin_plugin = AdminPlugin(config=admin_config)
+   admin_plugin = FeatureFlagsAdminPlugin(config=admin_config)
 
    app = Litestar(
        plugins=[flags_plugin, admin_plugin],

@@ -1,6 +1,6 @@
 """Admin API plugin for Litestar feature flags.
 
-This module provides the AdminPlugin for easy registration of all admin
+This module provides the FeatureFlagsAdminPlugin for easy registration of all admin
 controllers with a Litestar application. It supports configurable controller
 inclusion, path prefixes, authentication guards, and audit logging.
 
@@ -9,25 +9,25 @@ Example:
 
         from litestar import Litestar
         from litestar_flags import FeatureFlagsPlugin
-        from litestar_flags.admin import AdminPlugin
+        from litestar_flags.admin import FeatureFlagsAdminPlugin
 
         app = Litestar(
-            plugins=[FeatureFlagsPlugin(), AdminPlugin()],
+            plugins=[FeatureFlagsPlugin(), FeatureFlagsAdminPlugin()],
         )
 
     Custom configuration::
 
-        from litestar_flags.admin import AdminConfig, AdminPlugin
+        from litestar_flags.admin import FeatureFlagsAdminConfig, FeatureFlagsAdminPlugin
         from litestar_flags.admin.audit import InMemoryAuditLogger
 
-        config = AdminConfig(
+        config = FeatureFlagsAdminConfig(
             path_prefix="/api/v1/admin",
             require_auth=True,
             audit_logger=InMemoryAuditLogger(),
             enable_analytics=False,
         )
         app = Litestar(
-            plugins=[FeatureFlagsPlugin(), AdminPlugin(config=config)],
+            plugins=[FeatureFlagsPlugin(), FeatureFlagsAdminPlugin(config=config)],
         )
 
 """
@@ -57,7 +57,7 @@ if TYPE_CHECKING:
 
     from litestar_flags.admin.audit import AuditLogger
 
-__all__ = ["AdminConfig", "AdminPlugin"]
+__all__ = ["FeatureFlagsAdminConfig", "FeatureFlagsAdminPlugin"]
 
 logger = logging.getLogger(__name__)
 
@@ -70,7 +70,7 @@ GuardCallable = Callable[
 
 
 @dataclass
-class AdminConfig:
+class FeatureFlagsAdminConfig:
     """Configuration for the Admin API plugin.
 
     Attributes:
@@ -97,7 +97,7 @@ class AdminConfig:
             Defaults to True.
 
     Example:
-        >>> config = AdminConfig(
+        >>> config = FeatureFlagsAdminConfig(
         ...     path_prefix="/api/v1",
         ...     require_auth=True,
         ...     enable_analytics=False,
@@ -120,7 +120,7 @@ class AdminConfig:
     include_entity_overrides: bool = True
 
 
-class AdminPlugin(InitPlugin):
+class FeatureFlagsAdminPlugin(InitPlugin):
     """Litestar plugin for the feature flags Admin API.
 
     Registers admin controllers for managing feature flags, rules, overrides,
@@ -138,44 +138,44 @@ class AdminPlugin(InitPlugin):
 
             from litestar import Litestar
             from litestar_flags import FeatureFlagsPlugin
-            from litestar_flags.admin import AdminPlugin
+            from litestar_flags.admin import FeatureFlagsAdminPlugin
 
             app = Litestar(
                 route_handlers=[...],
-                plugins=[FeatureFlagsPlugin(), AdminPlugin()],
+                plugins=[FeatureFlagsPlugin(), FeatureFlagsAdminPlugin()],
             )
 
         With custom configuration::
 
-            from litestar_flags.admin import AdminConfig, AdminPlugin
+            from litestar_flags.admin import FeatureFlagsAdminConfig, FeatureFlagsAdminPlugin
             from litestar_flags.admin.audit import InMemoryAuditLogger
             from litestar_flags.admin.guards import require_role, Role
 
-            config = AdminConfig(
+            config = FeatureFlagsAdminConfig(
                 path_prefix="/api/v1",
                 audit_logger=InMemoryAuditLogger(),
                 auth_guard=require_role(Role.ADMIN),
                 enable_analytics=False,
             )
             app = Litestar(
-                plugins=[FeatureFlagsPlugin(), AdminPlugin(config=config)],
+                plugins=[FeatureFlagsPlugin(), FeatureFlagsAdminPlugin(config=config)],
             )
 
     """
 
     __slots__ = ("_config",)
 
-    def __init__(self, config: AdminConfig | None = None) -> None:
+    def __init__(self, config: FeatureFlagsAdminConfig | None = None) -> None:
         """Initialize the Admin API plugin.
 
         Args:
-            config: Plugin configuration. Defaults to AdminConfig with default values.
+            config: Plugin configuration. Defaults to FeatureFlagsAdminConfig with default values.
 
         """
-        self._config = config or AdminConfig()
+        self._config = config or FeatureFlagsAdminConfig()
 
     @property
-    def config(self) -> AdminConfig:
+    def config(self) -> FeatureFlagsAdminConfig:
         """Get the plugin configuration."""
         return self._config
 

@@ -52,7 +52,6 @@ from litestar_flags.admin.dto import (
 )
 from litestar_flags.admin.guards import Permission, require_permission
 from litestar_flags.models.segment import Segment
-
 from litestar_flags.protocols import StorageBackend
 
 if TYPE_CHECKING:

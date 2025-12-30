@@ -50,9 +50,8 @@ from litestar_flags.admin.dto import (
 )
 from litestar_flags.admin.guards import Permission, require_permission
 from litestar_flags.models.flag import FeatureFlag
-from litestar_flags.types import FlagStatus
-
 from litestar_flags.protocols import StorageBackend
+from litestar_flags.types import FlagStatus
 
 if TYPE_CHECKING:
     from litestar.connection import ASGIConnection

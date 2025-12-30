@@ -17,11 +17,12 @@ Example:
         @get("/admin/settings", guards=[require_role(Role.ADMIN)])
         async def admin_settings() -> dict:
             ...
+
 """
 
 from __future__ import annotations
 
-from collections.abc import Callable, Sequence
+from collections.abc import Sequence
 from enum import StrEnum
 from typing import TYPE_CHECKING, Any, Protocol, runtime_checkable
 
@@ -32,11 +33,11 @@ if TYPE_CHECKING:
     from litestar.handlers.base import BaseRouteHandler
 
 __all__ = [
+    "ROLE_PERMISSIONS",
     "HasPermissions",
     "Permission",
     "PermissionGuard",
     "Role",
-    "ROLE_PERMISSIONS",
     "get_current_user_permissions",
     "require_permission",
     "require_role",
@@ -167,6 +168,7 @@ class HasPermissions(Protocol):
     Note:
         The permissions field is optional and allows for granting
         specific permissions that are not part of a user's roles.
+
     """
 
     @property
@@ -200,6 +202,7 @@ def get_permissions_for_roles(roles: Sequence[Role]) -> set[Permission]:
     Example:
         >>> get_permissions_for_roles([Role.VIEWER])
         {Permission.FLAGS_READ, Permission.RULES_READ, ...}
+
     """
     permissions: set[Permission] = set()
     for role in roles:
@@ -239,6 +242,7 @@ def get_current_user_permissions(
             ) -> list[str]:
                 perms = get_current_user_permissions(request)
                 return [p.value for p in perms]
+
     """
     # Try to get user from state
     user = getattr(connection.state, "user", None)
@@ -317,6 +321,7 @@ def has_permission(
         True
         >>> has_permission(user_perms, [Permission.FLAGS_DELETE])
         False
+
     """
     # Superadmin bypasses all permission checks
     if Permission.ADMIN_ALL in user_permissions:
@@ -354,6 +359,7 @@ def has_role(
         True
         >>> has_role([Role.VIEWER], [Role.ADMIN])
         False
+
     """
     if not required_roles:
         return True
@@ -407,6 +413,7 @@ class PermissionGuard:
             )
             async def create_flag(data: FlagCreate) -> dict:
                 ...
+
     """
 
     __slots__ = ("permissions", "require_all")
@@ -421,6 +428,7 @@ class PermissionGuard:
         Args:
             *permissions: One or more permissions to require.
             require_all: If True, all permissions are required.
+
         """
         self.permissions = permissions
         self.require_all = require_all
@@ -438,6 +446,7 @@ class PermissionGuard:
 
         Raises:
             PermissionDeniedException: If the user lacks required permissions.
+
         """
         try:
             user_permissions = get_current_user_permissions(connection)
@@ -488,9 +497,10 @@ class RoleGuard:
             )
             async def get_reports() -> list[dict]:
                 ...
+
     """
 
-    __slots__ = ("roles", "require_all")
+    __slots__ = ("require_all", "roles")
 
     def __init__(
         self,
@@ -502,6 +512,7 @@ class RoleGuard:
         Args:
             *roles: One or more roles to require.
             require_all: If True, all roles are required.
+
         """
         self.roles = roles
         self.require_all = require_all
@@ -519,6 +530,7 @@ class RoleGuard:
 
         Raises:
             PermissionDeniedException: If the user lacks required roles.
+
         """
         user = getattr(connection.state, "user", None)
         if user is None:
@@ -551,7 +563,7 @@ def require_permission(
     *permissions: Permission,
     require_all: bool = True,
 ) -> PermissionGuard:
-    """Factory function to create a PermissionGuard.
+    """Create a PermissionGuard for route handler guards.
 
     This is a convenience function for creating PermissionGuard instances
     that can be used directly in the guards parameter of route handlers.
@@ -588,6 +600,7 @@ def require_permission(
             )
             async def get_data() -> dict:
                 ...
+
     """
     return PermissionGuard(*permissions, require_all=require_all)
 
@@ -596,7 +609,7 @@ def require_role(
     *roles: Role,
     require_all: bool = False,
 ) -> RoleGuard:
-    """Factory function to create a RoleGuard.
+    """Create a RoleGuard for route handler guards.
 
     This is a convenience function for creating RoleGuard instances
     that can be used directly in the guards parameter of route handlers.
@@ -629,12 +642,13 @@ def require_role(
             )
             async def dashboard() -> dict:
                 ...
+
     """
     return RoleGuard(*roles, require_all=require_all)
 
 
 def require_superadmin() -> RoleGuard:
-    """Factory function to create a guard requiring superadmin role.
+    """Create a guard requiring superadmin role.
 
     This is a convenience function for the common case of requiring
     superadmin access to a route.
@@ -654,5 +668,6 @@ def require_superadmin() -> RoleGuard:
             )
             async def reset_system() -> dict:
                 ...
+
     """
     return RoleGuard(Role.SUPERADMIN)

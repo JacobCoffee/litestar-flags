@@ -23,7 +23,7 @@ import io
 import math
 from datetime import UTC, datetime, timedelta
 from typing import TYPE_CHECKING, Any, ClassVar
-from uuid import UUID, uuid4
+from uuid import uuid4
 
 from litestar import Controller, get
 from litestar.datastructures import State
@@ -32,13 +32,11 @@ from litestar.exceptions import HTTPException
 from litestar.params import Parameter
 from litestar.response import Response
 from litestar.status_codes import HTTP_200_OK
-from msgspec import Struct, field
+from msgspec import Struct
 
 from litestar_flags.admin.dto import (
     EventResponse,
-    EventsQueryParams,
     EventsResponse,
-    MetricsQueryParams,
     MetricsResponse,
 )
 from litestar_flags.admin.guards import Permission, require_permission

@@ -44,9 +44,8 @@ from litestar_flags.admin.dto import (
 )
 from litestar_flags.admin.guards import Permission, require_permission
 from litestar_flags.models.rule import FlagRule
-from litestar_flags.types import RuleOperator
-
 from litestar_flags.storage.memory import MemoryStorageBackend
+from litestar_flags.types import RuleOperator
 
 if TYPE_CHECKING:
     from litestar.connection import Request

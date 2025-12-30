@@ -802,8 +802,7 @@ class MemoryStorageBackend:
         key = self._environment_flag_key(env_flag.environment_id, env_flag.flag_id)
         if key not in self._environment_flags:
             raise ValueError(
-                f"EnvironmentFlag for environment '{env_flag.environment_id}' "
-                f"and flag '{env_flag.flag_id}' not found"
+                f"EnvironmentFlag for environment '{env_flag.environment_id}' and flag '{env_flag.flag_id}' not found"
             )
 
         env_flag.updated_at = datetime.now(UTC)  # type: ignore[misc]

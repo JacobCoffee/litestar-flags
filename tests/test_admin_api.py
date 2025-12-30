@@ -763,9 +763,7 @@ class TestRulesController:
         """Test deleting a rule."""
         rule_id = sample_flag_with_rules.rules[0].id
 
-        response = client.delete(
-            f"/admin/flags/{sample_flag_with_rules.id}/rules/{rule_id}"
-        )
+        response = client.delete(f"/admin/flags/{sample_flag_with_rules.id}/rules/{rule_id}")
         assert response.status_code == 204
 
         # Verify rule is deleted
@@ -1063,9 +1061,7 @@ class TestEnvironmentsController:
         response = client.get(f"/admin/environments/{sample_environment.id}")
         assert response.status_code == 404
 
-    @pytest.mark.skip(
-        reason="Environment model does not have is_production field yet"
-    )
+    @pytest.mark.skip(reason="Environment model does not have is_production field yet")
     def test_delete_production_environment_blocked(
         self,
         client: TestClient,

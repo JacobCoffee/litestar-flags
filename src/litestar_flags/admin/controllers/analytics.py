@@ -914,27 +914,31 @@ class AnalyticsController(Controller):
             writer = csv.writer(output)
 
             # Write header
-            writer.writerow([
-                "timestamp",
-                "flag_key",
-                "value",
-                "reason",
-                "variant",
-                "targeting_key",
-                "evaluation_duration_ms",
-            ])
+            writer.writerow(
+                [
+                    "timestamp",
+                    "flag_key",
+                    "value",
+                    "reason",
+                    "variant",
+                    "targeting_key",
+                    "evaluation_duration_ms",
+                ]
+            )
 
             # Write data rows
             for event in filtered_events:
-                writer.writerow([
-                    event.timestamp.isoformat(),
-                    event.flag_key,
-                    str(event.value),
-                    event.reason.value if isinstance(event.reason, EvaluationReason) else str(event.reason),
-                    event.variant or "",
-                    event.targeting_key or "",
-                    f"{event.evaluation_duration_ms:.3f}",
-                ])
+                writer.writerow(
+                    [
+                        event.timestamp.isoformat(),
+                        event.flag_key,
+                        str(event.value),
+                        event.reason.value if isinstance(event.reason, EvaluationReason) else str(event.reason),
+                        event.variant or "",
+                        event.targeting_key or "",
+                        f"{event.evaluation_duration_ms:.3f}",
+                    ]
+                )
 
             csv_content = output.getvalue()
             return Response(

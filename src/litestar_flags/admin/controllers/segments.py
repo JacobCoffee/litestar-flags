@@ -508,8 +508,7 @@ class SegmentsController(Controller):
             all_segments = [
                 s
                 for s in all_segments
-                if search_lower in s.name.lower()
-                or (s.description and search_lower in s.description.lower())
+                if search_lower in s.name.lower() or (s.description and search_lower in s.description.lower())
             ]
 
         # Sort by created_at descending (newest first)
@@ -687,9 +686,7 @@ class SegmentsController(Controller):
                 parent = await storage.get_segment(data.parent_segment_id)
                 if parent is not None:
                     metadata["parent_segment_name"] = parent.name
-                    metadata["hierarchy_level"] = await self._get_hierarchy_level(
-                        storage, data.parent_segment_id
-                    ) + 1
+                    metadata["hierarchy_level"] = await self._get_hierarchy_level(storage, data.parent_segment_id) + 1
             else:
                 metadata["hierarchy_level"] = 0
 

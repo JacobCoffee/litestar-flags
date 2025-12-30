@@ -66,8 +66,7 @@ def _validate_entity_type(entity_type: str) -> None:
     """
     if entity_type not in VALID_ENTITY_TYPES:
         raise ValidationException(
-            detail=f"Invalid entity_type '{entity_type}'. "
-            f"Must be one of: {', '.join(sorted(VALID_ENTITY_TYPES))}"
+            detail=f"Invalid entity_type '{entity_type}'. Must be one of: {', '.join(sorted(VALID_ENTITY_TYPES))}"
         )
 
 
@@ -84,9 +83,7 @@ def _validate_expires_at(expires_at: datetime | None) -> None:
     if expires_at is not None:
         now = datetime.now(UTC)
         if expires_at <= now:
-            raise ValidationException(
-                detail="expires_at must be in the future"
-            )
+            raise ValidationException(detail="expires_at must be in the future")
 
 
 def _override_to_response(override: FlagOverride) -> OverrideResponse:
@@ -271,9 +268,7 @@ class OverridesController(Controller):
 
         override = await storage.get_override(flag_id, entity_type, entity_id)
         if override is None:
-            raise NotFoundException(
-                detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found"
-            )
+            raise NotFoundException(detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found")
 
         return _override_to_response(override)
 
@@ -409,9 +404,7 @@ class OverridesController(Controller):
         # Get existing override
         override = await storage.get_override(flag_id, entity_type, entity_id)
         if override is None:
-            raise NotFoundException(
-                detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found"
-            )
+            raise NotFoundException(detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found")
 
         # Capture before state for audit
         before_state = {
@@ -505,18 +498,14 @@ class OverridesController(Controller):
         # Get override for audit purposes
         override = await storage.get_override(flag_id, entity_type, entity_id)
         if override is None:
-            raise NotFoundException(
-                detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found"
-            )
+            raise NotFoundException(detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found")
 
         override_id = override.id
 
         # Delete the override
         deleted = await storage.delete_override(flag_id, entity_type, entity_id)
         if not deleted:
-            raise NotFoundException(
-                detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found"
-            )
+            raise NotFoundException(detail=f"Override for {entity_type}/{entity_id} on flag '{flag_id}' not found")
 
         # Audit log
         actor_id, actor_type = _get_actor_info(connection)

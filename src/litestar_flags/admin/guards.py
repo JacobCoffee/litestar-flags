@@ -99,49 +99,57 @@ class Role(StrEnum):
 
 # Role to permission mappings
 ROLE_PERMISSIONS: dict[Role, frozenset[Permission]] = {
-    Role.VIEWER: frozenset({
-        Permission.FLAGS_READ,
-        Permission.RULES_READ,
-        Permission.SEGMENTS_READ,
-        Permission.ENVIRONMENTS_READ,
-        Permission.ANALYTICS_READ,
-    }),
-    Role.EDITOR: frozenset({
-        Permission.FLAGS_READ,
-        Permission.FLAGS_WRITE,
-        Permission.RULES_READ,
-        Permission.RULES_WRITE,
-        Permission.SEGMENTS_READ,
-        Permission.SEGMENTS_WRITE,
-        Permission.ENVIRONMENTS_READ,
-        Permission.ENVIRONMENTS_WRITE,
-        Permission.ANALYTICS_READ,
-    }),
-    Role.ADMIN: frozenset({
-        Permission.FLAGS_READ,
-        Permission.FLAGS_WRITE,
-        Permission.FLAGS_DELETE,
-        Permission.RULES_READ,
-        Permission.RULES_WRITE,
-        Permission.SEGMENTS_READ,
-        Permission.SEGMENTS_WRITE,
-        Permission.ENVIRONMENTS_READ,
-        Permission.ENVIRONMENTS_WRITE,
-        Permission.ANALYTICS_READ,
-    }),
-    Role.SUPERADMIN: frozenset({
-        Permission.FLAGS_READ,
-        Permission.FLAGS_WRITE,
-        Permission.FLAGS_DELETE,
-        Permission.RULES_READ,
-        Permission.RULES_WRITE,
-        Permission.SEGMENTS_READ,
-        Permission.SEGMENTS_WRITE,
-        Permission.ENVIRONMENTS_READ,
-        Permission.ENVIRONMENTS_WRITE,
-        Permission.ANALYTICS_READ,
-        Permission.ADMIN_ALL,
-    }),
+    Role.VIEWER: frozenset(
+        {
+            Permission.FLAGS_READ,
+            Permission.RULES_READ,
+            Permission.SEGMENTS_READ,
+            Permission.ENVIRONMENTS_READ,
+            Permission.ANALYTICS_READ,
+        }
+    ),
+    Role.EDITOR: frozenset(
+        {
+            Permission.FLAGS_READ,
+            Permission.FLAGS_WRITE,
+            Permission.RULES_READ,
+            Permission.RULES_WRITE,
+            Permission.SEGMENTS_READ,
+            Permission.SEGMENTS_WRITE,
+            Permission.ENVIRONMENTS_READ,
+            Permission.ENVIRONMENTS_WRITE,
+            Permission.ANALYTICS_READ,
+        }
+    ),
+    Role.ADMIN: frozenset(
+        {
+            Permission.FLAGS_READ,
+            Permission.FLAGS_WRITE,
+            Permission.FLAGS_DELETE,
+            Permission.RULES_READ,
+            Permission.RULES_WRITE,
+            Permission.SEGMENTS_READ,
+            Permission.SEGMENTS_WRITE,
+            Permission.ENVIRONMENTS_READ,
+            Permission.ENVIRONMENTS_WRITE,
+            Permission.ANALYTICS_READ,
+        }
+    ),
+    Role.SUPERADMIN: frozenset(
+        {
+            Permission.FLAGS_READ,
+            Permission.FLAGS_WRITE,
+            Permission.FLAGS_DELETE,
+            Permission.RULES_READ,
+            Permission.RULES_WRITE,
+            Permission.SEGMENTS_READ,
+            Permission.SEGMENTS_WRITE,
+            Permission.ENVIRONMENTS_READ,
+            Permission.ENVIRONMENTS_WRITE,
+            Permission.ANALYTICS_READ,
+            Permission.ADMIN_ALL,
+        }
+    ),
 }
 
 

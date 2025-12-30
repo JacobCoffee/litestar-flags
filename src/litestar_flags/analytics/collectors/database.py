@@ -10,8 +10,7 @@ from litestar_flags.models.base import HAS_ADVANCED_ALCHEMY
 
 if not HAS_ADVANCED_ALCHEMY:
     raise ImportError(
-        "Database analytics collector requires 'advanced-alchemy'. "
-        "Install with: pip install litestar-flags[database]"
+        "Database analytics collector requires 'advanced-alchemy'. Install with: pip install litestar-flags[database]"
     )
 
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine

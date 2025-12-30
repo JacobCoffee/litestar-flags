@@ -246,8 +246,7 @@ class FeatureFlagsAdminPlugin(InitPlugin):
             )
             app_config.route_handlers.append(admin_router)
             logger.info(
-                f"Registered Admin API router at '{self._config.path_prefix}' "
-                f"with {len(controllers)} controller(s)"
+                f"Registered Admin API router at '{self._config.path_prefix}' with {len(controllers)} controller(s)"
             )
         else:
             # Register controllers directly
@@ -309,8 +308,7 @@ class FeatureFlagsAdminPlugin(InitPlugin):
             for tag_info in admin_tags:
                 # Check if tag already exists
                 tag_exists = any(
-                    (t.name if hasattr(t, "name") else t.get("name")) == tag_info["name"]
-                    for t in existing_tags
+                    (t.name if hasattr(t, "name") else t.get("name")) == tag_info["name"] for t in existing_tags
                 )
                 if not tag_exists:
                     existing_tags.append(tag_info)  # type: ignore[arg-type]

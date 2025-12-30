@@ -14,6 +14,7 @@ if not HAS_ADVANCED_ALCHEMY:
         "Database backend requires 'advanced-alchemy'. Install with: pip install litestar-flags[database]"
     )
 
+from advanced_alchemy.filters import OrderBy
 from advanced_alchemy.repository import SQLAlchemyAsyncRepository
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
@@ -127,11 +128,11 @@ class ScheduledFlagChangeRepository(SQLAlchemyAsyncRepository[ScheduledFlagChang
             return await self.list(
                 ScheduledFlagChange.executed == False,  # noqa: E712
                 ScheduledFlagChange.flag_id == flag_id,
-                order_by=[ScheduledFlagChange.scheduled_at],
+                OrderBy(field_name="scheduled_at", sort_order="asc"),
             )
         return await self.list(
             ScheduledFlagChange.executed == False,  # noqa: E712
-            order_by=[ScheduledFlagChange.scheduled_at],
+            OrderBy(field_name="scheduled_at", sort_order="asc"),
         )
 
     async def get_all_changes(
@@ -150,9 +151,9 @@ class ScheduledFlagChangeRepository(SQLAlchemyAsyncRepository[ScheduledFlagChang
         if flag_id is not None:
             return await self.list(
                 ScheduledFlagChange.flag_id == flag_id,
-                order_by=[ScheduledFlagChange.scheduled_at],
+                OrderBy(field_name="scheduled_at", sort_order="asc"),
             )
-        return await self.list(order_by=[ScheduledFlagChange.scheduled_at])
+        return await self.list(OrderBy(field_name="scheduled_at", sort_order="asc"))
 
 
 class TimeScheduleRepository(SQLAlchemyAsyncRepository[TimeSchedule]):
@@ -210,7 +211,7 @@ class RolloutPhaseRepository(SQLAlchemyAsyncRepository[RolloutPhase]):
         """
         return await self.list(
             RolloutPhase.flag_id == flag_id,
-            order_by=[RolloutPhase.phase_number],
+            OrderBy(field_name="phase_number", sort_order="asc"),
         )
 
     async def get_pending_phases(self, flag_id: UUID) -> list[RolloutPhase]:
@@ -226,7 +227,7 @@ class RolloutPhaseRepository(SQLAlchemyAsyncRepository[RolloutPhase]):
         return await self.list(
             RolloutPhase.flag_id == flag_id,
             RolloutPhase.executed == False,  # noqa: E712
-            order_by=[RolloutPhase.phase_number],
+            OrderBy(field_name="phase_number", sort_order="asc"),
         )
 
 

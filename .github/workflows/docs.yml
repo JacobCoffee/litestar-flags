@@ -72,7 +72,7 @@ jobs:
 
       - name: Deploy PR preview
         if: github.event_name == 'pull_request'
-        uses: rossjrw/pr-preview-action@3e4ed158ecbf7f58513abc0dc15a4ad3b0e18ee5 # v1
+        uses: rossjrw/pr-preview-action@5fd5f8e2f88e735fc3d1151302b32242037e3962 # v1
         with:
           source-dir: docs/_build/html
           token: ${{ secrets.GITHUB_TOKEN }}

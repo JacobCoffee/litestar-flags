@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Flag Analytics - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Admin API" href="../usage/admin-api.html" /><link rel="prev" title="Multi-Environment Support" href="multi-environment.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Flag Analytics"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">User Guide</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a></li>
+<li><a class="reference internal" href="#core-components">Core Components</a><ul>
+<li><a class="reference internal" href="#flagevaluationevent">FlagEvaluationEvent</a></li>
+<li><a class="reference internal" href="#analyticscollector-protocol">AnalyticsCollector Protocol</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#in-memory-collector">In-Memory Collector</a><ul>
+<li><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li><a class="reference internal" href="#configuration-options">Configuration Options</a></li>
+<li><a class="reference internal" href="#utility-methods">Utility Methods</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#database-collector">Database Collector</a><ul>
+<li><a class="reference internal" href="#id1">Basic Usage</a></li>
+<li><a class="reference internal" href="#id2">Configuration Options</a></li>
+<li><a class="reference internal" href="#health-monitoring">Health Monitoring</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#analytics-aggregator">Analytics Aggregator</a><ul>
+<li><a class="reference internal" href="#id3">Basic Usage</a></li>
+<li><a class="reference internal" href="#complete-metrics">Complete Metrics</a></li>
+<li><a class="reference internal" href="#flagmetrics">FlagMetrics</a></li>
+<li><a class="reference internal" href="#using-with-database-sessions">Using with Database Sessions</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#prometheus-integration">Prometheus Integration</a><ul>
+<li><a class="reference internal" href="#id4">Basic Usage</a></li>
+<li><a class="reference internal" href="#configuration">Configuration</a></li>
+<li><a class="reference internal" href="#exposed-metrics">Exposed Metrics</a></li>
+<li><a class="reference internal" href="#syncing-from-aggregator">Syncing from Aggregator</a></li>
+<li><a class="reference internal" href="#litestar-integration">Litestar Integration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#opentelemetry-integration">OpenTelemetry Integration</a><ul>
+<li><a class="reference internal" href="#id5">Basic Usage</a></li>
+<li><a class="reference internal" href="#id6">Configuration</a></li>
+<li><a class="reference internal" href="#sharing-with-otelhook">Sharing with OTelHook</a></li>
+<li><a class="reference internal" href="#span-attributes">Span Attributes</a></li>
+<li><a class="reference internal" href="#metrics">Metrics</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#best-practices">Best Practices</a><ul>
+<li><a class="reference internal" href="#choosing-a-collector">Choosing a Collector</a></li>
+<li><a class="reference internal" href="#batching-configuration">Batching Configuration</a></li>
+<li><a class="reference internal" href="#memory-management">Memory Management</a></li>
+<li><a class="reference internal" href="#graceful-shutdown">Graceful Shutdown</a></li>
+<li><a class="reference internal" href="#privacy-considerations">Privacy Considerations</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">User Guide</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Flag Analytics</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="flag-analytics">
+<h1>Flag Analytics<a class="headerlink" href="#flag-analytics" title="Link to this heading">¶</a></h1>
+<p>litestar-flags provides a comprehensive analytics module for tracking and
+analyzing feature flag evaluations. This enables insights into flag usage,
+performance monitoring, and targeting effectiveness.</p>
+<section id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h2>
+<p>The analytics module captures every flag evaluation as an event, allowing you to:</p>
+<ul class="simple">
+<li><p><strong>Monitor Usage</strong>: Track which flags are evaluated most frequently</p></li>
+<li><p><strong>Analyze Targeting</strong>: Understand how users are distributed across variants</p></li>
+<li><p><strong>Debug Issues</strong>: Identify error rates and evaluation failures</p></li>
+<li><p><strong>Optimize Performance</strong>: Monitor evaluation latency with percentile metrics</p></li>
+<li><p><strong>Export Metrics</strong>: Integrate with Prometheus and OpenTelemetry for observability</p></li>
+</ul>
+<p>The module follows a collector/aggregator pattern:</p>
+<ol class="arabic simple">
+<li><p><strong>Collectors</strong> capture evaluation events and store them</p></li>
+<li><p><strong>Aggregators</strong> compute metrics from collected events</p></li>
+<li><p><strong>Exporters</strong> push metrics to external monitoring systems</p></li>
+</ol>
+</section>
+<section id="core-components">
+<h2>Core Components<a class="headerlink" href="#core-components" title="Link to this heading">¶</a></h2>
+<section id="flagevaluationevent">
+<h3>FlagEvaluationEvent<a class="headerlink" href="#flagevaluationevent" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">FlagEvaluationEvent</span></code> dataclass captures all details of a single flag evaluation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">UTC</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagEvaluationEvent</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationReason</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="n">event</span> <span class="o">=</span> <span class="n">FlagEvaluationEvent</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">),</span>
+</span><span data-line="7">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;checkout_redesign&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">reason</span><span class="o">=</span><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">TARGETING_MATCH</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">variant</span><span class="o">=</span><span class="s2">&quot;treatment_a&quot;</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">targeting_key</span><span class="o">=</span><span class="s2">&quot;user-12345&quot;</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">context_attributes</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;plan&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">,</span> <span class="s2">&quot;country&quot;</span><span class="p">:</span> <span class="s2">&quot;US&quot;</span><span class="p">},</span>
+</span><span data-line="13">    <span class="n">evaluation_duration_ms</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+</span><span data-line="14"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Event Attributes:</strong></p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">timestamp</span></code></p></td>
+<td><p>When the evaluation occurred (UTC)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">flag_key</span></code></p></td>
+<td><p>The key of the evaluated flag</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">value</span></code></p></td>
+<td><p>The evaluated flag value (any type)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">reason</span></code></p></td>
+<td><p>Why this value was returned (EvaluationReason)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">variant</span></code></p></td>
+<td><p>The variant key if applicable</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">targeting_key</span></code></p></td>
+<td><p>User/entity identifier used for targeting</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">context_attributes</span></code></p></td>
+<td><p>Additional context used in evaluation</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">evaluation_duration_ms</span></code></p></td>
+<td><p>Time taken to evaluate in milliseconds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Evaluation Reasons:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DEFAULT</span></code>: Flag returned its default value</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">STATIC</span></code>: Flag has a static configuration</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TARGETING_MATCH</span></code>: A targeting rule matched</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OVERRIDE</span></code>: An override was applied</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SPLIT</span></code>: User was bucketed via percentage rollout</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DISABLED</span></code>: Flag is disabled</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ERROR</span></code>: An error occurred during evaluation</p></li>
+</ul>
+</section>
+<section id="analyticscollector-protocol">
+<h3>AnalyticsCollector Protocol<a class="headerlink" href="#analyticscollector-protocol" title="Link to this heading">¶</a></h3>
+<p>All collectors implement the <code class="docutils literal notranslate"><span class="pre">AnalyticsCollector</span></code> protocol:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticsCollector</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">class</span><span class="w"> </span><span class="nc">MyCollector</span><span class="p">:</span>
+</span><span data-line="4"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom analytics collector.&quot;&quot;&quot;</span>
+</span><span data-line="5">
+</span><span data-line="6">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">FlagEvaluationEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="7"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Record a flag evaluation event.&quot;&quot;&quot;</span>
+</span><span data-line="8">        <span class="c1"># Store or process the event</span>
+</span><span data-line="9">        <span class="o">...</span>
+</span><span data-line="10">
+</span><span data-line="11">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="12"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Flush any buffered events.&quot;&quot;&quot;</span>
+</span><span data-line="13">        <span class="o">...</span>
+</span><span data-line="14">
+</span><span data-line="15">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="16"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up resources.&quot;&quot;&quot;</span>
+</span><span data-line="17">        <span class="o">...</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="in-memory-collector">
+<h2>In-Memory Collector<a class="headerlink" href="#in-memory-collector" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">InMemoryAnalyticsCollector</span></code> stores events in memory with a configurable
+maximum size. Ideal for development, testing, and low-volume production use.</p>
+<section id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">UTC</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="3">    <span class="n">FlagEvaluationEvent</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">InMemoryAnalyticsCollector</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationReason</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Create collector with max 10,000 events</span>
+</span><span data-line="9"><span class="n">collector</span> <span class="o">=</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Record an evaluation event</span>
+</span><span data-line="12"><span class="n">event</span> <span class="o">=</span> <span class="n">FlagEvaluationEvent</span><span class="p">(</span>
+</span><span data-line="13">    <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">),</span>
+</span><span data-line="14">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;dark_mode&quot;</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">reason</span><span class="o">=</span><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">STATIC</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">targeting_key</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="18"><span class="p">)</span>
+</span><span data-line="19"><span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="20">
+</span><span data-line="21"><span class="c1"># Retrieve stored events</span>
+</span><span data-line="22"><span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_events</span><span class="p">()</span>
+</span><span data-line="23"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Recorded </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span><span class="si">}</span><span class="s2"> events&quot;</span><span class="p">)</span>
+</span><span data-line="24">
+</span><span data-line="25"><span class="c1"># Filter by flag key</span>
+</span><span data-line="26"><span class="n">dark_mode_events</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span><span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;dark_mode&quot;</span><span class="p">)</span>
+</span><span data-line="27">
+</span><span data-line="28"><span class="c1"># Get most recent events with limit</span>
+</span><span data-line="29"><span class="n">recent</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span><span data-line="30">
+</span><span data-line="31"><span class="c1"># Clean up</span>
+</span><span data-line="32"><span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="configuration-options">
+<h3>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">collector</span> <span class="o">=</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">max_size</span><span class="o">=</span><span class="mi">10000</span><span class="p">,</span>  <span class="c1"># Maximum events to store (default: 10000)</span>
+</span><span data-line="3"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>When the maximum size is reached, oldest events are automatically discarded
+to make room for new ones (FIFO behavior).</p>
+</section>
+<section id="utility-methods">
+<h3>Utility Methods<a class="headerlink" href="#utility-methods" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Get event count</span>
+</span><span data-line="2"><span class="n">total</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_event_count</span><span class="p">()</span>
+</span><span data-line="3"><span class="n">flag_count</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_event_count</span><span class="p">(</span><span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;my_flag&quot;</span><span class="p">)</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="c1"># Clear all events without closing</span>
+</span><span data-line="6"><span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Check current size (not thread-safe, use get_event_count for accuracy)</span>
+</span><span data-line="9"><span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">collector</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="database-collector">
+<h2>Database Collector<a class="headerlink" href="#database-collector" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">DatabaseAnalyticsCollector</span></code> persists events to a database using
+SQLAlchemy async sessions. Features batch writes for optimal performance.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires the <code class="docutils literal notranslate"><span class="pre">database</span></code> extra: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">litestar-flags[database]</span></code></p>
+</div>
+<section id="id1">
+<h3>Basic Usage<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.collectors.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseAnalyticsCollector</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Create collector with factory method</span>
+</span><span data-line="4"><span class="n">collector</span> <span class="o">=</span> <span class="k">await</span> <span class="n">DatabaseAnalyticsCollector</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://user:pass@localhost/analytics&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">flush_interval_seconds</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">create_tables</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># Auto-create analytics_events table</span>
+</span><span data-line="9"><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="12">    <span class="c1"># Record events (batched automatically)</span>
+</span><span data-line="13">    <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15">    <span class="c1"># Force immediate flush</span>
+</span><span data-line="16">    <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span data-line="17"><span class="k">finally</span><span class="p">:</span>
+</span><span data-line="18">    <span class="c1"># Clean up (flushes remaining events)</span>
+</span><span data-line="19">    <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Configuration Options<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">collector</span> <span class="o">=</span> <span class="k">await</span> <span class="n">DatabaseAnalyticsCollector</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://user:pass@localhost/db&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>           <span class="c1"># Events buffered before auto-flush</span>
+</span><span data-line="4">    <span class="n">flush_interval_seconds</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>  <span class="c1"># Seconds between periodic flushes</span>
+</span><span data-line="5">    <span class="n">create_tables</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># Create tables on startup</span>
+</span><span data-line="6">    <span class="n">echo</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>               <span class="c1"># SQLAlchemy engine echo setting</span>
+</span><span data-line="7"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Connection String Examples:</strong></p>
+<ul class="simple">
+<li><p>PostgreSQL: <code class="docutils literal notranslate"><span class="pre">postgresql+asyncpg://user:pass&#64;host/db</span></code></p></li>
+<li><p>SQLite: <code class="docutils literal notranslate"><span class="pre">sqlite+aiosqlite:///analytics.db</span></code></p></li>
+<li><p>MySQL: <code class="docutils literal notranslate"><span class="pre">mysql+aiomysql://user:pass&#64;host/db</span></code></p></li>
+</ul>
+</section>
+<section id="health-monitoring">
+<h3>Health Monitoring<a class="headerlink" href="#health-monitoring" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Check database connectivity</span>
+</span><span data-line="2"><span class="n">is_healthy</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">health_check</span><span class="p">()</span>
+</span><span data-line="3"><span class="k">if</span> <span class="ow">not</span> <span class="n">is_healthy</span><span class="p">:</span>
+</span><span data-line="4">    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Database connection issue!&quot;</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Check buffer status</span>
+</span><span data-line="7"><span class="n">buffer_size</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_buffer_size</span><span class="p">()</span>
+</span><span data-line="8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Events pending flush: </span><span class="si">{</span><span class="n">buffer_size</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="analytics-aggregator">
+<h2>Analytics Aggregator<a class="headerlink" href="#analytics-aggregator" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">AnalyticsAggregator</span></code> computes metrics from collected events.
+Supports both in-memory collectors and database sessions as data sources.</p>
+<section id="id3">
+<h3>Basic Usage<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">AnalyticsAggregator</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">InMemoryAnalyticsCollector</span><span class="p">,</span>
+</span><span data-line="4"><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="n">collector</span> <span class="o">=</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">()</span>
+</span><span data-line="7"><span class="n">aggregator</span> <span class="o">=</span> <span class="n">AnalyticsAggregator</span><span class="p">(</span><span class="n">collector</span><span class="p">)</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># After recording some events...</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Get evaluation rate (evaluations per second)</span>
+</span><span data-line="12"><span class="n">rate</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_evaluation_rate</span><span class="p">(</span>
+</span><span data-line="13">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;my_flag&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">window_seconds</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span>  <span class="c1"># Last minute</span>
+</span><span data-line="15"><span class="p">)</span>
+</span><span data-line="16"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Evaluation rate: </span><span class="si">{</span><span class="n">rate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">/s&quot;</span><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># Get unique users</span>
+</span><span data-line="19"><span class="n">users</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_unique_users</span><span class="p">(</span>
+</span><span data-line="20">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;my_flag&quot;</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">window_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>  <span class="c1"># Last hour</span>
+</span><span data-line="22"><span class="p">)</span>
+</span><span data-line="23"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unique users: </span><span class="si">{</span><span class="n">users</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="24">
+</span><span data-line="25"><span class="c1"># Get variant distribution</span>
+</span><span data-line="26"><span class="n">distribution</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_variant_distribution</span><span class="p">(</span><span class="s2">&quot;ab_test&quot;</span><span class="p">)</span>
+</span><span data-line="27"><span class="c1"># {&quot;control&quot;: 1000, &quot;treatment_a&quot;: 500, &quot;treatment_b&quot;: 500}</span>
+</span><span data-line="28">
+</span><span data-line="29"><span class="c1"># Get reason distribution</span>
+</span><span data-line="30"><span class="n">reasons</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_reason_distribution</span><span class="p">(</span><span class="s2">&quot;my_flag&quot;</span><span class="p">)</span>
+</span><span data-line="31"><span class="c1"># {&quot;TARGETING_MATCH&quot;: 800, &quot;SPLIT&quot;: 150, &quot;DEFAULT&quot;: 50}</span>
+</span><span data-line="32">
+</span><span data-line="33"><span class="c1"># Get error rate (percentage)</span>
+</span><span data-line="34"><span class="n">error_rate</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_error_rate</span><span class="p">(</span><span class="s2">&quot;my_flag&quot;</span><span class="p">)</span>
+</span><span data-line="35"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error rate: </span><span class="si">{</span><span class="n">error_rate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span data-line="36">
+</span><span data-line="37"><span class="c1"># Get latency percentiles</span>
+</span><span data-line="38"><span class="n">latencies</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_latency_percentiles</span><span class="p">(</span><span class="s2">&quot;my_flag&quot;</span><span class="p">)</span>
+</span><span data-line="39"><span class="c1"># {50.0: 1.2, 90.0: 2.5, 99.0: 5.0}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="complete-metrics">
+<h3>Complete Metrics<a class="headerlink" href="#complete-metrics" title="Link to this heading">¶</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">get_flag_metrics()</span></code> to retrieve all metrics in a single call:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">metrics</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_flag_metrics</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;my_flag&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">window_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>  <span class="c1"># Analysis window</span>
+</span><span data-line="4"><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Evaluation rate: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">evaluation_rate</span><span class="si">}</span><span class="s2">/s&quot;</span><span class="p">)</span>
+</span><span data-line="7"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Total evaluations: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">total_evaluations</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="8"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unique users: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">unique_users</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="9"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error rate: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">error_rate</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
+</span><span data-line="10"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P50 latency: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">latency_p50</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+</span><span data-line="11"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P90 latency: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">latency_p90</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+</span><span data-line="12"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P99 latency: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">latency_p99</span><span class="si">}</span><span class="s2">ms&quot;</span><span class="p">)</span>
+</span><span data-line="13"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variant distribution: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">variant_distribution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="14"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reason distribution: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">reason_distribution</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="15"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Window: </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">window_start</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">metrics</span><span class="o">.</span><span class="n">window_end</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="flagmetrics">
+<h3>FlagMetrics<a class="headerlink" href="#flagmetrics" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">FlagMetrics</span></code> dataclass contains all aggregated statistics:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">evaluation_rate</span></code></p></td>
+<td><p>Evaluations per second in the window</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">total_evaluations</span></code></p></td>
+<td><p>Total evaluation count</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">unique_users</span></code></p></td>
+<td><p>Count of unique targeting keys</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">variant_distribution</span></code></p></td>
+<td><p>Dict mapping variant names to counts</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">reason_distribution</span></code></p></td>
+<td><p>Dict mapping reasons to counts</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">error_rate</span></code></p></td>
+<td><p>Percentage of ERROR evaluations (0-100)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">latency_p50</span></code></p></td>
+<td><p>50th percentile latency in ms</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">latency_p90</span></code></p></td>
+<td><p>90th percentile latency in ms</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">latency_p99</span></code></p></td>
+<td><p>99th percentile latency in ms</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">window_start</span></code></p></td>
+<td><p>Start of the measurement window</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">window_end</span></code></p></td>
+<td><p>End of the measurement window</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="using-with-database-sessions">
+<h3>Using with Database Sessions<a class="headerlink" href="#using-with-database-sessions" title="Link to this heading">¶</a></h3>
+<p>For database-backed analytics, pass an <code class="docutils literal notranslate"><span class="pre">AsyncSession</span></code> to the aggregator:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_metrics</span><span class="p">(</span><span class="n">session</span><span class="p">:</span> <span class="n">AsyncSession</span><span class="p">,</span> <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+</span><span data-line="4">    <span class="n">aggregator</span> <span class="o">=</span> <span class="n">AnalyticsAggregator</span><span class="p">(</span><span class="n">session</span><span class="p">)</span>
+</span><span data-line="5">    <span class="n">metrics</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_flag_metrics</span><span class="p">(</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="6">    <span class="k">return</span> <span class="n">metrics</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="prometheus-integration">
+<h2>Prometheus Integration<a class="headerlink" href="#prometheus-integration" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">PrometheusExporter</span></code> exposes feature flag metrics in Prometheus format
+for monitoring and alerting.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires <code class="docutils literal notranslate"><span class="pre">prometheus_client</span></code>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">prometheus_client</span></code></p>
+</div>
+<section id="id4">
+<h3>Basic Usage<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrometheusExporter</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Create exporter with default registry</span>
+</span><span data-line="4"><span class="n">exporter</span> <span class="o">=</span> <span class="n">PrometheusExporter</span><span class="p">()</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Record evaluation events</span>
+</span><span data-line="7"><span class="k">await</span> <span class="n">exporter</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># Metrics are automatically exposed via prometheus_client</span>
+</span></pre></div>
+</div>
+</section>
+<section id="configuration">
+<h3>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">CollectorRegistry</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Custom registry for testing or isolation</span>
+</span><span data-line="4"><span class="n">registry</span> <span class="o">=</span> <span class="n">CollectorRegistry</span><span class="p">()</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="n">exporter</span> <span class="o">=</span> <span class="n">PrometheusExporter</span><span class="p">(</span>
+</span><span data-line="7">    <span class="n">registry</span><span class="o">=</span><span class="n">registry</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;myapp&quot;</span><span class="p">,</span>  <span class="c1"># Metric prefix: myapp_feature_flag_*</span>
+</span><span data-line="9">    <span class="n">duration_buckets</span><span class="o">=</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">0.005</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">),</span>
+</span><span data-line="10"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="exposed-metrics">
+<h3>Exposed Metrics<a class="headerlink" href="#exposed-metrics" title="Link to this heading">¶</a></h3>
+<p>The exporter creates the following Prometheus metrics:</p>
+<p><strong>Counters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_flag_evaluations_total</span></code>: Total flag evaluations
+- Labels: <code class="docutils literal notranslate"><span class="pre">flag_key</span></code>, <code class="docutils literal notranslate"><span class="pre">reason</span></code>, <code class="docutils literal notranslate"><span class="pre">variant</span></code></p></li>
+</ul>
+<p><strong>Histograms:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_flag_evaluation_duration_seconds</span></code>: Evaluation duration
+- Labels: <code class="docutils literal notranslate"><span class="pre">flag_key</span></code>
+- Default buckets: 100us to 1s</p></li>
+</ul>
+<p><strong>Gauges:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_flag_unique_users</span></code>: Unique users per flag
+- Labels: <code class="docutils literal notranslate"><span class="pre">flag_key</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_flag_error_rate</span></code>: Error rate (0.0 to 1.0)
+- Labels: <code class="docutils literal notranslate"><span class="pre">flag_key</span></code></p></li>
+</ul>
+</section>
+<section id="syncing-from-aggregator">
+<h3>Syncing from Aggregator<a class="headerlink" href="#syncing-from-aggregator" title="Link to this heading">¶</a></h3>
+<p>Update gauges from pre-computed aggregator metrics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticsAggregator</span><span class="p">,</span> <span class="n">PrometheusExporter</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">collector</span> <span class="o">=</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">()</span>
+</span><span data-line="4"><span class="n">aggregator</span> <span class="o">=</span> <span class="n">AnalyticsAggregator</span><span class="p">(</span><span class="n">collector</span><span class="p">)</span>
+</span><span data-line="5"><span class="n">exporter</span> <span class="o">=</span> <span class="n">PrometheusExporter</span><span class="p">()</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Update gauges from aggregator periodically</span>
+</span><span data-line="8"><span class="k">await</span> <span class="n">exporter</span><span class="o">.</span><span class="n">update_from_aggregator</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">aggregator</span><span class="o">=</span><span class="n">aggregator</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">flag_keys</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;feature_a&quot;</span><span class="p">,</span> <span class="s2">&quot;feature_b&quot;</span><span class="p">,</span> <span class="s2">&quot;ab_test&quot;</span><span class="p">],</span>
+</span><span data-line="11">    <span class="n">window_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">,</span>
+</span><span data-line="12"><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="c1"># Or update from a single FlagMetrics object</span>
+</span><span data-line="15"><span class="n">metrics</span> <span class="o">=</span> <span class="k">await</span> <span class="n">aggregator</span><span class="o">.</span><span class="n">get_flag_metrics</span><span class="p">(</span><span class="s2">&quot;my_flag&quot;</span><span class="p">)</span>
+</span><span data-line="16"><span class="n">exporter</span><span class="o">.</span><span class="n">update_from_metrics</span><span class="p">(</span><span class="s2">&quot;my_flag&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="litestar-integration">
+<h3>Litestar Integration<a class="headerlink" href="#litestar-integration" title="Link to this heading">¶</a></h3>
+<p>Expose Prometheus metrics endpoint in your Litestar application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">get</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">prometheus_client</span><span class="w"> </span><span class="kn">import</span> <span class="n">generate_latest</span><span class="p">,</span> <span class="n">CONTENT_TYPE_LATEST</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/metrics&quot;</span><span class="p">)</span>
+</span><span data-line="6"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">metrics</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">:</span>
+</span><span data-line="7"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Prometheus metrics endpoint.&quot;&quot;&quot;</span>
+</span><span data-line="8">    <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+</span><span data-line="9">        <span class="n">content</span><span class="o">=</span><span class="n">generate_latest</span><span class="p">(),</span>
+</span><span data-line="10">        <span class="n">media_type</span><span class="o">=</span><span class="n">CONTENT_TYPE_LATEST</span><span class="p">,</span>
+</span><span data-line="11">    <span class="p">)</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span><span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">metrics</span><span class="p">])</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="opentelemetry-integration">
+<h2>OpenTelemetry Integration<a class="headerlink" href="#opentelemetry-integration" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">OTelAnalyticsExporter</span></code> exports analytics as OpenTelemetry spans and
+metrics for distributed tracing and observability.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Requires <code class="docutils literal notranslate"><span class="pre">opentelemetry-api</span></code>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">opentelemetry-api</span></code></p>
+</div>
+<section id="id5">
+<h3>Basic Usage<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.exporters.otel</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTelAnalyticsExporter</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Create exporter with automatic batching</span>
+</span><span data-line="4"><span class="n">exporter</span> <span class="o">=</span> <span class="n">OTelAnalyticsExporter</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">flush_interval</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># Record evaluation events</span>
+</span><span data-line="10"><span class="k">await</span> <span class="n">exporter</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Clean up</span>
+</span><span data-line="13"><span class="k">await</span> <span class="n">exporter</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Configuration<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">trace</span><span class="p">,</span> <span class="n">metrics</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Use custom tracer and meter</span>
+</span><span data-line="4"><span class="n">tracer</span> <span class="o">=</span> <span class="n">trace</span><span class="o">.</span><span class="n">get_tracer</span><span class="p">(</span><span class="s2">&quot;my-app&quot;</span><span class="p">)</span>
+</span><span data-line="5"><span class="n">meter</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get_meter</span><span class="p">(</span><span class="s2">&quot;my-app&quot;</span><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="n">exporter</span> <span class="o">=</span> <span class="n">OTelAnalyticsExporter</span><span class="p">(</span>
+</span><span data-line="8">    <span class="n">tracer</span><span class="o">=</span><span class="n">tracer</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">meter</span><span class="o">=</span><span class="n">meter</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>           <span class="c1"># Events per batch (0 to disable)</span>
+</span><span data-line="11">    <span class="n">flush_interval</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span>     <span class="c1"># Seconds between flushes (0 to disable)</span>
+</span><span data-line="12">    <span class="n">record_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>     <span class="c1"># Privacy: don&#39;t record flag values</span>
+</span><span data-line="13">    <span class="n">create_spans</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># Create spans for each event</span>
+</span><span data-line="14"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="sharing-with-otelhook">
+<h3>Sharing with OTelHook<a class="headerlink" href="#sharing-with-otelhook" title="Link to this heading">¶</a></h3>
+<p>If you’re using the <code class="docutils literal notranslate"><span class="pre">OTelHook</span></code> for flag evaluation tracing, share the
+tracer and meter for consistent instrumentation:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.otel</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTelHook</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.exporters.otel</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="3">    <span class="n">OTelAnalyticsExporter</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">create_exporter_from_hook</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Create the evaluation hook</span>
+</span><span data-line="8"><span class="n">hook</span> <span class="o">=</span> <span class="n">OTelHook</span><span class="p">()</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Create analytics exporter sharing the same instruments</span>
+</span><span data-line="11"><span class="n">exporter</span> <span class="o">=</span> <span class="n">create_exporter_from_hook</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">otel_hook</span><span class="o">=</span><span class="n">hook</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">record_values</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="15"><span class="p">)</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="c1"># Or manually:</span>
+</span><span data-line="18"><span class="n">exporter</span> <span class="o">=</span> <span class="n">OTelAnalyticsExporter</span><span class="p">(</span><span class="n">otel_hook</span><span class="o">=</span><span class="n">hook</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="span-attributes">
+<h3>Span Attributes<a class="headerlink" href="#span-attributes" title="Link to this heading">¶</a></h3>
+<p>Each analytics event span includes:</p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Attribute</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">feature_flag.key</span></code></p></td>
+<td><p>The flag key</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">feature_flag.reason</span></code></p></td>
+<td><p>Evaluation reason</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">feature_flag.variant</span></code></p></td>
+<td><p>Variant key (if applicable)</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">feature_flag.targeting_key</span></code></p></td>
+<td><p>Targeting key (if provided)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">feature_flag.event_timestamp</span></code></p></td>
+<td><p>When the evaluation occurred</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">feature_flag.evaluation_duration_ms</span></code></p></td>
+<td><p>Evaluation latency in milliseconds</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="metrics">
+<h3>Metrics<a class="headerlink" href="#metrics" title="Link to this heading">¶</a></h3>
+<p><strong>Counters:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_flag.analytics.events_recorded</span></code>: Number of recorded events
+- Labels: <code class="docutils literal notranslate"><span class="pre">feature_flag.key</span></code>, <code class="docutils literal notranslate"><span class="pre">feature_flag.reason</span></code></p></li>
+</ul>
+<p><strong>Histograms:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feature_flag.analytics.batch_size</span></code>: Size of event batches when flushed</p></li>
+</ul>
+</section>
+</section>
+<section id="best-practices">
+<h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">¶</a></h2>
+<section id="choosing-a-collector">
+<h3>Choosing a Collector<a class="headerlink" href="#choosing-a-collector" title="Link to this heading">¶</a></h3>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 40.0%" />
+<col style="width: 40.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Collector</p></th>
+<th class="head"><p>Use When</p></th>
+<th class="head"><p>Trade-offs</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>InMemory</p></td>
+<td><p>Development, testing, single-instance apps</p></td>
+<td><p>Lost on restart, memory bound</p></td>
+</tr>
+<tr class="row-odd"><td><p>Database</p></td>
+<td><p>Persistence required, compliance, debugging</p></td>
+<td><p>Higher latency, storage costs</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="batching-configuration">
+<h3>Batching Configuration<a class="headerlink" href="#batching-configuration" title="Link to this heading">¶</a></h3>
+<p>For the database collector, tune batch settings based on your workload:</p>
+<p><strong>High-volume (&gt;1000 evals/sec):</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">collector</span> <span class="o">=</span> <span class="k">await</span> <span class="n">DatabaseAnalyticsCollector</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">flush_interval_seconds</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Low-latency requirements:</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">collector</span> <span class="o">=</span> <span class="k">await</span> <span class="n">DatabaseAnalyticsCollector</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">flush_interval_seconds</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="memory-management">
+<h3>Memory Management<a class="headerlink" href="#memory-management" title="Link to this heading">¶</a></h3>
+<p>For in-memory collectors, set appropriate limits:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Calculate based on expected traffic and retention</span>
+</span><span data-line="2"><span class="c1"># 100 evals/sec * 60 seconds * 10 minutes = 60,000 events</span>
+</span><span data-line="3"><span class="n">collector</span> <span class="o">=</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">(</span><span class="n">max_size</span><span class="o">=</span><span class="mi">60000</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="graceful-shutdown">
+<h3>Graceful Shutdown<a class="headerlink" href="#graceful-shutdown" title="Link to this heading">¶</a></h3>
+<p>Always close collectors to flush remaining events:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">asynccontextmanager</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="nd">@asynccontextmanager</span>
+</span><span data-line="4"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">lifespan</span><span class="p">(</span><span class="n">app</span><span class="p">):</span>
+</span><span data-line="5">    <span class="c1"># Create collector</span>
+</span><span data-line="6">    <span class="n">collector</span> <span class="o">=</span> <span class="k">await</span> <span class="n">DatabaseAnalyticsCollector</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span><span data-line="7">    <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">analytics_collector</span> <span class="o">=</span> <span class="n">collector</span>
+</span><span data-line="8">    <span class="k">yield</span>
+</span><span data-line="9">    <span class="c1"># Flush and close on shutdown</span>
+</span><span data-line="10">    <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+<section id="privacy-considerations">
+<h3>Privacy Considerations<a class="headerlink" href="#privacy-considerations" title="Link to this heading">¶</a></h3>
+<p>Be mindful of what data you include in analytics:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Anonymize targeting keys for privacy</span>
+</span><span data-line="2"><span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="k">def</span><span class="w"> </span><span class="nf">anonymize_key</span><span class="p">(</span><span class="n">user_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+</span><span data-line="5">    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span><span class="n">user_id</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()[:</span><span class="mi">16</span><span class="p">]</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="n">event</span> <span class="o">=</span> <span class="n">FlagEvaluationEvent</span><span class="p">(</span>
+</span><span data-line="8">    <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">),</span>
+</span><span data-line="9">    <span class="n">flag_key</span><span class="o">=</span><span class="s2">&quot;my_flag&quot;</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">value</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">reason</span><span class="o">=</span><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">STATIC</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">targeting_key</span><span class="o">=</span><span class="n">anonymize_key</span><span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">),</span>
+</span><span data-line="13">    <span class="n">context_attributes</span><span class="o">=</span><span class="p">{},</span>  <span class="c1"># Omit sensitive attributes</span>
+</span><span data-line="14"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>For OpenTelemetry, disable value recording:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">exporter</span> <span class="o">=</span> <span class="n">OTelAnalyticsExporter</span><span class="p">(</span><span class="n">record_values</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../getting-started/quickstart.html"><span class="doc">Quickstart</span></a> - Getting started with litestar-flags</p></li>
+<li><p><a class="reference internal" href="../guides/index.html"><span class="doc">How-To Guides</span></a> - How-to guides for common tasks</p></li>
+<li><p><a class="reference internal" href="../api/index.html"><span class="doc">API Reference</span></a> - Complete API reference</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="multi-environment.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Multi-Environment Support</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../usage/admin-api.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Admin API</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

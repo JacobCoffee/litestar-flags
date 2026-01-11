@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Configuration - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Models" href="models.html" /><link rel="prev" title="Context" href="context.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Configuration"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#quick-example">Quick Example</a></li>
+<li><a class="reference internal" href="#module-litestar_flags.config">API Reference</a><ul>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig"><code class="docutils literal notranslate"><span class="pre">FeatureFlagsConfig</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.backend"><code class="docutils literal notranslate">backend</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.connection_string"><code class="docutils literal notranslate">connection_string</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.table_prefix"><code class="docutils literal notranslate">table_prefix</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.redis_url"><code class="docutils literal notranslate">redis_url</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.redis_prefix"><code class="docutils literal notranslate">redis_prefix</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.default_context"><code class="docutils literal notranslate">default_context</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.enable_middleware"><code class="docutils literal notranslate">enable_middleware</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.context_extractor"><code class="docutils literal notranslate">context_extractor</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.client_dependency_key"><code class="docutils literal notranslate">client_dependency_key</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.enable_health_endpoint"><code class="docutils literal notranslate">enable_health_endpoint</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.health_endpoint_path"><code class="docutils literal notranslate">health_endpoint_path</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.enable_resilience"><code class="docutils literal notranslate">enable_resilience</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.circuit_breaker"><code class="docutils literal notranslate">circuit_breaker</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.retry_policy"><code class="docutils literal notranslate">retry_policy</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.default_environment"><code class="docutils literal notranslate">default_environment</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.enable_environment_inheritance"><code class="docutils literal notranslate">enable_environment_inheritance</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.enable_environment_middleware"><code class="docutils literal notranslate">enable_environment_middleware</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.environment_header"><code class="docutils literal notranslate">environment_header</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.environment_query_param"><code class="docutils literal notranslate">environment_query_param</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.allowed_environments"><code class="docutils literal notranslate">allowed_environments</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate">backend</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate">connection_string</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate">table_prefix</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate">redis_url</span></code></a></li>
+<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate">redis_prefix</span></code></a></li>
+<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate">default_context</span></code></a></li>
+<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate">enable_middleware</span></code></a></li>
+<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate">context_extractor</span></code></a></li>
+<li><a class="reference internal" href="#id8"><code class="docutils literal notranslate">client_dependency_key</span></code></a></li>
+<li><a class="reference internal" href="#id9"><code class="docutils literal notranslate">enable_health_endpoint</span></code></a></li>
+<li><a class="reference internal" href="#id10"><code class="docutils literal notranslate">health_endpoint_path</span></code></a></li>
+<li><a class="reference internal" href="#id11"><code class="docutils literal notranslate">enable_resilience</span></code></a></li>
+<li><a class="reference internal" href="#id12"><code class="docutils literal notranslate">circuit_breaker</span></code></a></li>
+<li><a class="reference internal" href="#id13"><code class="docutils literal notranslate">retry_policy</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.extra"><code class="docutils literal notranslate">extra</span></code></a></li>
+<li><a class="reference internal" href="#id14"><code class="docutils literal notranslate">default_environment</span></code></a></li>
+<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate">enable_environment_inheritance</span></code></a></li>
+<li><a class="reference internal" href="#id16"><code class="docutils literal notranslate">enable_environment_middleware</span></code></a></li>
+<li><a class="reference internal" href="#id17"><code class="docutils literal notranslate">environment_header</span></code></a></li>
+<li><a class="reference internal" href="#id18"><code class="docutils literal notranslate">environment_query_param</span></code></a></li>
+<li><a class="reference internal" href="#id19"><code class="docutils literal notranslate">allowed_environments</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration-options">Configuration Options</a><ul>
+<li><a class="reference internal" href="#backend-selection">Backend Selection</a></li>
+<li><a class="reference internal" href="#database-settings">Database Settings</a></li>
+<li><a class="reference internal" href="#redis-settings">Redis Settings</a></li>
+<li><a class="reference internal" href="#middleware-configuration">Middleware Configuration</a></li>
+<li><a class="reference internal" href="#default-context">Default Context</a></li>
+<li><a class="reference internal" href="#dependency-key">Dependency Key</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-litestar_flags.plugin">Plugin Reference</a><ul>
+<li><a class="reference internal" href="#litestar_flags.plugin.FeatureFlagsPlugin"><code class="docutils literal notranslate"><span class="pre">FeatureFlagsPlugin</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.plugin.FeatureFlagsPlugin.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.plugin.FeatureFlagsPlugin.config"><code class="docutils literal notranslate">config</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.plugin.FeatureFlagsPlugin.client"><code class="docutils literal notranslate">client</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.plugin.FeatureFlagsPlugin.on_app_init"><code class="docutils literal notranslate">on_app_init()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#plugin-usage">Plugin Usage</a><ul>
+<li><a class="reference internal" href="#basic-setup">Basic Setup</a></li>
+<li><a class="reference internal" href="#accessing-the-client">Accessing the Client</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Configuration</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="configuration">
+<h1>Configuration<a class="headerlink" href="#configuration" title="Link to this heading">¶</a></h1>
+<p>The <code class="docutils literal notranslate"><span class="pre">FeatureFlagsConfig</span></code> dataclass provides configuration options for the
+feature flags plugin, including storage backend selection and middleware settings.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>Configuration is passed to the <code class="docutils literal notranslate"><span class="pre">FeatureFlagsPlugin</span></code> on initialization and
+controls:</p>
+<ul class="simple">
+<li><p>Which storage backend to use (memory, database, or Redis)</p></li>
+<li><p>Connection settings for external backends</p></li>
+<li><p>Default evaluation context</p></li>
+<li><p>Middleware and context extraction settings</p></li>
+<li><p>Dependency injection key for the client</p></li>
+</ul>
+</section>
+<section id="quick-example">
+<h2>Quick Example<a class="headerlink" href="#quick-example" title="Link to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Simple in-memory configuration</span>
+</span><span data-line="5"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Database configuration</span>
+</span><span data-line="8"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="9">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://user:pass@localhost/db&quot;</span><span class="p">,</span>
+</span><span data-line="11"><span class="p">)</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Redis configuration</span>
+</span><span data-line="14"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="15">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">redis_url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379&quot;</span><span class="p">,</span>
+</span><span data-line="17"><span class="p">)</span>
+</span><span data-line="18">
+</span><span data-line="19"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="20">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)],</span>
+</span><span data-line="21"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="module-litestar_flags.config">
+<span id="api-reference"></span><h2>API Reference<a class="headerlink" href="#module-litestar_flags.config" title="Link to this heading">¶</a></h2>
+<p>Configuration for the feature flags plugin.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.config.</span></span><span class="sig-name descname"><span class="pre">FeatureFlagsConfig</span></span><a class="reference internal" href="../_modules/litestar_flags/config.html#FeatureFlagsConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Configuration for the feature flags plugin.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.backend">
+<span class="sig-name descname"><span class="pre">backend</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.backend" title="Link to this definition">¶</a></dt>
+<dd><p>Storage backend type (“memory”, “database”, “redis”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.connection_string">
+<span class="sig-name descname"><span class="pre">connection_string</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.connection_string" title="Link to this definition">¶</a></dt>
+<dd><p>Database connection string (when backend=”database”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.table_prefix">
+<span class="sig-name descname"><span class="pre">table_prefix</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.table_prefix" title="Link to this definition">¶</a></dt>
+<dd><p>Prefix for database tables (when backend=”database”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.redis_url">
+<span class="sig-name descname"><span class="pre">redis_url</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.redis_url" title="Link to this definition">¶</a></dt>
+<dd><p>Redis connection URL (when backend=”redis”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.redis_prefix">
+<span class="sig-name descname"><span class="pre">redis_prefix</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.redis_prefix" title="Link to this definition">¶</a></dt>
+<dd><p>Prefix for Redis keys (when backend=”redis”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.default_context">
+<span class="sig-name descname"><span class="pre">default_context</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.default_context" title="Link to this definition">¶</a></dt>
+<dd><p>Default evaluation context.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.enable_middleware">
+<span class="sig-name descname"><span class="pre">enable_middleware</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.enable_middleware" title="Link to this definition">¶</a></dt>
+<dd><p>Whether to enable the context extraction middleware.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.context_extractor">
+<span class="sig-name descname"><span class="pre">context_extractor</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.context_extractor" title="Link to this definition">¶</a></dt>
+<dd><p>Custom function to extract context from requests.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.client_dependency_key">
+<span class="sig-name descname"><span class="pre">client_dependency_key</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.client_dependency_key" title="Link to this definition">¶</a></dt>
+<dd><p>Key for dependency injection of the client.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.enable_health_endpoint">
+<span class="sig-name descname"><span class="pre">enable_health_endpoint</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.enable_health_endpoint" title="Link to this definition">¶</a></dt>
+<dd><p>Whether to register a health check endpoint.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.health_endpoint_path">
+<span class="sig-name descname"><span class="pre">health_endpoint_path</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.health_endpoint_path" title="Link to this definition">¶</a></dt>
+<dd><p>Path for the health check endpoint.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.enable_resilience">
+<span class="sig-name descname"><span class="pre">enable_resilience</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.enable_resilience" title="Link to this definition">¶</a></dt>
+<dd><p>Whether to enable circuit breaker and retry patterns.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.circuit_breaker">
+<span class="sig-name descname"><span class="pre">circuit_breaker</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.circuit_breaker" title="Link to this definition">¶</a></dt>
+<dd><p>Optional circuit breaker configuration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.retry_policy">
+<span class="sig-name descname"><span class="pre">retry_policy</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.retry_policy" title="Link to this definition">¶</a></dt>
+<dd><p>Optional retry policy configuration.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.default_environment">
+<span class="sig-name descname"><span class="pre">default_environment</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.default_environment" title="Link to this definition">¶</a></dt>
+<dd><p>Default environment slug for flag evaluation (e.g., “production”).
+Must be alphanumeric with hyphens or underscores if set.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.enable_environment_inheritance">
+<span class="sig-name descname"><span class="pre">enable_environment_inheritance</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.enable_environment_inheritance" title="Link to this definition">¶</a></dt>
+<dd><p>Whether child environments inherit flag values
+from parent environments. Defaults to True.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.enable_environment_middleware">
+<span class="sig-name descname"><span class="pre">enable_environment_middleware</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.enable_environment_middleware" title="Link to this definition">¶</a></dt>
+<dd><p>Whether to enable the environment extraction middleware.
+When enabled, environment is extracted from requests and stored in scope state.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.environment_header">
+<span class="sig-name descname"><span class="pre">environment_header</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.environment_header" title="Link to this definition">¶</a></dt>
+<dd><p>HTTP header name used to detect the current environment.
+Defaults to “X-Environment”.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.environment_query_param">
+<span class="sig-name descname"><span class="pre">environment_query_param</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.environment_query_param" title="Link to this definition">¶</a></dt>
+<dd><p>Query parameter name used to detect the current environment.
+Defaults to “env”. Set to None to disable query parameter detection.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.allowed_environments">
+<span class="sig-name descname"><span class="pre">allowed_environments</span></span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.allowed_environments" title="Link to this definition">¶</a></dt>
+<dd><p>Optional list of allowed environment slugs. When set, requests
+with environments not in this list will fall back to default_environment.
+Defaults to None (all environments allowed).</p>
+</dd></dl>
+
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="2"><span class="gp">... </span>    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span>
+</span><span data-line="3"><span class="gp">... </span>    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://user:pass@localhost/db&quot;</span><span class="p">,</span>
+</span><span data-line="4"><span class="gp">... </span>    <span class="n">enable_health_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="5"><span class="gp">... </span>    <span class="n">default_environment</span><span class="o">=</span><span class="s2">&quot;production&quot;</span><span class="p">,</span>
+</span><span data-line="6"><span class="gp">... </span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code></a>[<code class="docutils literal notranslate"><span class="pre">'memory'</span></code>, <code class="docutils literal notranslate"><span class="pre">'database'</span></code>, <code class="docutils literal notranslate"><span class="pre">'redis'</span></code>]</span>)</p></li>
+<li><p><strong>connection_string</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>table_prefix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>redis_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>redis_prefix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>default_context</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="context.html#litestar_flags.context.EvaluationContext" title="litestar_flags.context.EvaluationContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationContext</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>enable_middleware</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>context_extractor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.litestar.dev/latest/reference/connection.html#litestar.connection.Request" title="(in Litestar)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>], <a class="reference internal" href="context.html#litestar_flags.context.EvaluationContext" title="litestar_flags.context.EvaluationContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationContext</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>client_dependency_key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>enable_health_endpoint</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>health_endpoint_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>enable_resilience</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>circuit_breaker</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitBreaker</span></code> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>retry_policy</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RetryPolicy</span></code> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>extra</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>default_environment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>enable_environment_inheritance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>enable_environment_middleware</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>environment_header</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>environment_query_param</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>allowed_environments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">backend</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code></a><span class="pre">[</span><code class="docutils literal notranslate"><span class="pre">'memory'</span></code><span class="pre">,</span> <code class="docutils literal notranslate"><span class="pre">'database'</span></code><span class="pre">,</span> <code class="docutils literal notranslate"><span class="pre">'redis'</span></code><span class="pre">]</span></em><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">connection_string</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">table_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">redis_url</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">redis_prefix</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id4" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">default_context</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="context.html#litestar_flags.context.EvaluationContext" title="litestar_flags.context.EvaluationContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationContext</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id5" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">enable_middleware</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id6" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">context_extractor</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a><span class="pre">[[</span><a class="reference external" href="https://docs.litestar.dev/latest/reference/connection.html#litestar.connection.Request" title="(in Litestar)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a><span class="pre">],</span> <a class="reference internal" href="context.html#litestar_flags.context.EvaluationContext" title="litestar_flags.context.EvaluationContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationContext</span></code></a><span class="pre">]</span> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id7" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">client_dependency_key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id8" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">enable_health_endpoint</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id9" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">health_endpoint_path</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id10" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">enable_resilience</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id11" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">circuit_breaker</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitBreaker</span></code> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id12" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">retry_policy</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><code class="xref py py-class docutils literal notranslate"><span class="pre">RetryPolicy</span></code> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id13" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.extra">
+<span class="sig-name descname"><span class="pre">extra</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">,</span> <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a><span class="pre">]</span></em><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.extra" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">default_environment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id14" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">enable_environment_inheritance</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id15" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">enable_environment_middleware</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></em><a class="headerlink" href="#id16" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">environment_header</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></em><a class="headerlink" href="#id17" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">environment_query_param</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id18" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">allowed_environments</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a><span class="pre">[</span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a><span class="pre">]</span> <span class="pre">|</span> <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></em><a class="headerlink" href="#id19" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.config.FeatureFlagsConfig.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">backend='memory'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connection_string=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_prefix='ff_'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_url=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">redis_prefix='feature_flags:'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_context=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_middleware=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">context_extractor=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">client_dependency_key='feature_flags'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_health_endpoint=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">health_endpoint_path='/flags/health'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_resilience=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">circuit_breaker=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retry_policy=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">extra=&lt;factory&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_environment=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_environment_inheritance=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_environment_middleware=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment_header='X-Environment'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">environment_query_param='env'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">allowed_environments=None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.config.FeatureFlagsConfig.__init__" title="Link to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>backend</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Literal</span></code></a>[<code class="docutils literal notranslate"><span class="pre">'memory'</span></code>, <code class="docutils literal notranslate"><span class="pre">'database'</span></code>, <code class="docutils literal notranslate"><span class="pre">'redis'</span></code>]</span>)</p></li>
+<li><p><strong>connection_string</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>table_prefix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>redis_url</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>redis_prefix</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>default_context</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="context.html#litestar_flags.context.EvaluationContext" title="litestar_flags.context.EvaluationContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationContext</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>enable_middleware</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>context_extractor</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Callable</span></code></a>[[<a class="reference external" href="https://docs.litestar.dev/latest/reference/connection.html#litestar.connection.Request" title="(in Litestar)"><code class="xref py py-class docutils literal notranslate"><span class="pre">Request</span></code></a>], <a class="reference internal" href="context.html#litestar_flags.context.EvaluationContext" title="litestar_flags.context.EvaluationContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">EvaluationContext</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>client_dependency_key</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>enable_health_endpoint</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>health_endpoint_path</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>enable_resilience</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>circuit_breaker</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">CircuitBreaker</span></code> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>retry_policy</strong> (<span class="sphinx_autodoc_typehints-type"><code class="xref py py-class docutils literal notranslate"><span class="pre">RetryPolicy</span></code> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>extra</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Any" title="(in Python v3.14)"><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></a>]</span>)</p></li>
+<li><p><strong>default_environment</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>enable_environment_inheritance</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>enable_environment_middleware</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span>)</p></li>
+<li><p><strong>environment_header</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a></span>)</p></li>
+<li><p><strong>environment_query_param</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+<li><p><strong>allowed_environments</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">list</span></code></a>[<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a>] | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="configuration-options">
+<h2>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading">¶</a></h2>
+<section id="backend-selection">
+<h3>Backend Selection<a class="headerlink" href="#backend-selection" title="Link to this heading">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">backend</span></code> parameter accepts one of three values:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;memory&quot;</span></code>: In-memory storage (default). No persistence, ideal for development.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;database&quot;</span></code>: SQLAlchemy-based persistent storage. Requires <code class="docutils literal notranslate"><span class="pre">connection_string</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;redis&quot;</span></code>: Redis-based distributed storage. Requires <code class="docutils literal notranslate"><span class="pre">redis_url</span></code>.</p></li>
+</ul>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Memory backend (default)</span>
+</span><span data-line="2"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Database backend</span>
+</span><span data-line="5"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://user:pass@localhost/db&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">table_prefix</span><span class="o">=</span><span class="s2">&quot;ff_&quot;</span><span class="p">,</span>  <span class="c1"># Optional table prefix</span>
+</span><span data-line="9"><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Redis backend</span>
+</span><span data-line="12"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="13">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">redis_url</span><span class="o">=</span><span class="s2">&quot;redis://localhost:6379/0&quot;</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">redis_prefix</span><span class="o">=</span><span class="s2">&quot;feature_flags:&quot;</span><span class="p">,</span>  <span class="c1"># Optional key prefix</span>
+</span><span data-line="16"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="database-settings">
+<h3>Database Settings<a class="headerlink" href="#database-settings" title="Link to this heading">¶</a></h3>
+<p>When using <code class="docutils literal notranslate"><span class="pre">backend=&quot;database&quot;</span></code>:</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 15.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">connection_string</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>SQLAlchemy async connection string</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">table_prefix</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Prefix for database table names (default: <code class="docutils literal notranslate"><span class="pre">&quot;ff_&quot;</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;database&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">connection_string</span><span class="o">=</span><span class="s2">&quot;postgresql+asyncpg://user:pass@localhost/mydb&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">table_prefix</span><span class="o">=</span><span class="s2">&quot;feature_flags_&quot;</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="redis-settings">
+<h3>Redis Settings<a class="headerlink" href="#redis-settings" title="Link to this heading">¶</a></h3>
+<p>When using <code class="docutils literal notranslate"><span class="pre">backend=&quot;redis&quot;</span></code>:</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 15.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Parameter</p></th>
+<th class="head"><p>Required</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">redis_url</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Redis connection URL</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">redis_prefix</span></code></p></td>
+<td><p>No</p></td>
+<td><p>Prefix for Redis keys (default: <code class="docutils literal notranslate"><span class="pre">&quot;feature_flags:&quot;</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;redis&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">redis_url</span><span class="o">=</span><span class="s2">&quot;redis://:password@localhost:6379/0&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">redis_prefix</span><span class="o">=</span><span class="s2">&quot;myapp:flags:&quot;</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="middleware-configuration">
+<h3>Middleware Configuration<a class="headerlink" href="#middleware-configuration" title="Link to this heading">¶</a></h3>
+<p>Enable automatic context extraction from requests:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsConfig</span><span class="p">,</span> <span class="n">EvaluationContext</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">def</span><span class="w"> </span><span class="nf">my_context_extractor</span><span class="p">(</span><span class="n">request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluationContext</span><span class="p">:</span>
+</span><span data-line="4"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract evaluation context from the request.&quot;&quot;&quot;</span>
+</span><span data-line="5">    <span class="n">user_id</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="6">    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;user&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">:</span>
+</span><span data-line="7">        <span class="n">user_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+</span><span data-line="8">
+</span><span data-line="9">    <span class="k">return</span> <span class="n">EvaluationContext</span><span class="p">(</span>
+</span><span data-line="10">        <span class="n">targeting_key</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+</span><span data-line="11">        <span class="n">user_id</span><span class="o">=</span><span class="n">user_id</span><span class="p">,</span>
+</span><span data-line="12">        <span class="n">ip_address</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">client</span><span class="o">.</span><span class="n">host</span> <span class="k">if</span> <span class="n">request</span><span class="o">.</span><span class="n">client</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="13">    <span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="16">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">enable_middleware</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="18">    <span class="n">context_extractor</span><span class="o">=</span><span class="n">my_context_extractor</span><span class="p">,</span>
+</span><span data-line="19"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="default-context">
+<h3>Default Context<a class="headerlink" href="#default-context" title="Link to this heading">¶</a></h3>
+<p>Set a default evaluation context that applies to all evaluations:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsConfig</span><span class="p">,</span> <span class="n">EvaluationContext</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="4">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">default_context</span><span class="o">=</span><span class="n">EvaluationContext</span><span class="p">(</span>
+</span><span data-line="6">        <span class="n">environment</span><span class="o">=</span><span class="s2">&quot;production&quot;</span><span class="p">,</span>
+</span><span data-line="7">        <span class="n">app_version</span><span class="o">=</span><span class="s2">&quot;2.1.0&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="p">),</span>
+</span><span data-line="9"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="dependency-key">
+<h3>Dependency Key<a class="headerlink" href="#dependency-key" title="Link to this heading">¶</a></h3>
+<p>Customize the dependency injection key for the client:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">client_dependency_key</span><span class="o">=</span><span class="s2">&quot;flags&quot;</span><span class="p">,</span>  <span class="c1"># Default is &quot;feature_flags&quot;</span>
+</span><span data-line="4"><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># In your route handler:</span>
+</span><span data-line="7"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span data-line="8"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">flags</span><span class="p">:</span> <span class="n">FeatureFlagClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="9">    <span class="c1"># Use &#39;flags&#39; instead of &#39;feature_flags&#39;</span>
+</span><span data-line="10">    <span class="k">pass</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="module-litestar_flags.plugin">
+<span id="plugin-reference"></span><h2>Plugin Reference<a class="headerlink" href="#module-litestar_flags.plugin" title="Link to this heading">¶</a></h2>
+<p>Litestar plugin for feature flags.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.plugin.FeatureFlagsPlugin">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.plugin.</span></span><span class="sig-name descname"><span class="pre">FeatureFlagsPlugin</span></span><a class="reference internal" href="../_modules/litestar_flags/plugin.html#FeatureFlagsPlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.plugin.FeatureFlagsPlugin" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.litestar.dev/latest/reference/plugins/index.html#litestar.plugins.InitPlugin" title="(in Litestar)"><code class="xref py py-class docutils literal notranslate"><span class="pre">InitPlugin</span></code></a></p>
+<p>Litestar plugin for feature flags.</p>
+<p>Registers the feature flag client as a dependency and sets up
+lifecycle hooks for initialization and cleanup.</p>
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="2"><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="3"><span class="gp">&gt;&gt;&gt;</span>
+</span><span data-line="4"><span class="gp">&gt;&gt;&gt; </span><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+</span><span data-line="5"><span class="gp">&gt;&gt;&gt; </span><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="6"><span class="gp">... </span>    <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="o">...</span><span class="p">],</span>
+</span><span data-line="7"><span class="gp">... </span>    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)],</span>
+</span><span data-line="8"><span class="gp">... </span><span class="p">)</span>
+</span></pre></div>
+</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig" title="litestar_flags.config.FeatureFlagsConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureFlagsConfig</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>)</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.plugin.FeatureFlagsPlugin.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/plugin.html#FeatureFlagsPlugin.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.plugin.FeatureFlagsPlugin.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>Initialize the plugin.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig" title="litestar_flags.config.FeatureFlagsConfig"><code class="xref py py-class docutils literal notranslate"><span class="pre">FeatureFlagsConfig</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Plugin configuration. Defaults to memory backend.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="litestar_flags.plugin.FeatureFlagsPlugin.config">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#litestar_flags.config.FeatureFlagsConfig" title="litestar_flags.config.FeatureFlagsConfig"><span class="pre">FeatureFlagsConfig</span></a></em><a class="headerlink" href="#litestar_flags.plugin.FeatureFlagsPlugin.config" title="Link to this definition">¶</a></dt>
+<dd><p>Get the plugin configuration.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="litestar_flags.plugin.FeatureFlagsPlugin.client">
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">client</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="client.html#litestar_flags.client.FeatureFlagClient" title="litestar_flags.client.FeatureFlagClient"><span class="pre">FeatureFlagClient</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></em><a class="headerlink" href="#litestar_flags.plugin.FeatureFlagsPlugin.client" title="Link to this definition">¶</a></dt>
+<dd><p>Get the feature flag client (available after startup).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.plugin.FeatureFlagsPlugin.on_app_init">
+<span class="sig-name descname"><span class="pre">on_app_init</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/plugin.html#FeatureFlagsPlugin.on_app_init"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.plugin.FeatureFlagsPlugin.on_app_init" title="Link to this definition">¶</a></dt>
+<dd><p>Configure the application with feature flags support.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>app_config</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.litestar.dev/latest/reference/config.html#litestar.config.app.AppConfig" title="(in Litestar)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></a></span>) – The application configuration.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.litestar.dev/latest/reference/config.html#litestar.config.app.AppConfig" title="(in Litestar)"><code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Modified application configuration.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="plugin-usage">
+<h2>Plugin Usage<a class="headerlink" href="#plugin-usage" title="Link to this heading">¶</a></h2>
+<section id="basic-setup">
+<h3>Basic Setup<a class="headerlink" href="#basic-setup" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">get</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="3">    <span class="n">FeatureFlagsPlugin</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">FeatureFlagsConfig</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">FeatureFlagClient</span><span class="p">,</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span><span class="n">backend</span><span class="o">=</span><span class="s2">&quot;memory&quot;</span><span class="p">)</span>
+</span><span data-line="9"><span class="n">plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span data-line="12"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">feature_flags</span><span class="p">:</span> <span class="n">FeatureFlagClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="13">    <span class="n">enabled</span> <span class="o">=</span> <span class="k">await</span> <span class="n">feature_flags</span><span class="o">.</span><span class="n">get_boolean_value</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">)</span>
+</span><span data-line="14">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">enabled</span><span class="p">}</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="17">    <span class="n">route_handlers</span><span class="o">=</span><span class="p">[</span><span class="n">handler</span><span class="p">],</span>
+</span><span data-line="18">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">plugin</span><span class="p">],</span>
+</span><span data-line="19"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="accessing-the-client">
+<h3>Accessing the Client<a class="headerlink" href="#accessing-the-client" title="Link to this heading">¶</a></h3>
+<p>The client is available in three ways:</p>
+<ol class="arabic">
+<li><p><strong>Dependency Injection</strong> (recommended):</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span data-line="2"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">feature_flags</span><span class="p">:</span> <span class="n">FeatureFlagClient</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="3">    <span class="n">enabled</span> <span class="o">=</span> <span class="k">await</span> <span class="n">feature_flags</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">)</span>
+</span><span data-line="4">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">enabled</span><span class="p">}</span>
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>From Application State</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="nd">@get</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span>
+</span><span data-line="2"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">handler</span><span class="p">(</span><span class="n">request</span><span class="p">:</span> <span class="n">Request</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="3">    <span class="n">client</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">feature_flags</span>
+</span><span data-line="4">    <span class="n">enabled</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">is_enabled</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">)</span>
+</span><span data-line="5">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">enabled</span><span class="p">}</span>
+</span></pre></div>
+</div>
+</li>
+<li><p><strong>From Plugin Instance</strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</span><span data-line="2"><span class="c1"># After app startup:</span>
+</span><span data-line="3"><span class="n">client</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">client</span>
+</span></pre></div>
+</div>
+</li>
+</ol>
+</section>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="context.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Context</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="models.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Models</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

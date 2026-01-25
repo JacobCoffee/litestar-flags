@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>API Reference - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Client" href="client.html" /><link rel="prev" title="Testing with Feature Flags" href="../guides/testing.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="API Reference"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#core-components">Core Components</a></li>
+<li><a class="reference internal" href="#decorators">Decorators</a></li>
+<li><a class="reference internal" href="#storage-backends">Storage Backends</a></li>
+<li><a class="reference internal" href="#types-and-enums">Types and Enums</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+<li><a class="reference internal" href="#models">Models</a></li>
+<li><a class="reference internal" href="#analytics">Analytics</a></li>
+<li><a class="reference internal" href="#admin-api">Admin API</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">API Reference</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Link to this heading">¶</a></h1>
+<p>Complete API documentation for litestar-flags. This reference covers all public
+classes, functions, and types available in the library.</p>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>For getting started guides and tutorials, see the <a class="reference internal" href="../getting-started/index.html"><span class="doc">Getting Started</span></a>
+section. This reference is intended for detailed API lookups.</p>
+</div>
+<section id="core-components">
+<h2>Core Components<a class="headerlink" href="#core-components" title="Link to this heading">¶</a></h2>
+<p>The main components you will use most frequently:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="client.html"><span class="doc">Client</span></a> - The <code class="docutils literal notranslate"><span class="pre">FeatureFlagClient</span></code> for evaluating feature flags</p></li>
+<li><p><a class="reference internal" href="config.html"><span class="doc">Configuration</span></a> - Configuration and plugin setup</p></li>
+<li><p><a class="reference internal" href="context.html"><span class="doc">Context</span></a> - The <code class="docutils literal notranslate"><span class="pre">EvaluationContext</span></code> for targeting rules</p></li>
+</ul>
+</section>
+<section id="decorators">
+<h2>Decorators<a class="headerlink" href="#decorators" title="Link to this heading">¶</a></h2>
+<p>Convenient decorators for protecting route handlers:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="decorators.html"><span class="doc">Decorators</span></a> - <code class="docutils literal notranslate"><span class="pre">&#64;feature_flag</span></code> and <code class="docutils literal notranslate"><span class="pre">&#64;require_flag</span></code> decorators</p></li>
+</ul>
+</section>
+<section id="storage-backends">
+<h2>Storage Backends<a class="headerlink" href="#storage-backends" title="Link to this heading">¶</a></h2>
+<p>Available storage backend implementations:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="storage.html"><span class="doc">Storage Backends</span></a> - Memory, database, and Redis storage backends</p></li>
+</ul>
+</section>
+<section id="types-and-enums">
+<h2>Types and Enums<a class="headerlink" href="#types-and-enums" title="Link to this heading">¶</a></h2>
+<p>Type definitions and enumerations:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="types.html"><span class="doc">Types and Enums</span></a> - Flag types, status, operators, and evaluation reasons</p></li>
+</ul>
+</section>
+<section id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Link to this heading">¶</a></h2>
+<p>Exception classes for error handling:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="exceptions.html"><span class="doc">Exceptions</span></a> - Error classes for feature flag operations</p></li>
+</ul>
+</section>
+<section id="models">
+<h2>Models<a class="headerlink" href="#models" title="Link to this heading">¶</a></h2>
+<p>Data models for flags, rules, and variants:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="models.html"><span class="doc">Models</span></a> - <code class="docutils literal notranslate"><span class="pre">FeatureFlag</span></code>, <code class="docutils literal notranslate"><span class="pre">FlagRule</span></code>, <code class="docutils literal notranslate"><span class="pre">FlagVariant</span></code>, and more</p></li>
+</ul>
+</section>
+<section id="analytics">
+<h2>Analytics<a class="headerlink" href="#analytics" title="Link to this heading">¶</a></h2>
+<p>Analytics and observability components:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="analytics.html"><span class="doc">Analytics</span></a> - Event models, collectors, aggregators, and exporters</p></li>
+</ul>
+</section>
+<section id="admin-api">
+<h2>Admin API<a class="headerlink" href="#admin-api" title="Link to this heading">¶</a></h2>
+<p>Administration components for flag management:</p>
+<ul class="simple">
+<li><p>See <a class="reference internal" href="../usage/admin-api.html"><span class="doc">Admin API</span></a> for the Admin API usage guide with REST endpoints,
+RBAC guards, and audit logging documentation.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../guides/testing.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Testing with Feature Flags</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="client.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Client</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

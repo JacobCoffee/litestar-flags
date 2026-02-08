@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="./">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Changelog - litestar-flags</title><link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="Approval Workflows" href="guides/workflows.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Changelog"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#id1">0.2.1 - 2025-12-30</a><ul>
+<li><a class="reference internal" href="#bug-fixes">Bug Fixes</a></li>
+<li><a class="reference internal" href="#documentation">Documentation</a></li>
+<li><a class="reference internal" href="#miscellaneous-chores">Miscellaneous Chores</a></li>
+<li><a class="reference internal" href="#style">Style</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id2">0.2.0 - 2025-12-30</a><ul>
+<li><a class="reference internal" href="#id3">Bug Fixes</a></li>
+<li><a class="reference internal" href="#features">Features</a></li>
+<li><a class="reference internal" href="#id4">Miscellaneous Chores</a></li>
+<li><a class="reference internal" href="#refactoring">Refactoring</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id5">[0.1.1] - 2025-12-28</a><ul>
+<li><a class="reference internal" href="#id6">Bug Fixes</a></li>
+<li><a class="reference internal" href="#id7">Miscellaneous Chores</a></li>
+<li><a class="reference internal" href="#id8">Style</a></li>
+</ul>
+</li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Changelog</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="changelog">
+<h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">¶</a></h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<section id="id1">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/compare/v0.2.0..v0.2.1">0.2.1</a> - 2025-12-30<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<section id="bug-fixes">
+<h3>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>fix: checkout main branch in CD workflow for changelog push - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/92f334a884b4229341cea80465ae98c175d744f3">92f334a</a>)</p></li>
+<li><p>fix: explicitly set remote URL with PAT for changelog push - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/18b836a9e99f796cdf52bd6c94b93bd20f31cb97">18b836a</a>)</p></li>
+<li><p>fix: create PR instead of direct push for changelog updates - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/ecc24699b179a9bafafefb9452014d6f0bc4eeb8">ecc2469</a>)</p></li>
+<li><p>fix: revert to direct push for changelog - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/95c0fd1c22966f410cd6ead4a8e48f3883bd2d51">95c0fd1</a>)</p></li>
+<li><p>fix: show only commit summary line in changelog, not full body - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/fa63c0099c9545135e26eac16a861e98edb24628">fa63c00</a>)</p></li>
+<li><p>fix: resolve ruff lint errors (D401 imperative mood, RUF022 <strong>all</strong> sorting) - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/dc7113dc7dad8705a8324913c47e634d17d7e809">dc7113d</a>)</p></li>
+<li><p>fix(storage): Use OrderBy filter objects for repository ordering - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/29d7a2cc7a52d91eb4f7a320a305511b9aed9d49">29d7a2c</a>)</p></li>
+</ul>
+</section>
+<section id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>docs: regenerate changelog for v0.2.0 - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/9ac26ffa9b9223046ab2a54de15ca41cbff7b03e">9ac26ff</a>)</p></li>
+</ul>
+</section>
+<section id="miscellaneous-chores">
+<h3>Miscellaneous Chores<a class="headerlink" href="#miscellaneous-chores" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>chore: bump version to 0.2.1 - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/2745fe0c3d6993aeb045fe5107dd0845ab8d7997">2745fe0</a>)</p></li>
+</ul>
+</section>
+<section id="style">
+<h3>Style<a class="headerlink" href="#style" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>style: apply ruff formatting - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/d0bde0ba0ffb57662ddddf0e23295ab167ebcb00">d0bde0b</a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="id2">
+<h2><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/compare/v0.1.1..v0.2.0">0.2.0</a> - 2025-12-30<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<section id="id3">
+<h3>Bug Fixes<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>fix: use text lexer instead of http for code blocks in docs - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/56a038baee4d8266fb3bf6038dca3ae3c5fc6630">56a038b</a>)</p></li>
+<li><p>fix: remove On This Page ToC and fix duplicate toctree refs - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/235480792c948eef057a37590c2a6a0e5ee2a821">2354807</a>)</p></li>
+</ul>
+</section>
+<section id="features">
+<h3>Features<a class="headerlink" href="#features" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>feat: add segment-based targeting for reusable user groups (#2) - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/62ae7cecea2ea25de611e7e25f1fcd71e15122b8">62ae7ce</a>)</p></li>
+<li><p>feat: add multi-environment support with inheritance and promotion - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/fe095f708e026e90f91dfb5ded9a5ef2c78d64b3">fe095f7</a>)</p></li>
+<li><p>feat: add flag analytics module with evaluation tracking and metrics - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/026995c4c27d8be6c868a3b0f7d3222e9134debf">026995c</a>)</p></li>
+<li><p>feat: add Admin API with REST endpoints for flag management - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/a9dfb203ee46b7fa924a1dbfb506cc4e9667a600">a9dfb20</a>)</p></li>
+<li><p>feat: add CD workflow for changelog automation and update docs - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/d1de4babf2896c2278d5ff5789f333b8a5a5ee6a">d1de4ba</a>)</p></li>
+</ul>
+</section>
+<section id="id4">
+<h3>Miscellaneous Chores<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>chore: add optional deps to docs group for autodoc type resolution - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/eeb82d57227e68646c0da5c037ebdfb835deedfe">eeb82d5</a>)</p></li>
+</ul>
+</section>
+<section id="refactoring">
+<h3>Refactoring<a class="headerlink" href="#refactoring" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>refactor: rename AdminPlugin to FeatureFlagsAdminPlugin - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/fa97090fc41e839e2da0c84deb358860ea1ba234">fa97090</a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="id5">
+<h2>[0.1.1] - 2025-12-28<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<section id="id6">
+<h3>Bug Fixes<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>fix: resolve zizmor security scan findings - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/94f6c1814524e201f6397f8a832c555e97e7c35a">94f6c18</a>)</p></li>
+<li><p>fix: remove local path override for litestar-workflows - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/e16ce98e43a6a276825a8a262c2a2910b38e7ecb">e16ce98</a>)</p></li>
+<li><p>fix: move importlib import to top of file - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/db6ee094745d4444f8cfcd0815ebf9489a6ee374">db6ee09</a>)</p></li>
+<li><p>fix: use longer TTL for Windows clock resolution compatibility - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/a9bb0c6aa778789c17ab1d7d49b17565fb626d32">a9bb0c6</a>)</p></li>
+<li><p>fix: remove skip logic for otel tests - all extras should be installed - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/e09b6479f2992202128a5b4f158e94e19419fb8b">e09b647</a>)</p></li>
+<li><p>fix: increase timeouts for Windows clock resolution - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/1caf061fb291b0349d1439518c124dc5d52b8bca">1caf061</a>)</p></li>
+<li><p>fix: increase token bucket refill test sleep for Windows - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/30fbe9941f8e47d9c8fe1166f6200c85d70f99a6">30fbe99</a>)</p></li>
+<li><p>fix: add missing linkify-it-py for docs build - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/315f2fc08e234cfe6156cf9cdac98cfbe9dbaf07">315f2fc</a>)</p></li>
+<li><p>fix: add pyproject.toml to docs workflow trigger paths - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/a1d42c321aece9f58f57ba0d2566f80bff82a322">a1d42c3</a>)</p></li>
+</ul>
+</section>
+<section id="id7">
+<h3>Miscellaneous Chores<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>chore: add project <a class="reference external" href="http://CLAUDE.md">CLAUDE.md</a>, use prek, fix type exclusions and tests - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/868f5ff194b8e2698f50d49371f9da6773edac6b">868f5ff</a>)</p></li>
+<li><p>chore: add git-cliff configuration and initial changelog - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/4d84cf6ce0c69b9033e4bc2a8b15255f3d0ffe87">4d84cf6</a>)</p></li>
+<li><p>chore: bump version to 0.1.1 - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/fe020fb163109cc46fb3ebf313e787522638ae6e">fe020fb</a>)</p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Style<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>style: apply ruff formatting - (<a class="reference external" href="https://github.com/JacobCoffee/litestar-flags/commit/1dd97ea211ac6c371e639cfcb7f3d71d3c30333e">1dd97ea</a>)</p></li>
+</ul>
+<hr class="docutils" />
+<p><em>litestar-flags Changelog</em></p>
+</section>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="guides/workflows.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Approval Workflows</div></div>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="_static/copybutton.js?v=30646c52"></script>
+      <script src="_static/design-tabs.js?v=f930bc37"></script>
+      <script src="_static/shibuya.js?v=cac61aee"></script></body>
+</html>

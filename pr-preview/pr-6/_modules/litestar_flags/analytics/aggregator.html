@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>litestar_flags.analytics.aggregator - litestar-flags</title><link rel="index" title="Index" href="../../../genindex.html" /><link rel="search" title="Search" href="../../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="litestar_flags.analytics.aggregator"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../api/analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">litestar_flags.analytics.aggregator</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <h1>Source code for litestar_flags.analytics.aggregator</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;Analytics aggregator for computing metrics from feature flag evaluation events.&quot;&quot;&quot;</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span>
+</span><span data-line="6"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span><span class="p">,</span> <span class="n">field</span>
+</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">UTC</span><span class="p">,</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+</span><span data-line="8"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.collectors.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">InMemoryAnalyticsCollector</span>
+</span><span data-line="11"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagEvaluationEvent</span>
+</span><span data-line="12"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationReason</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+</span><span data-line="15">    <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy.ext.asyncio</span><span class="w"> </span><span class="kn">import</span> <span class="n">AsyncSession</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;AnalyticsAggregator&quot;</span><span class="p">,</span> <span class="s2">&quot;FlagMetrics&quot;</span><span class="p">]</span>
+</span><span data-line="18">
+</span><span data-line="19">
+<div class="viewcode-block" id="FlagMetrics">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.FlagMetrics">[docs]</a>
+</span><span data-line="20"><span class="nd">@dataclass</span><span class="p">(</span><span class="n">slots</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="21"><span class="k">class</span><span class="w"> </span><span class="nc">FlagMetrics</span><span class="p">:</span>
+</span><span data-line="22"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregated metrics for a feature flag.</span>
+</span><span data-line="23">
+</span><span data-line="24"><span class="sd">    Contains computed statistics about flag evaluations including</span>
+</span><span data-line="25"><span class="sd">    evaluation rate, unique users, distributions, and latency percentiles.</span>
+</span><span data-line="26">
+</span><span data-line="27"><span class="sd">    Attributes:</span>
+</span><span data-line="28"><span class="sd">        evaluation_rate: Evaluations per second in the measurement window.</span>
+</span><span data-line="29"><span class="sd">        unique_users: Count of unique targeting keys in the window.</span>
+</span><span data-line="30"><span class="sd">        variant_distribution: Count of evaluations per variant.</span>
+</span><span data-line="31"><span class="sd">        reason_distribution: Count of evaluations per reason.</span>
+</span><span data-line="32"><span class="sd">        error_rate: Percentage of evaluations that resulted in errors (0-100).</span>
+</span><span data-line="33"><span class="sd">        latency_p50: 50th percentile latency in milliseconds.</span>
+</span><span data-line="34"><span class="sd">        latency_p90: 90th percentile latency in milliseconds.</span>
+</span><span data-line="35"><span class="sd">        latency_p99: 99th percentile latency in milliseconds.</span>
+</span><span data-line="36"><span class="sd">        total_evaluations: Total number of evaluations in the window.</span>
+</span><span data-line="37"><span class="sd">        window_start: Start of the measurement window.</span>
+</span><span data-line="38"><span class="sd">        window_end: End of the measurement window.</span>
+</span><span data-line="39">
+</span><span data-line="40"><span class="sd">    Example:</span>
+</span><span data-line="41"><span class="sd">        &gt;&gt;&gt; metrics = FlagMetrics(</span>
+</span><span data-line="42"><span class="sd">        ...     evaluation_rate=10.5,</span>
+</span><span data-line="43"><span class="sd">        ...     unique_users=150,</span>
+</span><span data-line="44"><span class="sd">        ...     variant_distribution={&quot;control&quot;: 75, &quot;treatment&quot;: 75},</span>
+</span><span data-line="45"><span class="sd">        ...     reason_distribution={&quot;SPLIT&quot;: 150},</span>
+</span><span data-line="46"><span class="sd">        ...     error_rate=0.0,</span>
+</span><span data-line="47"><span class="sd">        ...     latency_p50=1.2,</span>
+</span><span data-line="48"><span class="sd">        ...     latency_p90=2.5,</span>
+</span><span data-line="49"><span class="sd">        ...     latency_p99=5.0,</span>
+</span><span data-line="50"><span class="sd">        ... )</span>
+</span><span data-line="51">
+</span><span data-line="52"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="53">
+</span><span data-line="54">    <span class="n">evaluation_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span data-line="55">    <span class="n">unique_users</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span data-line="56">    <span class="n">variant_distribution</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+</span><span data-line="57">    <span class="n">reason_distribution</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="n">field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">)</span>
+</span><span data-line="58">    <span class="n">error_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span data-line="59">    <span class="n">latency_p50</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span data-line="60">    <span class="n">latency_p90</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span data-line="61">    <span class="n">latency_p99</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span data-line="62">    <span class="n">total_evaluations</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span data-line="63">    <span class="n">window_start</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="64">    <span class="n">window_end</span><span class="p">:</span> <span class="n">datetime</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="65">
+<div class="viewcode-block" id="FlagMetrics.to_dict">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.FlagMetrics.to_dict">[docs]</a>
+</span><span data-line="66">    <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+</span><span data-line="67"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert metrics to dictionary representation.</span>
+</span><span data-line="68">
+</span><span data-line="69"><span class="sd">        Returns:</span>
+</span><span data-line="70"><span class="sd">            Dictionary representation of the metrics.</span>
+</span><span data-line="71">
+</span><span data-line="72"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="73">        <span class="k">return</span> <span class="p">{</span>
+</span><span data-line="74">            <span class="s2">&quot;evaluation_rate&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluation_rate</span><span class="p">,</span>
+</span><span data-line="75">            <span class="s2">&quot;unique_users&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_users</span><span class="p">,</span>
+</span><span data-line="76">            <span class="s2">&quot;variant_distribution&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">variant_distribution</span><span class="p">,</span>
+</span><span data-line="77">            <span class="s2">&quot;reason_distribution&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">reason_distribution</span><span class="p">,</span>
+</span><span data-line="78">            <span class="s2">&quot;error_rate&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">error_rate</span><span class="p">,</span>
+</span><span data-line="79">            <span class="s2">&quot;latency_p50&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">latency_p50</span><span class="p">,</span>
+</span><span data-line="80">            <span class="s2">&quot;latency_p90&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">latency_p90</span><span class="p">,</span>
+</span><span data-line="81">            <span class="s2">&quot;latency_p99&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">latency_p99</span><span class="p">,</span>
+</span><span data-line="82">            <span class="s2">&quot;total_evaluations&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_evaluations</span><span class="p">,</span>
+</span><span data-line="83">            <span class="s2">&quot;window_start&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_start</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="84">            <span class="s2">&quot;window_end&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">window_end</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="85">        <span class="p">}</span></div>
+</div>
+
+</span><span data-line="86">
+</span><span data-line="87">
+<div class="viewcode-block" id="AnalyticsAggregator">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator">[docs]</a>
+</span><span data-line="88"><span class="k">class</span><span class="w"> </span><span class="nc">AnalyticsAggregator</span><span class="p">:</span>
+</span><span data-line="89"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Aggregator for computing metrics from feature flag evaluation events.</span>
+</span><span data-line="90">
+</span><span data-line="91"><span class="sd">    Supports multiple event sources including in-memory collectors and</span>
+</span><span data-line="92"><span class="sd">    database sessions. Provides methods for computing various metrics</span>
+</span><span data-line="93"><span class="sd">    including evaluation rates, unique users, distributions, and latencies.</span>
+</span><span data-line="94">
+</span><span data-line="95"><span class="sd">    The aggregator uses window-based aggregation, only considering events</span>
+</span><span data-line="96"><span class="sd">    within the specified time window for each metric calculation.</span>
+</span><span data-line="97">
+</span><span data-line="98"><span class="sd">    Attributes:</span>
+</span><span data-line="99"><span class="sd">        source: The event source (InMemoryAnalyticsCollector or AsyncSession).</span>
+</span><span data-line="100">
+</span><span data-line="101"><span class="sd">    Example:</span>
+</span><span data-line="102"><span class="sd">        &gt;&gt;&gt; from litestar_flags.analytics import InMemoryAnalyticsCollector</span>
+</span><span data-line="103"><span class="sd">        &gt;&gt;&gt; collector = InMemoryAnalyticsCollector()</span>
+</span><span data-line="104"><span class="sd">        &gt;&gt;&gt; aggregator = AnalyticsAggregator(collector)</span>
+</span><span data-line="105"><span class="sd">        &gt;&gt;&gt; rate = await aggregator.get_evaluation_rate(&quot;my_flag&quot;, window_seconds=60)</span>
+</span><span data-line="106"><span class="sd">        &gt;&gt;&gt; metrics = await aggregator.get_flag_metrics(&quot;my_flag&quot;)</span>
+</span><span data-line="107">
+</span><span data-line="108"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="109">
+<div class="viewcode-block" id="AnalyticsAggregator.__init__">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.__init__">[docs]</a>
+</span><span data-line="110">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="111">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="112">        <span class="n">source</span><span class="p">:</span> <span class="n">InMemoryAnalyticsCollector</span> <span class="o">|</span> <span class="n">AsyncSession</span><span class="p">,</span>
+</span><span data-line="113">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="114"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the analytics aggregator.</span>
+</span><span data-line="115">
+</span><span data-line="116"><span class="sd">        Args:</span>
+</span><span data-line="117"><span class="sd">            source: The event source to aggregate from. Can be an</span>
+</span><span data-line="118"><span class="sd">                InMemoryAnalyticsCollector for in-memory events or an</span>
+</span><span data-line="119"><span class="sd">                AsyncSession for database-backed events.</span>
+</span><span data-line="120">
+</span><span data-line="121"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="122">        <span class="bp">self</span><span class="o">.</span><span class="n">_source</span> <span class="o">=</span> <span class="n">source</span>
+</span><span data-line="123">        <span class="bp">self</span><span class="o">.</span><span class="n">_is_memory_source</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">)</span></div>
+
+</span><span data-line="124">
+</span><span data-line="125">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_events_in_window</span><span class="p">(</span>
+</span><span data-line="126">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="127">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="128">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span data-line="129">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FlagEvaluationEvent</span><span class="p">]:</span>
+</span><span data-line="130"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get events from the source within a time window.</span>
+</span><span data-line="131">
+</span><span data-line="132"><span class="sd">        Args:</span>
+</span><span data-line="133"><span class="sd">            flag_key: The flag key to filter events.</span>
+</span><span data-line="134"><span class="sd">            window_seconds: Number of seconds to look back.</span>
+</span><span data-line="135">
+</span><span data-line="136"><span class="sd">        Returns:</span>
+</span><span data-line="137"><span class="sd">            List of events within the time window.</span>
+</span><span data-line="138">
+</span><span data-line="139"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="140">        <span class="n">since</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="141">
+</span><span data-line="142">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_memory_source</span><span class="p">:</span>
+</span><span data-line="143">            <span class="n">collector</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span>
+</span><span data-line="144">            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collector</span><span class="p">,</span> <span class="n">InMemoryAnalyticsCollector</span><span class="p">):</span>
+</span><span data-line="145">                <span class="c1"># Get all events for the flag and filter by timestamp</span>
+</span><span data-line="146">                <span class="n">all_events</span> <span class="o">=</span> <span class="k">await</span> <span class="n">collector</span><span class="o">.</span><span class="n">get_events</span><span class="p">(</span><span class="n">flag_key</span><span class="o">=</span><span class="n">flag_key</span><span class="p">)</span>
+</span><span data-line="147">                <span class="k">return</span> <span class="p">[</span><span class="n">e</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">all_events</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">since</span><span class="p">]</span>
+</span><span data-line="148">
+</span><span data-line="149">        <span class="c1"># For AsyncSession, query the database</span>
+</span><span data-line="150">        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_from_database</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="151">
+</span><span data-line="152">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_events_from_database</span><span class="p">(</span>
+</span><span data-line="153">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="154">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="155">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+</span><span data-line="156">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FlagEvaluationEvent</span><span class="p">]:</span>
+</span><span data-line="157"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get events from database within a time window.</span>
+</span><span data-line="158">
+</span><span data-line="159"><span class="sd">        Args:</span>
+</span><span data-line="160"><span class="sd">            flag_key: The flag key to filter events.</span>
+</span><span data-line="161"><span class="sd">            window_seconds: Number of seconds to look back.</span>
+</span><span data-line="162">
+</span><span data-line="163"><span class="sd">        Returns:</span>
+</span><span data-line="164"><span class="sd">            List of events within the time window.</span>
+</span><span data-line="165">
+</span><span data-line="166"><span class="sd">        Note:</span>
+</span><span data-line="167"><span class="sd">            This requires the analytics_events table to be defined.</span>
+</span><span data-line="168"><span class="sd">            The implementation expects a table with columns matching</span>
+</span><span data-line="169"><span class="sd">            the AnalyticsEventModel fields.</span>
+</span><span data-line="170">
+</span><span data-line="171"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="172">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_memory_source</span><span class="p">:</span>
+</span><span data-line="173">            <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="174">
+</span><span data-line="175">        <span class="c1"># Import here to avoid circular imports and optional dependency</span>
+</span><span data-line="176">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="177">            <span class="kn">from</span><span class="w"> </span><span class="nn">sqlalchemy</span><span class="w"> </span><span class="kn">import</span> <span class="n">select</span>
+</span><span data-line="178">
+</span><span data-line="179">            <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnalyticsEventModel</span>
+</span><span data-line="180">        <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span data-line="181">            <span class="k">return</span> <span class="p">[]</span>
+</span><span data-line="182">
+</span><span data-line="183">        <span class="n">session</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_source</span>
+</span><span data-line="184">        <span class="n">since</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="185">
+</span><span data-line="186">        <span class="n">stmt</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">AnalyticsEventModel</span><span class="p">)</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+</span><span data-line="187">            <span class="n">AnalyticsEventModel</span><span class="o">.</span><span class="n">flag_key</span> <span class="o">==</span> <span class="n">flag_key</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="188">            <span class="n">AnalyticsEventModel</span><span class="o">.</span><span class="n">timestamp</span> <span class="o">&gt;=</span> <span class="n">since</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="189">        <span class="p">)</span>
+</span><span data-line="190">
+</span><span data-line="191">        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">stmt</span><span class="p">)</span>  <span class="c1"># type: ignore[union-attr]</span>
+</span><span data-line="192">        <span class="n">rows</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">scalars</span><span class="p">()</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span data-line="193">
+</span><span data-line="194">        <span class="c1"># Convert database models to FlagEvaluationEvent</span>
+</span><span data-line="195">        <span class="n">events</span> <span class="o">=</span> <span class="p">[]</span>
+</span><span data-line="196">        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">rows</span><span class="p">:</span>
+</span><span data-line="197">            <span class="c1"># Extract value from JSON storage</span>
+</span><span data-line="198">            <span class="n">value</span> <span class="o">=</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;value&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">value</span> <span class="k">else</span> <span class="kc">None</span>
+</span><span data-line="199">            <span class="n">events</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+</span><span data-line="200">                <span class="n">FlagEvaluationEvent</span><span class="p">(</span>
+</span><span data-line="201">                    <span class="n">timestamp</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">timestamp</span><span class="p">,</span>
+</span><span data-line="202">                    <span class="n">flag_key</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="203">                    <span class="n">value</span><span class="o">=</span><span class="n">value</span><span class="p">,</span>
+</span><span data-line="204">                    <span class="n">reason</span><span class="o">=</span><span class="n">EvaluationReason</span><span class="p">(</span><span class="n">row</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span> <span class="k">if</span> <span class="n">row</span><span class="o">.</span><span class="n">reason</span> <span class="k">else</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">,</span>
+</span><span data-line="205">                    <span class="n">variant</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">variant</span><span class="p">,</span>
+</span><span data-line="206">                    <span class="n">targeting_key</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">targeting_key</span><span class="p">,</span>
+</span><span data-line="207">                    <span class="n">context_attributes</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">context_attributes</span> <span class="ow">or</span> <span class="p">{},</span>
+</span><span data-line="208">                    <span class="n">evaluation_duration_ms</span><span class="o">=</span><span class="n">row</span><span class="o">.</span><span class="n">evaluation_duration_ms</span> <span class="ow">or</span> <span class="mf">0.0</span><span class="p">,</span>
+</span><span data-line="209">                <span class="p">)</span>
+</span><span data-line="210">            <span class="p">)</span>
+</span><span data-line="211">        <span class="k">return</span> <span class="n">events</span>
+</span><span data-line="212">
+</span><span data-line="213">    <span class="k">def</span><span class="w"> </span><span class="nf">_is_error_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">FlagEvaluationEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+</span><span data-line="214"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if an event represents an error.</span>
+</span><span data-line="215">
+</span><span data-line="216"><span class="sd">        Args:</span>
+</span><span data-line="217"><span class="sd">            event: The event to check.</span>
+</span><span data-line="218">
+</span><span data-line="219"><span class="sd">        Returns:</span>
+</span><span data-line="220"><span class="sd">            True if the event has ERROR reason.</span>
+</span><span data-line="221">
+</span><span data-line="222"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="223">        <span class="k">return</span> <span class="n">event</span><span class="o">.</span><span class="n">reason</span> <span class="o">==</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">ERROR</span>
+</span><span data-line="224">
+<div class="viewcode-block" id="AnalyticsAggregator.get_evaluation_rate">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_evaluation_rate">[docs]</a>
+</span><span data-line="225">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_evaluation_rate</span><span class="p">(</span>
+</span><span data-line="226">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="227">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="228">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">60</span><span class="p">,</span>
+</span><span data-line="229">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span data-line="230"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the evaluation rate for a flag.</span>
+</span><span data-line="231">
+</span><span data-line="232"><span class="sd">        Args:</span>
+</span><span data-line="233"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="234"><span class="sd">            window_seconds: The time window in seconds (default: 60).</span>
+</span><span data-line="235">
+</span><span data-line="236"><span class="sd">        Returns:</span>
+</span><span data-line="237"><span class="sd">            Evaluations per second within the time window.</span>
+</span><span data-line="238">
+</span><span data-line="239"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="240">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="241">        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span> <span class="ow">or</span> <span class="n">window_seconds</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+</span><span data-line="242">            <span class="k">return</span> <span class="mf">0.0</span>
+</span><span data-line="243">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span> <span class="o">/</span> <span class="n">window_seconds</span></div>
+
+</span><span data-line="244">
+<div class="viewcode-block" id="AnalyticsAggregator.get_unique_users">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_unique_users">[docs]</a>
+</span><span data-line="245">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_unique_users</span><span class="p">(</span>
+</span><span data-line="246">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="247">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="248">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+</span><span data-line="249">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span data-line="250"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Count unique targeting keys for a flag.</span>
+</span><span data-line="251">
+</span><span data-line="252"><span class="sd">        Args:</span>
+</span><span data-line="253"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="254"><span class="sd">            window_seconds: The time window in seconds (default: 3600).</span>
+</span><span data-line="255">
+</span><span data-line="256"><span class="sd">        Returns:</span>
+</span><span data-line="257"><span class="sd">            Count of unique targeting keys within the time window.</span>
+</span><span data-line="258">
+</span><span data-line="259"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="260">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="261">        <span class="n">unique_keys</span> <span class="o">=</span> <span class="p">{</span><span class="n">event</span><span class="o">.</span><span class="n">targeting_key</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">targeting_key</span><span class="p">}</span>
+</span><span data-line="262">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_keys</span><span class="p">)</span></div>
+
+</span><span data-line="263">
+<div class="viewcode-block" id="AnalyticsAggregator.get_variant_distribution">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_variant_distribution">[docs]</a>
+</span><span data-line="264">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_variant_distribution</span><span class="p">(</span>
+</span><span data-line="265">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="266">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="267">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+</span><span data-line="268">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span data-line="269"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the distribution of variants for a flag.</span>
+</span><span data-line="270">
+</span><span data-line="271"><span class="sd">        Args:</span>
+</span><span data-line="272"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="273"><span class="sd">            window_seconds: The time window in seconds (default: 3600).</span>
+</span><span data-line="274">
+</span><span data-line="275"><span class="sd">        Returns:</span>
+</span><span data-line="276"><span class="sd">            Dictionary mapping variant names to evaluation counts.</span>
+</span><span data-line="277">
+</span><span data-line="278"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="279">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="280">        <span class="n">counter</span><span class="p">:</span> <span class="n">Counter</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span data-line="281">        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="282">            <span class="n">variant</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">variant</span> <span class="ow">or</span> <span class="s2">&quot;default&quot;</span>
+</span><span data-line="283">            <span class="n">counter</span><span class="p">[</span><span class="n">variant</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="284">        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span></div>
+
+</span><span data-line="285">
+<div class="viewcode-block" id="AnalyticsAggregator.get_reason_distribution">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_reason_distribution">[docs]</a>
+</span><span data-line="286">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_reason_distribution</span><span class="p">(</span>
+</span><span data-line="287">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="288">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="289">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+</span><span data-line="290">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+</span><span data-line="291"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the distribution of evaluation reasons for a flag.</span>
+</span><span data-line="292">
+</span><span data-line="293"><span class="sd">        Args:</span>
+</span><span data-line="294"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="295"><span class="sd">            window_seconds: The time window in seconds (default: 3600).</span>
+</span><span data-line="296">
+</span><span data-line="297"><span class="sd">        Returns:</span>
+</span><span data-line="298"><span class="sd">            Dictionary mapping reason strings to evaluation counts.</span>
+</span><span data-line="299">
+</span><span data-line="300"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="301">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="302">        <span class="n">counter</span><span class="p">:</span> <span class="n">Counter</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span data-line="303">        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="304">            <span class="n">reason_str</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">EvaluationReason</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+</span><span data-line="305">            <span class="n">counter</span><span class="p">[</span><span class="n">reason_str</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="306">        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">counter</span><span class="p">)</span></div>
+
+</span><span data-line="307">
+<div class="viewcode-block" id="AnalyticsAggregator.get_error_rate">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_error_rate">[docs]</a>
+</span><span data-line="308">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_error_rate</span><span class="p">(</span>
+</span><span data-line="309">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="310">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="311">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+</span><span data-line="312">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span data-line="313"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate the error rate for a flag.</span>
+</span><span data-line="314">
+</span><span data-line="315"><span class="sd">        Args:</span>
+</span><span data-line="316"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="317"><span class="sd">            window_seconds: The time window in seconds (default: 3600).</span>
+</span><span data-line="318">
+</span><span data-line="319"><span class="sd">        Returns:</span>
+</span><span data-line="320"><span class="sd">            Percentage of evaluations that resulted in errors (0-100).</span>
+</span><span data-line="321">
+</span><span data-line="322"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="323">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="324">        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="325">            <span class="k">return</span> <span class="mf">0.0</span>
+</span><span data-line="326">
+</span><span data-line="327">        <span class="n">error_count</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_error_event</span><span class="p">(</span><span class="n">event</span><span class="p">))</span>
+</span><span data-line="328">        <span class="k">return</span> <span class="p">(</span><span class="n">error_count</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">))</span> <span class="o">*</span> <span class="mi">100</span></div>
+
+</span><span data-line="329">
+<div class="viewcode-block" id="AnalyticsAggregator.get_latency_percentiles">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_latency_percentiles">[docs]</a>
+</span><span data-line="330">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_latency_percentiles</span><span class="p">(</span>
+</span><span data-line="331">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="332">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="333">        <span class="n">percentiles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="334">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+</span><span data-line="335"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate latency percentiles for a flag.</span>
+</span><span data-line="336">
+</span><span data-line="337"><span class="sd">        Args:</span>
+</span><span data-line="338"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="339"><span class="sd">            percentiles: List of percentiles to calculate (default: [50, 90, 99]).</span>
+</span><span data-line="340">
+</span><span data-line="341"><span class="sd">        Returns:</span>
+</span><span data-line="342"><span class="sd">            Dictionary mapping percentile values to latencies in milliseconds.</span>
+</span><span data-line="343">
+</span><span data-line="344"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="345">        <span class="k">if</span> <span class="n">percentiles</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="346">            <span class="n">percentiles</span> <span class="o">=</span> <span class="p">[</span><span class="mf">50.0</span><span class="p">,</span> <span class="mf">90.0</span><span class="p">,</span> <span class="mf">99.0</span><span class="p">]</span>
+</span><span data-line="347">
+</span><span data-line="348">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="o">=</span><span class="mi">3600</span><span class="p">)</span>
+</span><span data-line="349">        <span class="n">latencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">evaluation_duration_ms</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">evaluation_duration_ms</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+</span><span data-line="350">
+</span><span data-line="351">        <span class="k">if</span> <span class="ow">not</span> <span class="n">latencies</span><span class="p">:</span>
+</span><span data-line="352">            <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">percentiles</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+</span><span data-line="353">
+</span><span data-line="354">        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">latencies</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span data-line="355">            <span class="c1"># With only one data point, all percentiles are the same</span>
+</span><span data-line="356">            <span class="k">return</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">percentiles</span><span class="p">,</span> <span class="n">latencies</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</span><span data-line="357">
+</span><span data-line="358">        <span class="c1"># Calculate quantiles using linear interpolation</span>
+</span><span data-line="359">        <span class="n">result</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+</span><span data-line="360">        <span class="n">sorted_latencies</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">latencies</span><span class="p">)</span>
+</span><span data-line="361">
+</span><span data-line="362">        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">percentiles</span><span class="p">:</span>
+</span><span data-line="363">            <span class="k">if</span> <span class="n">p</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">p</span> <span class="o">&gt;=</span> <span class="mi">100</span><span class="p">:</span>
+</span><span data-line="364">                <span class="n">result</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+</span><span data-line="365">                <span class="k">continue</span>
+</span><span data-line="366">
+</span><span data-line="367">            <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_latencies</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span data-line="368">            <span class="n">lower_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span><span data-line="369">            <span class="n">upper_idx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lower_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_latencies</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span data-line="370">            <span class="n">fraction</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="n">lower_idx</span>
+</span><span data-line="371">
+</span><span data-line="372">            <span class="c1"># Linear interpolation</span>
+</span><span data-line="373">            <span class="n">result</span><span class="p">[</span><span class="n">p</span><span class="p">]</span> <span class="o">=</span> <span class="n">sorted_latencies</span><span class="p">[</span><span class="n">lower_idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">fraction</span> <span class="o">*</span> <span class="p">(</span>
+</span><span data-line="374">                <span class="n">sorted_latencies</span><span class="p">[</span><span class="n">upper_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">sorted_latencies</span><span class="p">[</span><span class="n">lower_idx</span><span class="p">]</span>
+</span><span data-line="375">            <span class="p">)</span>
+</span><span data-line="376">
+</span><span data-line="377">        <span class="k">return</span> <span class="n">result</span></div>
+
+</span><span data-line="378">
+<div class="viewcode-block" id="AnalyticsAggregator.get_flag_metrics">
+<a class="viewcode-back" href="../../../api/analytics.html#litestar_flags.analytics.AnalyticsAggregator.get_flag_metrics">[docs]</a>
+</span><span data-line="379">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_flag_metrics</span><span class="p">(</span>
+</span><span data-line="380">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="381">        <span class="n">flag_key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+</span><span data-line="382">        <span class="n">window_seconds</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">3600</span><span class="p">,</span>
+</span><span data-line="383">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FlagMetrics</span><span class="p">:</span>
+</span><span data-line="384"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get all aggregated metrics for a flag.</span>
+</span><span data-line="385">
+</span><span data-line="386"><span class="sd">        This is a convenience method that computes all available metrics</span>
+</span><span data-line="387"><span class="sd">        in a single call.</span>
+</span><span data-line="388">
+</span><span data-line="389"><span class="sd">        Args:</span>
+</span><span data-line="390"><span class="sd">            flag_key: The key of the flag to measure.</span>
+</span><span data-line="391"><span class="sd">            window_seconds: The time window in seconds (default: 3600).</span>
+</span><span data-line="392">
+</span><span data-line="393"><span class="sd">        Returns:</span>
+</span><span data-line="394"><span class="sd">            FlagMetrics object containing all computed metrics.</span>
+</span><span data-line="395">
+</span><span data-line="396"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="397">        <span class="n">events</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_events_in_window</span><span class="p">(</span><span class="n">flag_key</span><span class="p">,</span> <span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="398">        <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span>
+</span><span data-line="399">        <span class="n">window_start</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">window_seconds</span><span class="p">)</span>
+</span><span data-line="400">
+</span><span data-line="401">        <span class="k">if</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="402">            <span class="k">return</span> <span class="n">FlagMetrics</span><span class="p">(</span>
+</span><span data-line="403">                <span class="n">window_start</span><span class="o">=</span><span class="n">window_start</span><span class="p">,</span>
+</span><span data-line="404">                <span class="n">window_end</span><span class="o">=</span><span class="n">now</span><span class="p">,</span>
+</span><span data-line="405">            <span class="p">)</span>
+</span><span data-line="406">
+</span><span data-line="407">        <span class="c1"># Calculate all metrics from the same event set</span>
+</span><span data-line="408">        <span class="n">total</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+</span><span data-line="409">        <span class="n">unique_keys</span> <span class="o">=</span> <span class="p">{</span><span class="n">event</span><span class="o">.</span><span class="n">targeting_key</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">targeting_key</span><span class="p">}</span>
+</span><span data-line="410">
+</span><span data-line="411">        <span class="c1"># Variant distribution</span>
+</span><span data-line="412">        <span class="n">variant_counter</span><span class="p">:</span> <span class="n">Counter</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span data-line="413">        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="414">            <span class="n">variant</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">variant</span> <span class="ow">or</span> <span class="s2">&quot;default&quot;</span>
+</span><span data-line="415">            <span class="n">variant_counter</span><span class="p">[</span><span class="n">variant</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="416">
+</span><span data-line="417">        <span class="c1"># Reason distribution</span>
+</span><span data-line="418">        <span class="n">reason_counter</span><span class="p">:</span> <span class="n">Counter</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+</span><span data-line="419">        <span class="n">error_count</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span data-line="420">        <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="421">            <span class="n">reason_str</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="n">EvaluationReason</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+</span><span data-line="422">            <span class="n">reason_counter</span><span class="p">[</span><span class="n">reason_str</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="423">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_is_error_event</span><span class="p">(</span><span class="n">event</span><span class="p">):</span>
+</span><span data-line="424">                <span class="n">error_count</span> <span class="o">+=</span> <span class="mi">1</span>
+</span><span data-line="425">
+</span><span data-line="426">        <span class="c1"># Latency percentiles</span>
+</span><span data-line="427">        <span class="n">latencies</span> <span class="o">=</span> <span class="p">[</span><span class="n">event</span><span class="o">.</span><span class="n">evaluation_duration_ms</span> <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span> <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">evaluation_duration_ms</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">]</span>
+</span><span data-line="428">        <span class="n">p50</span><span class="p">,</span> <span class="n">p90</span><span class="p">,</span> <span class="n">p99</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span>
+</span><span data-line="429">
+</span><span data-line="430">        <span class="k">if</span> <span class="n">latencies</span><span class="p">:</span>
+</span><span data-line="431">            <span class="n">sorted_latencies</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">latencies</span><span class="p">)</span>
+</span><span data-line="432">            <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_latencies</span><span class="p">)</span>
+</span><span data-line="433">            <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span data-line="434">                <span class="n">p50</span> <span class="o">=</span> <span class="n">p90</span> <span class="o">=</span> <span class="n">p99</span> <span class="o">=</span> <span class="n">sorted_latencies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span data-line="435">            <span class="k">else</span><span class="p">:</span>
+</span><span data-line="436">                <span class="n">p50</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_percentile</span><span class="p">(</span><span class="n">sorted_latencies</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+</span><span data-line="437">                <span class="n">p90</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_percentile</span><span class="p">(</span><span class="n">sorted_latencies</span><span class="p">,</span> <span class="mi">90</span><span class="p">)</span>
+</span><span data-line="438">                <span class="n">p99</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_percentile</span><span class="p">(</span><span class="n">sorted_latencies</span><span class="p">,</span> <span class="mi">99</span><span class="p">)</span>
+</span><span data-line="439">
+</span><span data-line="440">        <span class="k">return</span> <span class="n">FlagMetrics</span><span class="p">(</span>
+</span><span data-line="441">            <span class="n">evaluation_rate</span><span class="o">=</span><span class="n">total</span> <span class="o">/</span> <span class="n">window_seconds</span> <span class="k">if</span> <span class="n">window_seconds</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+</span><span data-line="442">            <span class="n">unique_users</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">unique_keys</span><span class="p">),</span>
+</span><span data-line="443">            <span class="n">variant_distribution</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">variant_counter</span><span class="p">),</span>
+</span><span data-line="444">            <span class="n">reason_distribution</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">reason_counter</span><span class="p">),</span>
+</span><span data-line="445">            <span class="n">error_rate</span><span class="o">=</span><span class="p">(</span><span class="n">error_count</span> <span class="o">/</span> <span class="n">total</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span> <span class="k">if</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="mf">0.0</span><span class="p">,</span>
+</span><span data-line="446">            <span class="n">latency_p50</span><span class="o">=</span><span class="n">p50</span><span class="p">,</span>
+</span><span data-line="447">            <span class="n">latency_p90</span><span class="o">=</span><span class="n">p90</span><span class="p">,</span>
+</span><span data-line="448">            <span class="n">latency_p99</span><span class="o">=</span><span class="n">p99</span><span class="p">,</span>
+</span><span data-line="449">            <span class="n">total_evaluations</span><span class="o">=</span><span class="n">total</span><span class="p">,</span>
+</span><span data-line="450">            <span class="n">window_start</span><span class="o">=</span><span class="n">window_start</span><span class="p">,</span>
+</span><span data-line="451">            <span class="n">window_end</span><span class="o">=</span><span class="n">now</span><span class="p">,</span>
+</span><span data-line="452">        <span class="p">)</span></div>
+
+</span><span data-line="453">
+</span><span data-line="454">    <span class="k">def</span><span class="w"> </span><span class="nf">_percentile</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sorted_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">p</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span data-line="455"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate a percentile from sorted data.</span>
+</span><span data-line="456">
+</span><span data-line="457"><span class="sd">        Args:</span>
+</span><span data-line="458"><span class="sd">            sorted_data: Pre-sorted list of values.</span>
+</span><span data-line="459"><span class="sd">            p: Percentile to calculate (0-100).</span>
+</span><span data-line="460">
+</span><span data-line="461"><span class="sd">        Returns:</span>
+</span><span data-line="462"><span class="sd">            The percentile value with linear interpolation.</span>
+</span><span data-line="463">
+</span><span data-line="464"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="465">        <span class="k">if</span> <span class="ow">not</span> <span class="n">sorted_data</span><span class="p">:</span>
+</span><span data-line="466">            <span class="k">return</span> <span class="mf">0.0</span>
+</span><span data-line="467">        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_data</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span data-line="468">            <span class="k">return</span> <span class="n">sorted_data</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span data-line="469">
+</span><span data-line="470">        <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="n">p</span> <span class="o">/</span> <span class="mi">100</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span data-line="471">        <span class="n">lower_idx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+</span><span data-line="472">        <span class="n">upper_idx</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">lower_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_data</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+</span><span data-line="473">        <span class="n">fraction</span> <span class="o">=</span> <span class="n">index</span> <span class="o">-</span> <span class="n">lower_idx</span>
+</span><span data-line="474">
+</span><span data-line="475">        <span class="k">return</span> <span class="n">sorted_data</span><span class="p">[</span><span class="n">lower_idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">fraction</span> <span class="o">*</span> <span class="p">(</span><span class="n">sorted_data</span><span class="p">[</span><span class="n">upper_idx</span><span class="p">]</span> <span class="o">-</span> <span class="n">sorted_data</span><span class="p">[</span><span class="n">lower_idx</span><span class="p">])</span></div>
+
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../_static/copybutton.js?v=30646c52"></script>
+      <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

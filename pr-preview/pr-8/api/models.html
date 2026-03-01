@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Models - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Storage Backends" href="storage.html" /><link rel="prev" title="Configuration" href="config.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Models"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#featureflag">FeatureFlag</a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag"><code class="docutils literal notranslate"><span class="pre">FeatureFlag</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.key"><code class="docutils literal notranslate">key</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.name"><code class="docutils literal notranslate">name</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.description"><code class="docutils literal notranslate">description</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.flag_type"><code class="docutils literal notranslate">flag_type</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.status"><code class="docutils literal notranslate">status</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.default_enabled"><code class="docutils literal notranslate">default_enabled</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.default_value"><code class="docutils literal notranslate">default_value</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.tags"><code class="docutils literal notranslate">tags</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.metadata"><code class="docutils literal notranslate">metadata</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.rules"><code class="docutils literal notranslate">rules</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.overrides"><code class="docutils literal notranslate">overrides</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.variants"><code class="docutils literal notranslate">variants</span></code></a></li>
+<li><a class="reference internal" href="#id0"><code class="docutils literal notranslate">key</span></code></a></li>
+<li><a class="reference internal" href="#id1"><code class="docutils literal notranslate">name</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.id"><code class="docutils literal notranslate">id</span></code></a></li>
+<li><a class="reference internal" href="#id2"><code class="docutils literal notranslate">description</span></code></a></li>
+<li><a class="reference internal" href="#id3"><code class="docutils literal notranslate">flag_type</span></code></a></li>
+<li><a class="reference internal" href="#id4"><code class="docutils literal notranslate">status</span></code></a></li>
+<li><a class="reference internal" href="#id5"><code class="docutils literal notranslate">default_enabled</span></code></a></li>
+<li><a class="reference internal" href="#id6"><code class="docutils literal notranslate">default_value</span></code></a></li>
+<li><a class="reference internal" href="#id7"><code class="docutils literal notranslate">tags</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.metadata_"><code class="docutils literal notranslate">metadata_</span></code></a></li>
+<li><a class="reference internal" href="#id8"><code class="docutils literal notranslate">rules</span></code></a></li>
+<li><a class="reference internal" href="#id9"><code class="docutils literal notranslate">overrides</span></code></a></li>
+<li><a class="reference internal" href="#id10"><code class="docutils literal notranslate">variants</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.scheduled_changes"><code class="docutils literal notranslate">scheduled_changes</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.time_schedules"><code class="docutils literal notranslate">time_schedules</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.rollout_phases"><code class="docutils literal notranslate">rollout_phases</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.created_at"><code class="docutils literal notranslate">created_at</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.flag.FeatureFlag.updated_at"><code class="docutils literal notranslate">updated_at</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#creating-flags">Creating Flags</a></li>
+<li><a class="reference internal" href="#flag-lifecycle">Flag Lifecycle</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flagrule">FlagRule</a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule"><code class="docutils literal notranslate"><span class="pre">FlagRule</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.flag_id"><code class="docutils literal notranslate">flag_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.name"><code class="docutils literal notranslate">name</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.description"><code class="docutils literal notranslate">description</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.priority"><code class="docutils literal notranslate">priority</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.enabled"><code class="docutils literal notranslate">enabled</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.conditions"><code class="docutils literal notranslate">conditions</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.serve_enabled"><code class="docutils literal notranslate">serve_enabled</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.serve_value"><code class="docutils literal notranslate">serve_value</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.rollout_percentage"><code class="docutils literal notranslate">rollout_percentage</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.flag"><code class="docutils literal notranslate">flag</span></code></a></li>
+<li><a class="reference internal" href="#id11"><code class="docutils literal notranslate">name</span></code></a></li>
+<li><a class="reference internal" href="#id12"><code class="docutils literal notranslate">flag_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.id"><code class="docutils literal notranslate">id</span></code></a></li>
+<li><a class="reference internal" href="#id13"><code class="docutils literal notranslate">description</span></code></a></li>
+<li><a class="reference internal" href="#id14"><code class="docutils literal notranslate">priority</span></code></a></li>
+<li><a class="reference internal" href="#id15"><code class="docutils literal notranslate">enabled</span></code></a></li>
+<li><a class="reference internal" href="#id16"><code class="docutils literal notranslate">conditions</span></code></a></li>
+<li><a class="reference internal" href="#id17"><code class="docutils literal notranslate">serve_enabled</span></code></a></li>
+<li><a class="reference internal" href="#id18"><code class="docutils literal notranslate">serve_value</span></code></a></li>
+<li><a class="reference internal" href="#id19"><code class="docutils literal notranslate">rollout_percentage</span></code></a></li>
+<li><a class="reference internal" href="#id20"><code class="docutils literal notranslate">flag</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.created_at"><code class="docutils literal notranslate">created_at</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.rule.FlagRule.updated_at"><code class="docutils literal notranslate">updated_at</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#rule-conditions">Rule Conditions</a></li>
+<li><a class="reference internal" href="#percentage-rollouts">Percentage Rollouts</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flagvariant">FlagVariant</a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant"><code class="docutils literal notranslate"><span class="pre">FlagVariant</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.flag_id"><code class="docutils literal notranslate">flag_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.key"><code class="docutils literal notranslate">key</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.name"><code class="docutils literal notranslate">name</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.description"><code class="docutils literal notranslate">description</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.value"><code class="docutils literal notranslate">value</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.weight"><code class="docutils literal notranslate">weight</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.flag"><code class="docutils literal notranslate">flag</span></code></a></li>
+<li><a class="reference internal" href="#id21"><code class="docutils literal notranslate">key</span></code></a></li>
+<li><a class="reference internal" href="#id22"><code class="docutils literal notranslate">name</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#id23"><code class="docutils literal notranslate">flag_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.id"><code class="docutils literal notranslate">id</span></code></a></li>
+<li><a class="reference internal" href="#id24"><code class="docutils literal notranslate">description</span></code></a></li>
+<li><a class="reference internal" href="#id25"><code class="docutils literal notranslate">value</span></code></a></li>
+<li><a class="reference internal" href="#id26"><code class="docutils literal notranslate">weight</span></code></a></li>
+<li><a class="reference internal" href="#id27"><code class="docutils literal notranslate">flag</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.created_at"><code class="docutils literal notranslate">created_at</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.variant.FlagVariant.updated_at"><code class="docutils literal notranslate">updated_at</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#a-b-testing-setup">A/B Testing Setup</a></li>
+<li><a class="reference internal" href="#multiple-variants">Multiple Variants</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flagoverride">FlagOverride</a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride"><code class="docutils literal notranslate"><span class="pre">FlagOverride</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.flag_id"><code class="docutils literal notranslate">flag_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.entity_type"><code class="docutils literal notranslate">entity_type</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.entity_id"><code class="docutils literal notranslate">entity_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.enabled"><code class="docutils literal notranslate">enabled</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.value"><code class="docutils literal notranslate">value</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.expires_at"><code class="docutils literal notranslate">expires_at</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.flag"><code class="docutils literal notranslate">flag</span></code></a></li>
+<li><a class="reference internal" href="#id28"><code class="docutils literal notranslate">entity_type</span></code></a></li>
+<li><a class="reference internal" href="#id29"><code class="docutils literal notranslate">entity_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.__init__"><code class="docutils literal notranslate">__init__()</span></code></a></li>
+<li><a class="reference internal" href="#id30"><code class="docutils literal notranslate">enabled</span></code></a></li>
+<li><a class="reference internal" href="#id31"><code class="docutils literal notranslate">flag_id</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.id"><code class="docutils literal notranslate">id</span></code></a></li>
+<li><a class="reference internal" href="#id32"><code class="docutils literal notranslate">value</span></code></a></li>
+<li><a class="reference internal" href="#id33"><code class="docutils literal notranslate">expires_at</span></code></a></li>
+<li><a class="reference internal" href="#id34"><code class="docutils literal notranslate">flag</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.created_at"><code class="docutils literal notranslate">created_at</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.updated_at"><code class="docutils literal notranslate">updated_at</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.models.override.FlagOverride.is_expired"><code class="docutils literal notranslate">is_expired()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#user-overrides">User Overrides</a></li>
+<li><a class="reference internal" href="#organization-overrides">Organization Overrides</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluation-priority">Evaluation Priority</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Models</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="models">
+<h1>Models<a class="headerlink" href="#models" title="Link to this heading">¶</a></h1>
+<p>Data models representing feature flags and their components. These models are
+used for creating, storing, and evaluating feature flags.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The litestar-flags library provides four main models:</p>
+<ul class="simple">
+<li><p><strong>FeatureFlag</strong>: The core flag entity with configuration and metadata</p></li>
+<li><p><strong>FlagRule</strong>: Targeting rules for conditional evaluation</p></li>
+<li><p><strong>FlagVariant</strong>: Variants for A/B testing and multivariate flags</p></li>
+<li><p><strong>FlagOverride</strong>: Entity-specific overrides for individual users or organizations</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">advanced-alchemy</span></code> is installed, these models are SQLAlchemy ORM models
+with database persistence. Otherwise, they are simple dataclasses suitable for
+in-memory or Redis storage.</p>
+</div>
+</section>
+<section id="featureflag">
+<h2>FeatureFlag<a class="headerlink" href="#featureflag" title="Link to this heading">¶</a></h2>
+<p>The core feature flag model containing configuration and relationships.</p>
+<p id="module-litestar_flags.models.flag">Feature flag model.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.models.flag.</span></span><span class="sig-name descname"><span class="pre">FeatureFlag</span></span><a class="reference internal" href="../_modules/litestar_flags/models/flag.html#FeatureFlag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UUIDv7AuditBase</span></code></p>
+<p>Core feature flag model.</p>
+<p>Uses UUIDv7 for time-sortable IDs and automatic audit timestamps.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.key">
+<span class="sig-name descname"><span class="pre">key</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.key" title="Link to this definition">¶</a></dt>
+<dd><p>Unique identifier for the flag (used in code).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.name" title="Link to this definition">¶</a></dt>
+<dd><p>Human-readable name for the flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.description" title="Link to this definition">¶</a></dt>
+<dd><p>Optional description of the flag’s purpose.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.flag_type">
+<span class="sig-name descname"><span class="pre">flag_type</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.flag_type" title="Link to this definition">¶</a></dt>
+<dd><p>The type of value the flag returns.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.status">
+<span class="sig-name descname"><span class="pre">status</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.status" title="Link to this definition">¶</a></dt>
+<dd><p>Current lifecycle status of the flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.default_enabled">
+<span class="sig-name descname"><span class="pre">default_enabled</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.default_enabled" title="Link to this definition">¶</a></dt>
+<dd><p>Default boolean value when flag type is BOOLEAN.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.default_value">
+<span class="sig-name descname"><span class="pre">default_value</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.default_value" title="Link to this definition">¶</a></dt>
+<dd><p>Default value for non-boolean flags (stored as JSON).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.tags" title="Link to this definition">¶</a></dt>
+<dd><p>List of tags for organizing flags.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.metadata">
+<span class="sig-name descname"><span class="pre">metadata</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.metadata" title="Link to this definition">¶</a></dt>
+<dd><p>Additional metadata stored as JSON.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.rules">
+<span class="sig-name descname"><span class="pre">rules</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.rules" title="Link to this definition">¶</a></dt>
+<dd><p>Targeting rules for conditional evaluation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.overrides">
+<span class="sig-name descname"><span class="pre">overrides</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.overrides" title="Link to this definition">¶</a></dt>
+<dd><p>Entity-specific overrides.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.variants">
+<span class="sig-name descname"><span class="pre">variants</span></span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.variants" title="Link to this definition">¶</a></dt>
+<dd><p>Variants for A/B testing.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id0" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id1" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
+<p>Only keys that are present as
+attributes of the instance’s class are allowed. These could be,
+for example, any mapped columns or relationships.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.id" title="Link to this definition">¶</a></dt>
+<dd><p>UUID Primary key column.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id2" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">flag_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[FlagType]</span></em><a class="headerlink" href="#id3" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[FlagStatus]</span></em><a class="headerlink" href="#id4" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">default_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[bool]</span></em><a class="headerlink" href="#id5" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">default_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id6" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[str]]</span></em><a class="headerlink" href="#id7" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.metadata_">
+<span class="sig-name descname"><span class="pre">metadata_</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[dict[str,</span> <span class="pre">Any]]</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.metadata_" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">rules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[FlagRule]]</span></em><a class="headerlink" href="#id8" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id9">
+<span class="sig-name descname"><span class="pre">overrides</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[FlagOverride]]</span></em><a class="headerlink" href="#id9" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id10">
+<span class="sig-name descname"><span class="pre">variants</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[FlagVariant]]</span></em><a class="headerlink" href="#id10" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.scheduled_changes">
+<span class="sig-name descname"><span class="pre">scheduled_changes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[ScheduledFlagChange]]</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.scheduled_changes" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.time_schedules">
+<span class="sig-name descname"><span class="pre">time_schedules</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[TimeSchedule]]</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.time_schedules" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.rollout_phases">
+<span class="sig-name descname"><span class="pre">rollout_phases</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[RolloutPhase]]</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.rollout_phases" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance creation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.flag.FeatureFlag.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.flag.FeatureFlag.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance last update.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="creating-flags">
+<h3>Creating Flags<a class="headerlink" href="#creating-flags" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlag</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagType</span><span class="p">,</span> <span class="n">FlagStatus</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Boolean flag (most common)</span>
+</span><span data-line="5"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;new-checkout&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;New Checkout Flow&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Enable the redesigned checkout experience&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">status</span><span class="o">=</span><span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">default_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;checkout&quot;</span><span class="p">,</span> <span class="s2">&quot;experiment&quot;</span><span class="p">],</span>
+</span><span data-line="13"><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="c1"># String flag for variants</span>
+</span><span data-line="16"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="17">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;button-color&quot;</span><span class="p">,</span>
+</span><span data-line="18">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Button Color Experiment&quot;</span><span class="p">,</span>
+</span><span data-line="19">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+</span><span data-line="20">    <span class="n">default_value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">},</span>
+</span><span data-line="21"><span class="p">)</span>
+</span><span data-line="22">
+</span><span data-line="23"><span class="c1"># JSON flag for complex configuration</span>
+</span><span data-line="24"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="25">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;feature-limits&quot;</span><span class="p">,</span>
+</span><span data-line="26">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Feature Limits&quot;</span><span class="p">,</span>
+</span><span data-line="27">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">JSON</span><span class="p">,</span>
+</span><span data-line="28">    <span class="n">default_value</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="29">        <span class="s2">&quot;max_items&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+</span><span data-line="30">        <span class="s2">&quot;rate_limit&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+</span><span data-line="31">        <span class="s2">&quot;features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">,</span> <span class="s2">&quot;advanced&quot;</span><span class="p">],</span>
+</span><span data-line="32">    <span class="p">},</span>
+</span><span data-line="33"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="flag-lifecycle">
+<h3>Flag Lifecycle<a class="headerlink" href="#flag-lifecycle" title="Link to this heading">¶</a></h3>
+<p>Flags have three lifecycle statuses:</p>
+<div class="table-wrapper colwidths-given docutils container">
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20.0%" />
+<col style="width: 80.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Status</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ACTIVE</span></code></p></td>
+<td><p>Flag is live and will be evaluated normally</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">INACTIVE</span></code></p></td>
+<td><p>Flag is paused; evaluations return the default value</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">ARCHIVED</span></code></p></td>
+<td><p>Flag is retired; evaluations return the default value</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="flagrule">
+<h2>FlagRule<a class="headerlink" href="#flagrule" title="Link to this heading">¶</a></h2>
+<p>Targeting rules for conditional flag evaluation based on context attributes.</p>
+<p id="module-litestar_flags.models.rule">Flag rule model for targeting conditions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.models.rule.</span></span><span class="sig-name descname"><span class="pre">FlagRule</span></span><a class="reference internal" href="../_modules/litestar_flags/models/rule.html#FlagRule"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.models.rule.FlagRule" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UUIDv7AuditBase</span></code></p>
+<p>Targeting rule for conditional flag evaluation.</p>
+<p>Rules are evaluated in priority order (lower number = higher priority).
+The first matching rule determines the flag value.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.flag_id">
+<span class="sig-name descname"><span class="pre">flag_id</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.flag_id" title="Link to this definition">¶</a></dt>
+<dd><p>Reference to the parent flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.name" title="Link to this definition">¶</a></dt>
+<dd><p>Name of the rule for identification.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.description" title="Link to this definition">¶</a></dt>
+<dd><p>Optional description of what this rule targets.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.priority">
+<span class="sig-name descname"><span class="pre">priority</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.priority" title="Link to this definition">¶</a></dt>
+<dd><p>Evaluation order (lower = evaluated first).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.enabled" title="Link to this definition">¶</a></dt>
+<dd><p>Whether this rule is active.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.conditions">
+<span class="sig-name descname"><span class="pre">conditions</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.conditions" title="Link to this definition">¶</a></dt>
+<dd><p>JSON array of condition objects.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.serve_enabled">
+<span class="sig-name descname"><span class="pre">serve_enabled</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.serve_enabled" title="Link to this definition">¶</a></dt>
+<dd><p>Boolean value to serve when rule matches (for boolean flags).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.serve_value">
+<span class="sig-name descname"><span class="pre">serve_value</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.serve_value" title="Link to this definition">¶</a></dt>
+<dd><p>Value to serve when rule matches (for non-boolean flags).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.rollout_percentage">
+<span class="sig-name descname"><span class="pre">rollout_percentage</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.rollout_percentage" title="Link to this definition">¶</a></dt>
+<dd><p>Optional percentage rollout (0-100).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.flag" title="Link to this definition">¶</a></dt>
+<dd><p>Reference to the parent FeatureFlag.</p>
+</dd></dl>
+
+<p>Example conditions format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">[</span>
+</span><span data-line="2">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span> <span class="s2">&quot;CA&quot;</span><span class="p">]},</span>
+</span><span data-line="3">    <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">}</span>
+</span><span data-line="4"><span class="p">]</span>
+</span></pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id11">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id11" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id12">
+<span class="sig-name descname"><span class="pre">flag_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[UUID]</span></em><a class="headerlink" href="#id12" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
+<p>Only keys that are present as
+attributes of the instance’s class are allowed. These could be,
+for example, any mapped columns or relationships.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></em><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.id" title="Link to this definition">¶</a></dt>
+<dd><p>UUID Primary key column.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id13">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id13" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id14">
+<span class="sig-name descname"><span class="pre">priority</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[int]</span></em><a class="headerlink" href="#id14" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id15">
+<span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[bool]</span></em><a class="headerlink" href="#id15" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id16">
+<span class="sig-name descname"><span class="pre">conditions</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[list[dict[str,</span> <span class="pre">Any]]]</span></em><a class="headerlink" href="#id16" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id17">
+<span class="sig-name descname"><span class="pre">serve_enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[bool]</span></em><a class="headerlink" href="#id17" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id18">
+<span class="sig-name descname"><span class="pre">serve_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id18" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id19">
+<span class="sig-name descname"><span class="pre">rollout_percentage</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[int</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id19" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id20">
+<span class="sig-name descname"><span class="pre">flag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[FeatureFlag]</span></em><a class="headerlink" href="#id20" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance creation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.rule.FlagRule.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.rule.FlagRule.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance last update.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="rule-conditions">
+<h3>Rule Conditions<a class="headerlink" href="#rule-conditions" title="Link to this heading">¶</a></h3>
+<p>Rules use a JSON array of condition objects for targeting:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagRule</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Target premium users</span>
+</span><span data-line="4"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Users&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># Lower number = higher priority</span>
+</span><span data-line="7">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="8">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">},</span>
+</span><span data-line="9">    <span class="p">],</span>
+</span><span data-line="10">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="11"><span class="p">)</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Target users in specific countries</span>
+</span><span data-line="14"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="15">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;US and Canada&quot;</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">priority</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="18">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span> <span class="s2">&quot;CA&quot;</span><span class="p">]},</span>
+</span><span data-line="19">    <span class="p">],</span>
+</span><span data-line="20">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="21"><span class="p">)</span>
+</span><span data-line="22">
+</span><span data-line="23"><span class="c1"># Multiple conditions (AND logic)</span>
+</span><span data-line="24"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="25">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Premium Beta Testers&quot;</span><span class="p">,</span>
+</span><span data-line="26">    <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="27">    <span class="n">conditions</span><span class="o">=</span><span class="p">[</span>
+</span><span data-line="28">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">},</span>
+</span><span data-line="29">        <span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;beta_tester&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+</span><span data-line="30">    <span class="p">],</span>
+</span><span data-line="31">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="32"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="percentage-rollouts">
+<h3>Percentage Rollouts<a class="headerlink" href="#percentage-rollouts" title="Link to this heading">¶</a></h3>
+<p>Use <code class="docutils literal notranslate"><span class="pre">rollout_percentage</span></code> for gradual rollouts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable for 25% of users</span>
+</span><span data-line="2"><span class="n">rule</span> <span class="o">=</span> <span class="n">FlagRule</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;25% Rollout&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">priority</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">conditions</span><span class="o">=</span><span class="p">[],</span>  <span class="c1"># No conditions = matches all</span>
+</span><span data-line="6">    <span class="n">serve_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">rollout_percentage</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span>  <span class="c1"># 0-100</span>
+</span><span data-line="8"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="flagvariant">
+<h2>FlagVariant<a class="headerlink" href="#flagvariant" title="Link to this heading">¶</a></h2>
+<p>Variants for multivariate flags and A/B testing experiments.</p>
+<p id="module-litestar_flags.models.variant">Flag variant model for A/B testing.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.models.variant.</span></span><span class="sig-name descname"><span class="pre">FlagVariant</span></span><a class="reference internal" href="../_modules/litestar_flags/models/variant.html#FlagVariant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UUIDv7AuditBase</span></code></p>
+<p>Variant for multivariate flags and A/B testing.</p>
+<p>Weights should sum to 100 for percentage-based distribution.
+If weights don’t sum to 100, they will be normalized.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.flag_id">
+<span class="sig-name descname"><span class="pre">flag_id</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.flag_id" title="Link to this definition">¶</a></dt>
+<dd><p>Reference to the parent flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.key">
+<span class="sig-name descname"><span class="pre">key</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.key" title="Link to this definition">¶</a></dt>
+<dd><p>Unique key for this variant within the flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.name" title="Link to this definition">¶</a></dt>
+<dd><p>Human-readable name for the variant.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.description" title="Link to this definition">¶</a></dt>
+<dd><p>Optional description of the variant.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.value" title="Link to this definition">¶</a></dt>
+<dd><p>The value to return when this variant is selected.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.weight">
+<span class="sig-name descname"><span class="pre">weight</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.weight" title="Link to this definition">¶</a></dt>
+<dd><p>Distribution weight (0-100) for this variant.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.flag" title="Link to this definition">¶</a></dt>
+<dd><p>Reference to the parent FeatureFlag.</p>
+</dd></dl>
+
+<div class="admonition-example admonition">
+<p class="admonition-title">Example</p>
+<p># A/B test with 50/50 split
+variant_a = FlagVariant(key=”control”, name=”Control”, weight=50, value={})
+variant_b = FlagVariant(key=”treatment”, name=”Treatment”, weight=50, value={“new_ui”: True})</p>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id21">
+<span class="sig-name descname"><span class="pre">key</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id21" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id22">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id22" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
+<p>Only keys that are present as
+attributes of the instance’s class are allowed. These could be,
+for example, any mapped columns or relationships.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id23">
+<span class="sig-name descname"><span class="pre">flag_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[UUID]</span></em><a class="headerlink" href="#id23" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></em><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.id" title="Link to this definition">¶</a></dt>
+<dd><p>UUID Primary key column.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id24">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id24" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id25">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[dict[str,</span> <span class="pre">Any]]</span></em><a class="headerlink" href="#id25" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id26">
+<span class="sig-name descname"><span class="pre">weight</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[int]</span></em><a class="headerlink" href="#id26" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id27">
+<span class="sig-name descname"><span class="pre">flag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[FeatureFlag]</span></em><a class="headerlink" href="#id27" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance creation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.variant.FlagVariant.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.variant.FlagVariant.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance last update.</p>
+</dd></dl>
+
+</dd></dl>
+
+<section id="a-b-testing-setup">
+<h3>A/B Testing Setup<a class="headerlink" href="#a-b-testing-setup" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlag</span><span class="p">,</span> <span class="n">FlagVariant</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagType</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="5">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;checkout-experiment&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Checkout A/B Test&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">JSON</span><span class="p">,</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># 50/50 split</span>
+</span><span data-line="11"><span class="n">variant_a</span> <span class="o">=</span> <span class="n">FlagVariant</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;control&quot;</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Control Group&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">weight</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;layout&quot;</span><span class="p">:</span> <span class="s2">&quot;classic&quot;</span><span class="p">,</span> <span class="s2">&quot;button_color&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">},</span>
+</span><span data-line="16"><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="n">variant_b</span> <span class="o">=</span> <span class="n">FlagVariant</span><span class="p">(</span>
+</span><span data-line="19">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;treatment&quot;</span><span class="p">,</span>
+</span><span data-line="20">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Treatment Group&quot;</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">weight</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span><span data-line="22">    <span class="n">value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;layout&quot;</span><span class="p">:</span> <span class="s2">&quot;modern&quot;</span><span class="p">,</span> <span class="s2">&quot;button_color&quot;</span><span class="p">:</span> <span class="s2">&quot;green&quot;</span><span class="p">},</span>
+</span><span data-line="23"><span class="p">)</span>
+</span><span data-line="24">
+</span><span data-line="25"><span class="n">flag</span><span class="o">.</span><span class="n">variants</span> <span class="o">=</span> <span class="p">[</span><span class="n">variant_a</span><span class="p">,</span> <span class="n">variant_b</span><span class="p">]</span>
+</span></pre></div>
+</div>
+</section>
+<section id="multiple-variants">
+<h3>Multiple Variants<a class="headerlink" href="#multiple-variants" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Three-way split</span>
+</span><span data-line="2"><span class="n">variants</span> <span class="o">=</span> <span class="p">[</span>
+</span><span data-line="3">    <span class="n">FlagVariant</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;control&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Control&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;classic&quot;</span><span class="p">}),</span>
+</span><span data-line="4">    <span class="n">FlagVariant</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;modern&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Modern UI&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;modern&quot;</span><span class="p">}),</span>
+</span><span data-line="5">    <span class="n">FlagVariant</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Minimal UI&quot;</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="mi">34</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;minimal&quot;</span><span class="p">}),</span>
+</span><span data-line="6"><span class="p">]</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="flagoverride">
+<h2>FlagOverride<a class="headerlink" href="#flagoverride" title="Link to this heading">¶</a></h2>
+<p>Entity-specific overrides that take precedence over rules and defaults.</p>
+<p id="module-litestar_flags.models.override">Flag override model for entity-specific overrides.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.models.override.</span></span><span class="sig-name descname"><span class="pre">FlagOverride</span></span><a class="reference internal" href="../_modules/litestar_flags/models/override.html#FlagOverride"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.models.override.FlagOverride" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">UUIDv7AuditBase</span></code></p>
+<p>Entity-specific flag override.</p>
+<p>Overrides take precedence over rules and default values.
+They allow specific users, organizations, or other entities
+to have a different flag value than what rules would determine.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.flag_id">
+<span class="sig-name descname"><span class="pre">flag_id</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.flag_id" title="Link to this definition">¶</a></dt>
+<dd><p>Reference to the parent flag.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.entity_type">
+<span class="sig-name descname"><span class="pre">entity_type</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.entity_type" title="Link to this definition">¶</a></dt>
+<dd><p>Type of entity (e.g., “user”, “organization”, “tenant”).</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.entity_id">
+<span class="sig-name descname"><span class="pre">entity_id</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.entity_id" title="Link to this definition">¶</a></dt>
+<dd><p>Identifier of the specific entity.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.enabled">
+<span class="sig-name descname"><span class="pre">enabled</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.enabled" title="Link to this definition">¶</a></dt>
+<dd><p>Whether the flag is enabled for this entity.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.value">
+<span class="sig-name descname"><span class="pre">value</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.value" title="Link to this definition">¶</a></dt>
+<dd><p>Optional value override for non-boolean flags.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.expires_at">
+<span class="sig-name descname"><span class="pre">expires_at</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.expires_at" title="Link to this definition">¶</a></dt>
+<dd><p>Optional expiration time for the override.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.flag">
+<span class="sig-name descname"><span class="pre">flag</span></span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.flag" title="Link to this definition">¶</a></dt>
+<dd><p>Reference to the parent FeatureFlag.</p>
+</dd></dl>
+
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable beta feature for specific user</span>
+</span><span data-line="2"><span class="n">override</span> <span class="o">=</span> <span class="n">FlagOverride</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">entity_type</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">entity_id</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="6"><span class="p">)</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Temporary override with expiration</span>
+</span><span data-line="9"><span class="n">override</span> <span class="o">=</span> <span class="n">FlagOverride</span><span class="p">(</span>
+</span><span data-line="10">    <span class="n">entity_type</span><span class="o">=</span><span class="s2">&quot;organization&quot;</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">entity_id</span><span class="o">=</span><span class="s2">&quot;org-456&quot;</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">expires_at</span><span class="o">=</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">31</span><span class="p">),</span>
+</span><span data-line="14"><span class="p">)</span>
+</span></pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id28">
+<span class="sig-name descname"><span class="pre">entity_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id28" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id29">
+<span class="sig-name descname"><span class="pre">entity_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[str]</span></em><a class="headerlink" href="#id29" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.__init__">
+<span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.__init__" title="Link to this definition">¶</a></dt>
+<dd><p>A simple constructor that allows initialization from kwargs.</p>
+<p>Sets attributes on the constructed instance using the names and
+values in <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
+<p>Only keys that are present as
+attributes of the instance’s class are allowed. These could be,
+for example, any mapped columns or relationships.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id30">
+<span class="sig-name descname"><span class="pre">enabled</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[bool]</span></em><a class="headerlink" href="#id30" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id31">
+<span class="sig-name descname"><span class="pre">flag_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[UUID]</span></em><a class="headerlink" href="#id31" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.id">
+<span class="sig-name descname"><span class="pre">id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">UUID</span></em><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.id" title="Link to this definition">¶</a></dt>
+<dd><p>UUID Primary key column.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id32">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[dict[str,</span> <span class="pre">Any]</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id32" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id33">
+<span class="sig-name descname"><span class="pre">expires_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[datetime</span> <span class="pre">|</span> <span class="pre">None]</span></em><a class="headerlink" href="#id33" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="id34">
+<span class="sig-name descname"><span class="pre">flag</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Mapped[FeatureFlag]</span></em><a class="headerlink" href="#id34" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.created_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance creation.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">datetime</span> <span class="pre">|</span> <span class="pre">None</span></em><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.updated_at" title="Link to this definition">¶</a></dt>
+<dd><p>Date/time of instance last update.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.models.override.FlagOverride.is_expired">
+<span class="sig-name descname"><span class="pre">is_expired</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">now</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/litestar_flags/models/override.html#FlagOverride.is_expired"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.models.override.FlagOverride.is_expired" title="Link to this definition">¶</a></dt>
+<dd><p>Check if this override has expired.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>now</strong> (<span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.datetime" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime</span></code></a> | <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code></a></span>) – Current time to check against. Defaults to UTC now.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p><span class="sphinx_autodoc_typehints-type"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></a></span></p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if the override has expired.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<section id="user-overrides">
+<h3>User Overrides<a class="headerlink" href="#user-overrides" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagOverride</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Enable feature for specific user</span>
+</span><span data-line="5"><span class="n">override</span> <span class="o">=</span> <span class="n">FlagOverride</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">flag_id</span><span class="o">=</span><span class="n">flag</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">entity_type</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">entity_id</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="10"><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Temporary override with expiration</span>
+</span><span data-line="13"><span class="n">override</span> <span class="o">=</span> <span class="n">FlagOverride</span><span class="p">(</span>
+</span><span data-line="14">    <span class="n">flag_id</span><span class="o">=</span><span class="n">flag</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">entity_type</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">entity_id</span><span class="o">=</span><span class="s2">&quot;user-456&quot;</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="18">    <span class="n">expires_at</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">),</span>
+</span><span data-line="19"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="organization-overrides">
+<h3>Organization Overrides<a class="headerlink" href="#organization-overrides" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Enable for entire organization</span>
+</span><span data-line="2"><span class="n">override</span> <span class="o">=</span> <span class="n">FlagOverride</span><span class="p">(</span>
+</span><span data-line="3">    <span class="n">flag_id</span><span class="o">=</span><span class="n">flag</span><span class="o">.</span><span class="n">id</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">entity_type</span><span class="o">=</span><span class="s2">&quot;organization&quot;</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">entity_id</span><span class="o">=</span><span class="s2">&quot;org-789&quot;</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="7"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="evaluation-priority">
+<h2>Evaluation Priority<a class="headerlink" href="#evaluation-priority" title="Link to this heading">¶</a></h2>
+<p>When evaluating a flag, the system checks in this order:</p>
+<ol class="arabic simple">
+<li><p><strong>Overrides</strong>: Entity-specific overrides take highest priority</p></li>
+<li><p><strong>Rules</strong>: Matching rules are evaluated in priority order (lower number first)</p></li>
+<li><p><strong>Variants</strong>: If no rules match but variants exist, a variant is selected</p></li>
+<li><p><strong>Default</strong>: The flag’s default value is used as fallback</p></li>
+</ol>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">Request comes in with context
+</span><span data-line="2">        |
+</span><span data-line="3">        v
+</span><span data-line="4">Check for entity override -----&gt; Override found? --&gt; Return override value
+</span><span data-line="5">        |
+</span><span data-line="6">        | No override
+</span><span data-line="7">        v
+</span><span data-line="8">Evaluate rules in priority order --&gt; Rule matches? --&gt; Return rule value
+</span><span data-line="9">        |
+</span><span data-line="10">        | No match
+</span><span data-line="11">        v
+</span><span data-line="12">Select variant (if any) ---------&gt; Variant selected? --&gt; Return variant value
+</span><span data-line="13">        |
+</span><span data-line="14">        | No variants
+</span><span data-line="15">        v
+</span><span data-line="16">Return default value
+</span></pre></div>
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="config.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Configuration</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="storage.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Storage Backends</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

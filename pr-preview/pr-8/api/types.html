@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Types and Enums - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Exceptions" href="exceptions.html" /><link rel="prev" title="Decorators" href="decorators.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Types and Enums"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="decorators.html">Decorators</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a></li>
+<li><a class="reference internal" href="#module-litestar_flags.types">API Reference</a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.ChangeType"><code class="docutils literal notranslate"><span class="pre">ChangeType</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.ChangeType.ENABLE"><code class="docutils literal notranslate">ENABLE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ChangeType.DISABLE"><code class="docutils literal notranslate">DISABLE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ChangeType.UPDATE_VALUE"><code class="docutils literal notranslate">UPDATE_VALUE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ChangeType.UPDATE_ROLLOUT"><code class="docutils literal notranslate">UPDATE_ROLLOUT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ChangeType.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode"><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.FLAG_NOT_FOUND"><code class="docutils literal notranslate">FLAG_NOT_FOUND</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.TYPE_MISMATCH"><code class="docutils literal notranslate">TYPE_MISMATCH</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.PARSE_ERROR"><code class="docutils literal notranslate">PARSE_ERROR</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.PROVIDER_NOT_READY"><code class="docutils literal notranslate">PROVIDER_NOT_READY</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.GENERAL_ERROR"><code class="docutils literal notranslate">GENERAL_ERROR</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.TARGETING_KEY_MISSING"><code class="docutils literal notranslate">TARGETING_KEY_MISSING</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.INVALID_CONTEXT"><code class="docutils literal notranslate">INVALID_CONTEXT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.ErrorCode.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason"><code class="docutils literal notranslate"><span class="pre">EvaluationReason</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.DEFAULT"><code class="docutils literal notranslate">DEFAULT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.STATIC"><code class="docutils literal notranslate">STATIC</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.TARGETING_MATCH"><code class="docutils literal notranslate">TARGETING_MATCH</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.OVERRIDE"><code class="docutils literal notranslate">OVERRIDE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.SPLIT"><code class="docutils literal notranslate">SPLIT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.DISABLED"><code class="docutils literal notranslate">DISABLED</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.ERROR"><code class="docutils literal notranslate">ERROR</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.EvaluationReason.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagStatus"><code class="docutils literal notranslate"><span class="pre">FlagStatus</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.FlagStatus.ACTIVE"><code class="docutils literal notranslate">ACTIVE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagStatus.INACTIVE"><code class="docutils literal notranslate">INACTIVE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagStatus.ARCHIVED"><code class="docutils literal notranslate">ARCHIVED</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagStatus.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagType"><code class="docutils literal notranslate"><span class="pre">FlagType</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.FlagType.BOOLEAN"><code class="docutils literal notranslate">BOOLEAN</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagType.STRING"><code class="docutils literal notranslate">STRING</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagType.NUMBER"><code class="docutils literal notranslate">NUMBER</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagType.JSON"><code class="docutils literal notranslate">JSON</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.FlagType.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.types.RecurrenceType"><code class="docutils literal notranslate"><span class="pre">RecurrenceType</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.RecurrenceType.DAILY"><code class="docutils literal notranslate">DAILY</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RecurrenceType.WEEKLY"><code class="docutils literal notranslate">WEEKLY</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RecurrenceType.MONTHLY"><code class="docutils literal notranslate">MONTHLY</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RecurrenceType.CRON"><code class="docutils literal notranslate">CRON</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RecurrenceType.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator"><code class="docutils literal notranslate"><span class="pre">RuleOperator</span></code></a><ul>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.EQUALS"><code class="docutils literal notranslate">EQUALS</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.NOT_EQUALS"><code class="docutils literal notranslate">NOT_EQUALS</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.GREATER_THAN"><code class="docutils literal notranslate">GREATER_THAN</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.GREATER_THAN_OR_EQUAL"><code class="docutils literal notranslate">GREATER_THAN_OR_EQUAL</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.LESS_THAN"><code class="docutils literal notranslate">LESS_THAN</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.LESS_THAN_OR_EQUAL"><code class="docutils literal notranslate">LESS_THAN_OR_EQUAL</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.IN"><code class="docutils literal notranslate">IN</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.NOT_IN"><code class="docutils literal notranslate">NOT_IN</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.CONTAINS"><code class="docutils literal notranslate">CONTAINS</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.NOT_CONTAINS"><code class="docutils literal notranslate">NOT_CONTAINS</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.STARTS_WITH"><code class="docutils literal notranslate">STARTS_WITH</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.ENDS_WITH"><code class="docutils literal notranslate">ENDS_WITH</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.MATCHES"><code class="docutils literal notranslate">MATCHES</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.SEMVER_EQ"><code class="docutils literal notranslate">SEMVER_EQ</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.SEMVER_GT"><code class="docutils literal notranslate">SEMVER_GT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.SEMVER_LT"><code class="docutils literal notranslate">SEMVER_LT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.IN_SEGMENT"><code class="docutils literal notranslate">IN_SEGMENT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.NOT_IN_SEGMENT"><code class="docutils literal notranslate">NOT_IN_SEGMENT</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.DATE_AFTER"><code class="docutils literal notranslate">DATE_AFTER</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.DATE_BEFORE"><code class="docutils literal notranslate">DATE_BEFORE</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.TIME_WINDOW"><code class="docutils literal notranslate">TIME_WINDOW</span></code></a></li>
+<li><a class="reference internal" href="#litestar_flags.types.RuleOperator.__new__"><code class="docutils literal notranslate">__new__()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flagtype">FlagType</a><ul>
+<li><a class="reference internal" href="#usage-examples">Usage Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#flagstatus">FlagStatus</a><ul>
+<li><a class="reference internal" href="#status-transitions">Status Transitions</a></li>
+<li><a class="reference internal" href="#id1">Usage Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ruleoperator">RuleOperator</a><ul>
+<li><a class="reference internal" href="#condition-examples">Condition Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluationreason">EvaluationReason</a><ul>
+<li><a class="reference internal" href="#usage-in-evaluation-details">Usage in Evaluation Details</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#errorcode">ErrorCode</a><ul>
+<li><a class="reference internal" href="#handling-errors">Handling Errors</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#evaluationdetails">EvaluationDetails</a><ul>
+<li><a class="reference internal" href="#id2">Usage Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#type-safety">Type Safety</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="index.html"><span itemprop="name">API Reference</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Types and Enums</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="types-and-enums">
+<h1>Types and Enums<a class="headerlink" href="#types-and-enums" title="Link to this heading">¶</a></h1>
+<p>Core type definitions and enumerations used throughout the litestar-flags library.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The library defines several enums for type safety and consistency:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FlagType</span></code>: Types of values a flag can return</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FlagStatus</span></code>: Lifecycle status of a flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RuleOperator</span></code>: Operators for targeting rule conditions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">EvaluationReason</span></code>: Reasons for evaluation results</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ErrorCode</span></code>: Error codes for failed evaluations</p></li>
+</ul>
+</section>
+<section id="module-litestar_flags.types">
+<span id="api-reference"></span><h2>API Reference<a class="headerlink" href="#module-litestar_flags.types" title="Link to this heading">¶</a></h2>
+<p>Core types and enums for litestar-flags.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.ChangeType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">ChangeType</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#ChangeType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.ChangeType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Types of scheduled flag changes.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ChangeType.ENABLE">
+<span class="sig-name descname"><span class="pre">ENABLE</span></span><a class="headerlink" href="#litestar_flags.types.ChangeType.ENABLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ChangeType.DISABLE">
+<span class="sig-name descname"><span class="pre">DISABLE</span></span><a class="headerlink" href="#litestar_flags.types.ChangeType.DISABLE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ChangeType.UPDATE_VALUE">
+<span class="sig-name descname"><span class="pre">UPDATE_VALUE</span></span><a class="headerlink" href="#litestar_flags.types.ChangeType.UPDATE_VALUE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ChangeType.UPDATE_ROLLOUT">
+<span class="sig-name descname"><span class="pre">UPDATE_ROLLOUT</span></span><a class="headerlink" href="#litestar_flags.types.ChangeType.UPDATE_ROLLOUT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.ChangeType.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.ChangeType.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">ErrorCode</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#ErrorCode"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.ErrorCode" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Error codes for failed evaluations.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.FLAG_NOT_FOUND">
+<span class="sig-name descname"><span class="pre">FLAG_NOT_FOUND</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.FLAG_NOT_FOUND" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.TYPE_MISMATCH">
+<span class="sig-name descname"><span class="pre">TYPE_MISMATCH</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.TYPE_MISMATCH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.PARSE_ERROR">
+<span class="sig-name descname"><span class="pre">PARSE_ERROR</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.PARSE_ERROR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.PROVIDER_NOT_READY">
+<span class="sig-name descname"><span class="pre">PROVIDER_NOT_READY</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.PROVIDER_NOT_READY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.GENERAL_ERROR">
+<span class="sig-name descname"><span class="pre">GENERAL_ERROR</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.GENERAL_ERROR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.TARGETING_KEY_MISSING">
+<span class="sig-name descname"><span class="pre">TARGETING_KEY_MISSING</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.TARGETING_KEY_MISSING" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.INVALID_CONTEXT">
+<span class="sig-name descname"><span class="pre">INVALID_CONTEXT</span></span><a class="headerlink" href="#litestar_flags.types.ErrorCode.INVALID_CONTEXT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.ErrorCode.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.ErrorCode.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">EvaluationReason</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#EvaluationReason"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.EvaluationReason" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Reason for evaluation result.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.DEFAULT">
+<span class="sig-name descname"><span class="pre">DEFAULT</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.DEFAULT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.STATIC">
+<span class="sig-name descname"><span class="pre">STATIC</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.STATIC" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.TARGETING_MATCH">
+<span class="sig-name descname"><span class="pre">TARGETING_MATCH</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.TARGETING_MATCH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.OVERRIDE">
+<span class="sig-name descname"><span class="pre">OVERRIDE</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.OVERRIDE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.SPLIT">
+<span class="sig-name descname"><span class="pre">SPLIT</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.SPLIT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.DISABLED">
+<span class="sig-name descname"><span class="pre">DISABLED</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.DISABLED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.ERROR">
+<span class="sig-name descname"><span class="pre">ERROR</span></span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.ERROR" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.EvaluationReason.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.EvaluationReason.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagStatus">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">FlagStatus</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#FlagStatus"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.FlagStatus" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Flag lifecycle status.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagStatus.ACTIVE">
+<span class="sig-name descname"><span class="pre">ACTIVE</span></span><a class="headerlink" href="#litestar_flags.types.FlagStatus.ACTIVE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagStatus.INACTIVE">
+<span class="sig-name descname"><span class="pre">INACTIVE</span></span><a class="headerlink" href="#litestar_flags.types.FlagStatus.INACTIVE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagStatus.ARCHIVED">
+<span class="sig-name descname"><span class="pre">ARCHIVED</span></span><a class="headerlink" href="#litestar_flags.types.FlagStatus.ARCHIVED" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagStatus.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.FlagStatus.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">FlagType</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#FlagType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.FlagType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Types of feature flags.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagType.BOOLEAN">
+<span class="sig-name descname"><span class="pre">BOOLEAN</span></span><a class="headerlink" href="#litestar_flags.types.FlagType.BOOLEAN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagType.STRING">
+<span class="sig-name descname"><span class="pre">STRING</span></span><a class="headerlink" href="#litestar_flags.types.FlagType.STRING" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagType.NUMBER">
+<span class="sig-name descname"><span class="pre">NUMBER</span></span><a class="headerlink" href="#litestar_flags.types.FlagType.NUMBER" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagType.JSON">
+<span class="sig-name descname"><span class="pre">JSON</span></span><a class="headerlink" href="#litestar_flags.types.FlagType.JSON" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.FlagType.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.FlagType.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.RecurrenceType">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">RecurrenceType</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#RecurrenceType"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.RecurrenceType" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Types of recurrence for time schedules.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RecurrenceType.DAILY">
+<span class="sig-name descname"><span class="pre">DAILY</span></span><a class="headerlink" href="#litestar_flags.types.RecurrenceType.DAILY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RecurrenceType.WEEKLY">
+<span class="sig-name descname"><span class="pre">WEEKLY</span></span><a class="headerlink" href="#litestar_flags.types.RecurrenceType.WEEKLY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RecurrenceType.MONTHLY">
+<span class="sig-name descname"><span class="pre">MONTHLY</span></span><a class="headerlink" href="#litestar_flags.types.RecurrenceType.MONTHLY" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RecurrenceType.CRON">
+<span class="sig-name descname"><span class="pre">CRON</span></span><a class="headerlink" href="#litestar_flags.types.RecurrenceType.CRON" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.RecurrenceType.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.RecurrenceType.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">litestar_flags.types.</span></span><span class="sig-name descname"><span class="pre">RuleOperator</span></span><a class="reference internal" href="../_modules/litestar_flags/types.html#RuleOperator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#litestar_flags.types.RuleOperator" title="Link to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3/library/enum.html#enum.StrEnum" title="(in Python v3.14)"><code class="xref py py-class docutils literal notranslate"><span class="pre">StrEnum</span></code></a></p>
+<p>Operators for rule conditions.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.EQUALS">
+<span class="sig-name descname"><span class="pre">EQUALS</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.EQUALS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.NOT_EQUALS">
+<span class="sig-name descname"><span class="pre">NOT_EQUALS</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.NOT_EQUALS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.GREATER_THAN">
+<span class="sig-name descname"><span class="pre">GREATER_THAN</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.GREATER_THAN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.GREATER_THAN_OR_EQUAL">
+<span class="sig-name descname"><span class="pre">GREATER_THAN_OR_EQUAL</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.GREATER_THAN_OR_EQUAL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.LESS_THAN">
+<span class="sig-name descname"><span class="pre">LESS_THAN</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.LESS_THAN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.LESS_THAN_OR_EQUAL">
+<span class="sig-name descname"><span class="pre">LESS_THAN_OR_EQUAL</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.LESS_THAN_OR_EQUAL" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.IN">
+<span class="sig-name descname"><span class="pre">IN</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.IN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.NOT_IN">
+<span class="sig-name descname"><span class="pre">NOT_IN</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.NOT_IN" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.CONTAINS">
+<span class="sig-name descname"><span class="pre">CONTAINS</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.CONTAINS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.NOT_CONTAINS">
+<span class="sig-name descname"><span class="pre">NOT_CONTAINS</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.NOT_CONTAINS" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.STARTS_WITH">
+<span class="sig-name descname"><span class="pre">STARTS_WITH</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.STARTS_WITH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.ENDS_WITH">
+<span class="sig-name descname"><span class="pre">ENDS_WITH</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.ENDS_WITH" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.MATCHES">
+<span class="sig-name descname"><span class="pre">MATCHES</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.MATCHES" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.SEMVER_EQ">
+<span class="sig-name descname"><span class="pre">SEMVER_EQ</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.SEMVER_EQ" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.SEMVER_GT">
+<span class="sig-name descname"><span class="pre">SEMVER_GT</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.SEMVER_GT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.SEMVER_LT">
+<span class="sig-name descname"><span class="pre">SEMVER_LT</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.SEMVER_LT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.IN_SEGMENT">
+<span class="sig-name descname"><span class="pre">IN_SEGMENT</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.IN_SEGMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.NOT_IN_SEGMENT">
+<span class="sig-name descname"><span class="pre">NOT_IN_SEGMENT</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.NOT_IN_SEGMENT" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.DATE_AFTER">
+<span class="sig-name descname"><span class="pre">DATE_AFTER</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.DATE_AFTER" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.DATE_BEFORE">
+<span class="sig-name descname"><span class="pre">DATE_BEFORE</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.DATE_BEFORE" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.TIME_WINDOW">
+<span class="sig-name descname"><span class="pre">TIME_WINDOW</span></span><a class="headerlink" href="#litestar_flags.types.RuleOperator.TIME_WINDOW" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="litestar_flags.types.RuleOperator.__new__">
+<span class="sig-name descname"><span class="pre">__new__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#litestar_flags.types.RuleOperator.__new__" title="Link to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="flagtype">
+<h2>FlagType<a class="headerlink" href="#flagtype" title="Link to this heading">¶</a></h2>
+<p>Defines the type of value a feature flag returns.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Available types</span>
+</span><span data-line="4"><span class="n">FlagType</span><span class="o">.</span><span class="n">BOOLEAN</span>  <span class="c1"># True/False flags</span>
+</span><span data-line="5"><span class="n">FlagType</span><span class="o">.</span><span class="n">STRING</span>   <span class="c1"># Text values (variants, config strings)</span>
+</span><span data-line="6"><span class="n">FlagType</span><span class="o">.</span><span class="n">NUMBER</span>   <span class="c1"># Numeric values (limits, percentages)</span>
+</span><span data-line="7"><span class="n">FlagType</span><span class="o">.</span><span class="n">JSON</span>     <span class="c1"># Complex objects (configuration dictionaries)</span>
+</span></pre></div>
+</div>
+<section id="usage-examples">
+<h3>Usage Examples<a class="headerlink" href="#usage-examples" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlag</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagType</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Boolean flag (most common)</span>
+</span><span data-line="5"><span class="n">feature_flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;dark-mode&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Dark Mode&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">default_enabled</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="10"><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># String flag for A/B testing</span>
+</span><span data-line="13"><span class="n">variant_flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="14">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;button-color&quot;</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Button Color Test&quot;</span><span class="p">,</span>
+</span><span data-line="16">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">STRING</span><span class="p">,</span>
+</span><span data-line="17">    <span class="n">default_value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;blue&quot;</span><span class="p">},</span>
+</span><span data-line="18"><span class="p">)</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="c1"># Number flag for configuration</span>
+</span><span data-line="21"><span class="n">limit_flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="22">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;rate-limit&quot;</span><span class="p">,</span>
+</span><span data-line="23">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;API Rate Limit&quot;</span><span class="p">,</span>
+</span><span data-line="24">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">NUMBER</span><span class="p">,</span>
+</span><span data-line="25">    <span class="n">default_value</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+</span><span data-line="26"><span class="p">)</span>
+</span><span data-line="27">
+</span><span data-line="28"><span class="c1"># JSON flag for complex config</span>
+</span><span data-line="29"><span class="n">config_flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="30">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;feature-config&quot;</span><span class="p">,</span>
+</span><span data-line="31">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Feature Configuration&quot;</span><span class="p">,</span>
+</span><span data-line="32">    <span class="n">flag_type</span><span class="o">=</span><span class="n">FlagType</span><span class="o">.</span><span class="n">JSON</span><span class="p">,</span>
+</span><span data-line="33">    <span class="n">default_value</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="34">        <span class="s2">&quot;enabled_features&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;basic&quot;</span><span class="p">,</span> <span class="s2">&quot;advanced&quot;</span><span class="p">],</span>
+</span><span data-line="35">        <span class="s2">&quot;max_items&quot;</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+</span><span data-line="36">        <span class="s2">&quot;theme&quot;</span><span class="p">:</span> <span class="s2">&quot;modern&quot;</span><span class="p">,</span>
+</span><span data-line="37">    <span class="p">},</span>
+</span><span data-line="38"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="flagstatus">
+<h2>FlagStatus<a class="headerlink" href="#flagstatus" title="Link to this heading">¶</a></h2>
+<p>Defines the lifecycle status of a feature flag.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagStatus</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span>    <span class="c1"># Flag is live and evaluated normally</span>
+</span><span data-line="4"><span class="n">FlagStatus</span><span class="o">.</span><span class="n">INACTIVE</span>  <span class="c1"># Flag is paused; returns default value</span>
+</span><span data-line="5"><span class="n">FlagStatus</span><span class="o">.</span><span class="n">ARCHIVED</span>  <span class="c1"># Flag is retired; returns default value</span>
+</span></pre></div>
+</div>
+<section id="status-transitions">
+<h3>Status Transitions<a class="headerlink" href="#status-transitions" title="Link to this heading">¶</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">ACTIVE &lt;---&gt; INACTIVE ---&gt; ARCHIVED
+</span><span data-line="2">
+</span><span data-line="3">- ACTIVE: Normal operation, flag is evaluated
+</span><span data-line="4">- INACTIVE: Temporarily disabled, can be reactivated
+</span><span data-line="5">- ARCHIVED: Permanently retired, ready for cleanup
+</span></pre></div>
+</div>
+</section>
+<section id="id1">
+<h3>Usage Examples<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlag</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagStatus</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># Create an active flag</span>
+</span><span data-line="5"><span class="n">flag</span> <span class="o">=</span> <span class="n">FeatureFlag</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">key</span><span class="o">=</span><span class="s2">&quot;new-feature&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">name</span><span class="o">=</span><span class="s2">&quot;New Feature&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">status</span><span class="o">=</span><span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">,</span>
+</span><span data-line="9"><span class="p">)</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="c1"># Deactivate a flag</span>
+</span><span data-line="12"><span class="n">flag</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">FlagStatus</span><span class="o">.</span><span class="n">INACTIVE</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="c1"># Archive when no longer needed</span>
+</span><span data-line="15"><span class="n">flag</span><span class="o">.</span><span class="n">status</span> <span class="o">=</span> <span class="n">FlagStatus</span><span class="o">.</span><span class="n">ARCHIVED</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="ruleoperator">
+<h2>RuleOperator<a class="headerlink" href="#ruleoperator" title="Link to this heading">¶</a></h2>
+<p>Operators for targeting rule conditions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">RuleOperator</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Equality operators</span>
+</span><span data-line="4"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">EQUALS</span>              <span class="c1"># &quot;eq&quot; - Exact match</span>
+</span><span data-line="5"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">NOT_EQUALS</span>          <span class="c1"># &quot;ne&quot; - Not equal</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Comparison operators</span>
+</span><span data-line="8"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">GREATER_THAN</span>        <span class="c1"># &quot;gt&quot;</span>
+</span><span data-line="9"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">GREATER_THAN_OR_EQUAL</span>  <span class="c1"># &quot;gte&quot;</span>
+</span><span data-line="10"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">LESS_THAN</span>           <span class="c1"># &quot;lt&quot;</span>
+</span><span data-line="11"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">LESS_THAN_OR_EQUAL</span>  <span class="c1"># &quot;lte&quot;</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Collection operators</span>
+</span><span data-line="14"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">IN</span>                  <span class="c1"># &quot;in&quot; - Value in list</span>
+</span><span data-line="15"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">NOT_IN</span>              <span class="c1"># &quot;not_in&quot; - Value not in list</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="c1"># String operators</span>
+</span><span data-line="18"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">CONTAINS</span>            <span class="c1"># &quot;contains&quot; - Substring match</span>
+</span><span data-line="19"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">NOT_CONTAINS</span>        <span class="c1"># &quot;not_contains&quot;</span>
+</span><span data-line="20"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">STARTS_WITH</span>         <span class="c1"># &quot;starts_with&quot;</span>
+</span><span data-line="21"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">ENDS_WITH</span>           <span class="c1"># &quot;ends_with&quot;</span>
+</span><span data-line="22"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">MATCHES</span>             <span class="c1"># &quot;matches&quot; - Regex match</span>
+</span><span data-line="23">
+</span><span data-line="24"><span class="c1"># Semantic versioning operators</span>
+</span><span data-line="25"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">SEMVER_EQ</span>           <span class="c1"># &quot;semver_eq&quot; - Semver equal</span>
+</span><span data-line="26"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">SEMVER_GT</span>           <span class="c1"># &quot;semver_gt&quot; - Semver greater than</span>
+</span><span data-line="27"><span class="n">RuleOperator</span><span class="o">.</span><span class="n">SEMVER_LT</span>           <span class="c1"># &quot;semver_lt&quot; - Semver less than</span>
+</span></pre></div>
+</div>
+<section id="condition-examples">
+<h3>Condition Examples<a class="headerlink" href="#condition-examples" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="c1"># Exact match</span>
+</span><span data-line="2"><span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;plan&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;eq&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;premium&quot;</span><span class="p">}</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="c1"># List membership</span>
+</span><span data-line="5"><span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;country&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;in&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;US&quot;</span><span class="p">,</span> <span class="s2">&quot;CA&quot;</span><span class="p">,</span> <span class="s2">&quot;UK&quot;</span><span class="p">]}</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Numeric comparison</span>
+</span><span data-line="8"><span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;age&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;gte&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="mi">18</span><span class="p">}</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># String matching</span>
+</span><span data-line="11"><span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;email&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;ends_with&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;@company.com&quot;</span><span class="p">}</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># Version targeting</span>
+</span><span data-line="14"><span class="p">{</span><span class="s2">&quot;attribute&quot;</span><span class="p">:</span> <span class="s2">&quot;app_version&quot;</span><span class="p">,</span> <span class="s2">&quot;operator&quot;</span><span class="p">:</span> <span class="s2">&quot;semver_gte&quot;</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">:</span> <span class="s2">&quot;2.0.0&quot;</span><span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="evaluationreason">
+<h2>EvaluationReason<a class="headerlink" href="#evaluationreason" title="Link to this heading">¶</a></h2>
+<p>Indicates why a particular value was returned during evaluation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationReason</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">DEFAULT</span>          <span class="c1"># Flag not found or evaluation error</span>
+</span><span data-line="4"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">STATIC</span>           <span class="c1"># Flag has static value (no rules)</span>
+</span><span data-line="5"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">TARGETING_MATCH</span>  <span class="c1"># A targeting rule matched</span>
+</span><span data-line="6"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">OVERRIDE</span>         <span class="c1"># Entity-specific override was applied</span>
+</span><span data-line="7"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">SPLIT</span>            <span class="c1"># Percentage rollout or variant selection</span>
+</span><span data-line="8"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">DISABLED</span>         <span class="c1"># Flag is inactive or archived</span>
+</span><span data-line="9"><span class="n">EvaluationReason</span><span class="o">.</span><span class="n">ERROR</span>            <span class="c1"># Evaluation encountered an error</span>
+</span></pre></div>
+</div>
+<section id="usage-in-evaluation-details">
+<h3>Usage in Evaluation Details<a class="headerlink" href="#usage-in-evaluation-details" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">details</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_boolean_details</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">match</span> <span class="n">details</span><span class="o">.</span><span class="n">reason</span><span class="p">:</span>
+</span><span data-line="4">    <span class="k">case</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">DEFAULT</span><span class="p">:</span>
+</span><span data-line="5">        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using default value&quot;</span><span class="p">)</span>
+</span><span data-line="6">    <span class="k">case</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">TARGETING_MATCH</span><span class="p">:</span>
+</span><span data-line="7">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Matched targeting rule&quot;</span><span class="p">)</span>
+</span><span data-line="8">    <span class="k">case</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">OVERRIDE</span><span class="p">:</span>
+</span><span data-line="9">        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Using entity override&quot;</span><span class="p">)</span>
+</span><span data-line="10">    <span class="k">case</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">SPLIT</span><span class="p">:</span>
+</span><span data-line="11">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected variant: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">variant</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="12">    <span class="k">case</span> <span class="n">EvaluationReason</span><span class="o">.</span><span class="n">ERROR</span><span class="p">:</span>
+</span><span data-line="13">        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">error_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="errorcode">
+<h2>ErrorCode<a class="headerlink" href="#errorcode" title="Link to this heading">¶</a></h2>
+<p>Error codes for failed evaluations.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">ErrorCode</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">ErrorCode</span><span class="o">.</span><span class="n">FLAG_NOT_FOUND</span>     <span class="c1"># Flag key does not exist</span>
+</span><span data-line="4"><span class="n">ErrorCode</span><span class="o">.</span><span class="n">TYPE_MISMATCH</span>      <span class="c1"># Requested type doesn&#39;t match flag type</span>
+</span><span data-line="5"><span class="n">ErrorCode</span><span class="o">.</span><span class="n">PARSE_ERROR</span>        <span class="c1"># Failed to parse flag value</span>
+</span><span data-line="6"><span class="n">ErrorCode</span><span class="o">.</span><span class="n">PROVIDER_NOT_READY</span> <span class="c1"># Storage backend not initialized</span>
+</span><span data-line="7"><span class="n">ErrorCode</span><span class="o">.</span><span class="n">GENERAL_ERROR</span>      <span class="c1"># Unexpected error during evaluation</span>
+</span></pre></div>
+</div>
+<section id="handling-errors">
+<h3>Handling Errors<a class="headerlink" href="#handling-errors" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">details</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_boolean_details</span><span class="p">(</span><span class="s2">&quot;my-feature&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">if</span> <span class="n">details</span><span class="o">.</span><span class="n">is_error</span><span class="p">:</span>
+</span><span data-line="4">    <span class="k">match</span> <span class="n">details</span><span class="o">.</span><span class="n">error_code</span><span class="p">:</span>
+</span><span data-line="5">        <span class="k">case</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">FLAG_NOT_FOUND</span><span class="p">:</span>
+</span><span data-line="6">            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Flag &#39;</span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39; not found&quot;</span><span class="p">)</span>
+</span><span data-line="7">        <span class="k">case</span> <span class="n">ErrorCode</span><span class="o">.</span><span class="n">TYPE_MISMATCH</span><span class="p">:</span>
+</span><span data-line="8">            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type mismatch for &#39;</span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">flag_key</span><span class="si">}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+</span><span data-line="9">        <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+</span><span data-line="10">            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Evaluation error: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">error_message</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="evaluationdetails">
+<h2>EvaluationDetails<a class="headerlink" href="#evaluationdetails" title="Link to this heading">¶</a></h2>
+<p>Detailed result of flag evaluation, combining value with metadata.
+See <a class="reference internal" href="client.html"><span class="doc">Client</span></a> for the full <code class="docutils literal notranslate"><span class="pre">EvaluationDetails</span></code> API reference.</p>
+<section id="id2">
+<h3>Usage Examples<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagClient</span><span class="p">,</span> <span class="n">EvaluationContext</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">client</span><span class="p">:</span> <span class="n">FeatureFlagClient</span> <span class="o">=</span> <span class="o">...</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="c1"># Get detailed evaluation result</span>
+</span><span data-line="6"><span class="n">details</span> <span class="o">=</span> <span class="k">await</span> <span class="n">client</span><span class="o">.</span><span class="n">get_boolean_details</span><span class="p">(</span>
+</span><span data-line="7">    <span class="s2">&quot;premium-feature&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">context</span><span class="o">=</span><span class="n">EvaluationContext</span><span class="p">(</span><span class="n">targeting_key</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">),</span>
+</span><span data-line="10"><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Access properties</span>
+</span><span data-line="13"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Value: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="14"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reason: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">reason</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="15"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Variant: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">variant</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="16"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is Error: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">is_error</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="17"><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is Default: </span><span class="si">{</span><span class="n">details</span><span class="o">.</span><span class="n">is_default</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="18">
+</span><span data-line="19"><span class="c1"># Convert to dictionary for logging/debugging</span>
+</span><span data-line="20"><span class="n">log_data</span> <span class="o">=</span> <span class="n">details</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="type-safety">
+<h2>Type Safety<a class="headerlink" href="#type-safety" title="Link to this heading">¶</a></h2>
+<p>All enums inherit from <code class="docutils literal notranslate"><span class="pre">str</span></code> and <code class="docutils literal notranslate"><span class="pre">Enum</span></code>, allowing them to be used directly
+in string contexts:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.types</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagType</span><span class="p">,</span> <span class="n">FlagStatus</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Works with JSON serialization</span>
+</span><span data-line="4"><span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+</span><span data-line="5"><span class="n">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="n">FlagType</span><span class="o">.</span><span class="n">BOOLEAN</span><span class="p">,</span> <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">}</span>
+</span><span data-line="6"><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># &#39;{&quot;type&quot;: &quot;boolean&quot;, &quot;status&quot;: &quot;active&quot;}&#39;</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Works with string comparison</span>
+</span><span data-line="9"><span class="k">if</span> <span class="n">flag</span><span class="o">.</span><span class="n">flag_type</span> <span class="o">==</span> <span class="s2">&quot;boolean&quot;</span><span class="p">:</span>
+</span><span data-line="10">    <span class="o">...</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Works with match statements</span>
+</span><span data-line="13"><span class="k">match</span> <span class="n">flag</span><span class="o">.</span><span class="n">status</span><span class="p">:</span>
+</span><span data-line="14">    <span class="k">case</span> <span class="n">FlagStatus</span><span class="o">.</span><span class="n">ACTIVE</span><span class="p">:</span>
+</span><span data-line="15">        <span class="o">...</span>
+</span><span data-line="16">    <span class="k">case</span> <span class="n">FlagStatus</span><span class="o">.</span><span class="n">INACTIVE</span><span class="p">:</span>
+</span><span data-line="17">        <span class="o">...</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="decorators.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Decorators</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="exceptions.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Exceptions</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

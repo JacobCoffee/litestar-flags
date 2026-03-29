@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>litestar_flags.plugin - litestar-flags</title><link rel="index" title="Index" href="../../genindex.html" /><link rel="search" title="Search" href="../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="litestar_flags.plugin"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../api/analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">litestar_flags.plugin</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <h1>Source code for litestar_flags.plugin</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;Litestar plugin for feature flags.&quot;&quot;&quot;</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+</span><span data-line="6"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get</span>
+</span><span data-line="9"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.di</span><span class="w"> </span><span class="kn">import</span> <span class="n">Provide</span>
+</span><span data-line="10"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">InitPlugin</span>
+</span><span data-line="11"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.response</span><span class="w"> </span><span class="kn">import</span> <span class="n">Response</span>
+</span><span data-line="12"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.status_codes</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTTP_200_OK</span><span class="p">,</span> <span class="n">HTTP_503_SERVICE_UNAVAILABLE</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.client</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagClient</span>
+</span><span data-line="15"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="16"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.health</span><span class="w"> </span><span class="kn">import</span> <span class="n">HealthCheckResult</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="p">,</span> <span class="n">health_check</span>
+</span><span data-line="17"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.security</span><span class="w"> </span><span class="kn">import</span> <span class="n">sanitize_error_message</span>
+</span><span data-line="18"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.storage.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryStorageBackend</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+</span><span data-line="21">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="22">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar.config.app</span><span class="w"> </span><span class="kn">import</span> <span class="n">AppConfig</span>
+</span><span data-line="23">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar.datastructures</span><span class="w"> </span><span class="kn">import</span> <span class="n">State</span>
+</span><span data-line="24">
+</span><span data-line="25">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.protocols</span><span class="w"> </span><span class="kn">import</span> <span class="n">StorageBackend</span>
+</span><span data-line="26">
+</span><span data-line="27"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;FeatureFlagsPlugin&quot;</span><span class="p">]</span>
+</span><span data-line="28">
+</span><span data-line="29"><span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+</span><span data-line="30">
+</span><span data-line="31">
+<div class="viewcode-block" id="FeatureFlagsPlugin">
+<a class="viewcode-back" href="../../api/config.html#litestar_flags.plugin.FeatureFlagsPlugin">[docs]</a>
+</span><span data-line="32"><span class="k">class</span><span class="w"> </span><span class="nc">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">InitPlugin</span><span class="p">):</span>
+</span><span data-line="33"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Litestar plugin for feature flags.</span>
+</span><span data-line="34">
+</span><span data-line="35"><span class="sd">    Registers the feature flag client as a dependency and sets up</span>
+</span><span data-line="36"><span class="sd">    lifecycle hooks for initialization and cleanup.</span>
+</span><span data-line="37">
+</span><span data-line="38"><span class="sd">    Example:</span>
+</span><span data-line="39"><span class="sd">        &gt;&gt;&gt; from litestar import Litestar</span>
+</span><span data-line="40"><span class="sd">        &gt;&gt;&gt; from litestar_flags import FeatureFlagsPlugin, FeatureFlagsConfig</span>
+</span><span data-line="41"><span class="sd">        &gt;&gt;&gt;</span>
+</span><span data-line="42"><span class="sd">        &gt;&gt;&gt; config = FeatureFlagsConfig(backend=&quot;memory&quot;)</span>
+</span><span data-line="43"><span class="sd">        &gt;&gt;&gt; app = Litestar(</span>
+</span><span data-line="44"><span class="sd">        ...     route_handlers=[...],</span>
+</span><span data-line="45"><span class="sd">        ...     plugins=[FeatureFlagsPlugin(config=config)],</span>
+</span><span data-line="46"><span class="sd">        ... )</span>
+</span><span data-line="47">
+</span><span data-line="48"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="49">
+</span><span data-line="50">    <span class="vm">__slots__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;_client&quot;</span><span class="p">,</span> <span class="s2">&quot;_config&quot;</span><span class="p">,</span> <span class="s2">&quot;_storage&quot;</span><span class="p">)</span>
+</span><span data-line="51">
+<div class="viewcode-block" id="FeatureFlagsPlugin.__init__">
+<a class="viewcode-back" href="../../api/config.html#litestar_flags.plugin.FeatureFlagsPlugin.__init__">[docs]</a>
+</span><span data-line="52">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="n">FeatureFlagsConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="53"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the plugin.</span>
+</span><span data-line="54">
+</span><span data-line="55"><span class="sd">        Args:</span>
+</span><span data-line="56"><span class="sd">            config: Plugin configuration. Defaults to memory backend.</span>
+</span><span data-line="57">
+</span><span data-line="58"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="59">        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span> <span class="ow">or</span> <span class="n">FeatureFlagsConfig</span><span class="p">()</span>
+</span><span data-line="60">        <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="p">:</span> <span class="n">FeatureFlagClient</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="61">        <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">:</span> <span class="n">StorageBackend</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+</span><span data-line="62">
+</span><span data-line="63">    <span class="nd">@property</span>
+</span><span data-line="64">    <span class="k">def</span><span class="w"> </span><span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FeatureFlagsConfig</span><span class="p">:</span>
+</span><span data-line="65"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the plugin configuration.&quot;&quot;&quot;</span>
+</span><span data-line="66">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span>
+</span><span data-line="67">
+</span><span data-line="68">    <span class="nd">@property</span>
+</span><span data-line="69">    <span class="k">def</span><span class="w"> </span><span class="nf">client</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FeatureFlagClient</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="70"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the feature flag client (available after startup).&quot;&quot;&quot;</span>
+</span><span data-line="71">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
+</span><span data-line="72">
+<div class="viewcode-block" id="FeatureFlagsPlugin.on_app_init">
+<a class="viewcode-back" href="../../api/config.html#litestar_flags.plugin.FeatureFlagsPlugin.on_app_init">[docs]</a>
+</span><span data-line="73">    <span class="k">def</span><span class="w"> </span><span class="nf">on_app_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_config</span><span class="p">:</span> <span class="n">AppConfig</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AppConfig</span><span class="p">:</span>
+</span><span data-line="74"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Configure the application with feature flags support.</span>
+</span><span data-line="75">
+</span><span data-line="76"><span class="sd">        Args:</span>
+</span><span data-line="77"><span class="sd">            app_config: The application configuration.</span>
+</span><span data-line="78">
+</span><span data-line="79"><span class="sd">        Returns:</span>
+</span><span data-line="80"><span class="sd">            Modified application configuration.</span>
+</span><span data-line="81">
+</span><span data-line="82"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="83">        <span class="c1"># Register dependencies</span>
+</span><span data-line="84">        <span class="n">app_config</span><span class="o">.</span><span class="n">dependencies</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">client_dependency_key</span><span class="p">]</span> <span class="o">=</span> <span class="n">Provide</span><span class="p">(</span>
+</span><span data-line="85">            <span class="bp">self</span><span class="o">.</span><span class="n">_provide_client</span><span class="p">,</span>
+</span><span data-line="86">        <span class="p">)</span>
+</span><span data-line="87">
+</span><span data-line="88">        <span class="c1"># Add lifecycle hooks</span>
+</span><span data-line="89">        <span class="n">app_config</span><span class="o">.</span><span class="n">on_startup</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_startup</span><span class="p">)</span>
+</span><span data-line="90">        <span class="n">app_config</span><span class="o">.</span><span class="n">on_shutdown</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_shutdown</span><span class="p">)</span>
+</span><span data-line="91">
+</span><span data-line="92">        <span class="c1"># Add middleware if enabled</span>
+</span><span data-line="93">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">enable_middleware</span><span class="p">:</span>
+</span><span data-line="94">            <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_context_middleware</span>
+</span><span data-line="95">
+</span><span data-line="96">            <span class="n">middleware</span> <span class="o">=</span> <span class="n">create_context_middleware</span><span class="p">(</span>
+</span><span data-line="97">                <span class="n">context_extractor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">context_extractor</span><span class="p">,</span>
+</span><span data-line="98">            <span class="p">)</span>
+</span><span data-line="99">            <span class="n">app_config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">middleware</span><span class="p">)</span>
+</span><span data-line="100">
+</span><span data-line="101">        <span class="c1"># Add environment middleware if enabled</span>
+</span><span data-line="102">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">enable_environment_middleware</span><span class="p">:</span>
+</span><span data-line="103">            <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_environment_middleware</span>
+</span><span data-line="104">
+</span><span data-line="105">            <span class="n">env_middleware</span> <span class="o">=</span> <span class="n">create_environment_middleware</span><span class="p">(</span>
+</span><span data-line="106">                <span class="n">default_environment</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">default_environment</span><span class="p">,</span>
+</span><span data-line="107">                <span class="n">environment_header</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">environment_header</span><span class="p">,</span>
+</span><span data-line="108">                <span class="n">environment_query_param</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">environment_query_param</span><span class="p">,</span>
+</span><span data-line="109">                <span class="n">allowed_environments</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">allowed_environments</span><span class="p">,</span>
+</span><span data-line="110">            <span class="p">)</span>
+</span><span data-line="111">            <span class="n">app_config</span><span class="o">.</span><span class="n">middleware</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">env_middleware</span><span class="p">)</span>
+</span><span data-line="112">
+</span><span data-line="113">        <span class="c1"># Add health endpoint if enabled</span>
+</span><span data-line="114">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">enable_health_endpoint</span><span class="p">:</span>
+</span><span data-line="115">            <span class="n">health_handler</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_health_handler</span><span class="p">()</span>
+</span><span data-line="116">            <span class="n">app_config</span><span class="o">.</span><span class="n">route_handlers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">health_handler</span><span class="p">)</span>
+</span><span data-line="117">
+</span><span data-line="118">        <span class="k">return</span> <span class="n">app_config</span></div>
+
+</span><span data-line="119">
+</span><span data-line="120">    <span class="k">def</span><span class="w"> </span><span class="nf">_create_health_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+</span><span data-line="121"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the health check route handler.</span>
+</span><span data-line="122">
+</span><span data-line="123"><span class="sd">        Returns:</span>
+</span><span data-line="124"><span class="sd">            A route handler function for the health endpoint.</span>
+</span><span data-line="125">
+</span><span data-line="126"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="127">        <span class="n">plugin</span> <span class="o">=</span> <span class="bp">self</span>  <span class="c1"># Capture reference for closure</span>
+</span><span data-line="128">
+</span><span data-line="129">        <span class="nd">@get</span><span class="p">(</span>
+</span><span data-line="130">            <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">health_endpoint_path</span><span class="p">,</span>
+</span><span data-line="131">            <span class="n">tags</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Feature Flags&quot;</span><span class="p">],</span>
+</span><span data-line="132">            <span class="n">summary</span><span class="o">=</span><span class="s2">&quot;Feature flags health check&quot;</span><span class="p">,</span>
+</span><span data-line="133">            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Check the health status of the feature flags system.&quot;</span><span class="p">,</span>
+</span><span data-line="134">        <span class="p">)</span>
+</span><span data-line="135">        <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">health_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Response</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]:</span>
+</span><span data-line="136"><span class="w">            </span><span class="sd">&quot;&quot;&quot;Health check endpoint for feature flags.</span>
+</span><span data-line="137">
+</span><span data-line="138"><span class="sd">            Returns:</span>
+</span><span data-line="139"><span class="sd">                JSON response with health status and details.</span>
+</span><span data-line="140">
+</span><span data-line="141"><span class="sd">            &quot;&quot;&quot;</span>
+</span><span data-line="142">            <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">_storage</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="143">                <span class="n">result</span> <span class="o">=</span> <span class="n">HealthCheckResult</span><span class="p">(</span>
+</span><span data-line="144">                    <span class="n">status</span><span class="o">=</span><span class="n">HealthStatus</span><span class="o">.</span><span class="n">UNHEALTHY</span><span class="p">,</span>
+</span><span data-line="145">                    <span class="n">storage_connected</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span data-line="146">                    <span class="n">details</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;error&quot;</span><span class="p">:</span> <span class="s2">&quot;Storage not initialized&quot;</span><span class="p">},</span>
+</span><span data-line="147">                <span class="p">)</span>
+</span><span data-line="148">            <span class="k">else</span><span class="p">:</span>
+</span><span data-line="149">                <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="n">health_check</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">_storage</span><span class="p">)</span>
+</span><span data-line="150">
+</span><span data-line="151">            <span class="n">status_code</span> <span class="o">=</span> <span class="p">(</span>
+</span><span data-line="152">                <span class="n">HTTP_200_OK</span>
+</span><span data-line="153">                <span class="k">if</span> <span class="n">result</span><span class="o">.</span><span class="n">status</span> <span class="ow">in</span> <span class="p">(</span><span class="n">HealthStatus</span><span class="o">.</span><span class="n">HEALTHY</span><span class="p">,</span> <span class="n">HealthStatus</span><span class="o">.</span><span class="n">DEGRADED</span><span class="p">)</span>
+</span><span data-line="154">                <span class="k">else</span> <span class="n">HTTP_503_SERVICE_UNAVAILABLE</span>
+</span><span data-line="155">            <span class="p">)</span>
+</span><span data-line="156">
+</span><span data-line="157">            <span class="k">return</span> <span class="n">Response</span><span class="p">(</span>
+</span><span data-line="158">                <span class="n">content</span><span class="o">=</span><span class="n">result</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+</span><span data-line="159">                <span class="n">status_code</span><span class="o">=</span><span class="n">status_code</span><span class="p">,</span>
+</span><span data-line="160">                <span class="n">media_type</span><span class="o">=</span><span class="s2">&quot;application/json&quot;</span><span class="p">,</span>
+</span><span data-line="161">            <span class="p">)</span>
+</span><span data-line="162">
+</span><span data-line="163">        <span class="k">return</span> <span class="n">health_endpoint</span>
+</span><span data-line="164">
+</span><span data-line="165">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_startup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="n">Litestar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="166"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the feature flag client on startup.</span>
+</span><span data-line="167">
+</span><span data-line="168"><span class="sd">        Args:</span>
+</span><span data-line="169"><span class="sd">            app: The Litestar application.</span>
+</span><span data-line="170">
+</span><span data-line="171"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="172">        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Initializing feature flags...&quot;</span><span class="p">)</span>
+</span><span data-line="173">
+</span><span data-line="174">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="175">            <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_storage</span><span class="p">()</span>
+</span><span data-line="176">            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="n">FeatureFlagClient</span><span class="p">(</span>
+</span><span data-line="177">                <span class="n">storage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_storage</span><span class="p">,</span>
+</span><span data-line="178">                <span class="n">default_context</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">default_context</span><span class="p">,</span>
+</span><span data-line="179">            <span class="p">)</span>
+</span><span data-line="180">
+</span><span data-line="181">            <span class="c1"># Store in app state for direct access</span>
+</span><span data-line="182">            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">feature_flags</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span>
+</span><span data-line="183">            <span class="n">app</span><span class="o">.</span><span class="n">state</span><span class="o">.</span><span class="n">feature_flags_storage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span>
+</span><span data-line="184">
+</span><span data-line="185">            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Feature flags initialized with </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">backend</span><span class="si">}</span><span class="s2"> backend&quot;</span><span class="p">)</span>
+</span><span data-line="186">        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="187">            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed to initialize feature flags: </span><span class="si">{</span><span class="n">sanitize_error_message</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="188">            <span class="k">raise</span>
+</span><span data-line="189">
+</span><span data-line="190">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_shutdown</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app</span><span class="p">:</span> <span class="n">Litestar</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="191"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up resources on shutdown.</span>
+</span><span data-line="192">
+</span><span data-line="193"><span class="sd">        Args:</span>
+</span><span data-line="194"><span class="sd">            app: The Litestar application.</span>
+</span><span data-line="195">
+</span><span data-line="196"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="197">        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Shutting down feature flags...&quot;</span><span class="p">)</span>
+</span><span data-line="198">
+</span><span data-line="199">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="200">            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</span><span data-line="201">            <span class="bp">self</span><span class="o">.</span><span class="n">_client</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="202">            <span class="bp">self</span><span class="o">.</span><span class="n">_storage</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="203">
+</span><span data-line="204">        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Feature flags shutdown complete&quot;</span><span class="p">)</span>
+</span><span data-line="205">
+</span><span data-line="206">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_provide_client</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="n">State</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">FeatureFlagClient</span><span class="p">:</span>
+</span><span data-line="207"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Provide the feature flag client as a dependency.</span>
+</span><span data-line="208">
+</span><span data-line="209"><span class="sd">        Args:</span>
+</span><span data-line="210"><span class="sd">            state: The application state.</span>
+</span><span data-line="211">
+</span><span data-line="212"><span class="sd">        Returns:</span>
+</span><span data-line="213"><span class="sd">            The feature flag client.</span>
+</span><span data-line="214">
+</span><span data-line="215"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="216">        <span class="k">return</span> <span class="n">state</span><span class="o">.</span><span class="n">feature_flags</span>  <span class="c1"># type: ignore[return-value]</span>
+</span><span data-line="217">
+</span><span data-line="218">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_create_storage</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">StorageBackend</span><span class="p">:</span>
+</span><span data-line="219"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the appropriate storage backend.</span>
+</span><span data-line="220">
+</span><span data-line="221"><span class="sd">        Returns:</span>
+</span><span data-line="222"><span class="sd">            The configured storage backend, optionally wrapped with resilience.</span>
+</span><span data-line="223">
+</span><span data-line="224"><span class="sd">        Raises:</span>
+</span><span data-line="225"><span class="sd">            ValueError: If the backend type is unknown.</span>
+</span><span data-line="226"><span class="sd">            ImportError: If required dependencies are not installed.</span>
+</span><span data-line="227">
+</span><span data-line="228"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="229">        <span class="n">storage</span><span class="p">:</span> <span class="n">StorageBackend</span>
+</span><span data-line="230">
+</span><span data-line="231">        <span class="k">match</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">backend</span><span class="p">:</span>
+</span><span data-line="232">            <span class="k">case</span> <span class="s2">&quot;memory&quot;</span><span class="p">:</span>
+</span><span data-line="233">                <span class="n">storage</span> <span class="o">=</span> <span class="n">MemoryStorageBackend</span><span class="p">()</span>
+</span><span data-line="234">
+</span><span data-line="235">            <span class="k">case</span> <span class="s2">&quot;database&quot;</span><span class="p">:</span>
+</span><span data-line="236">                <span class="k">try</span><span class="p">:</span>
+</span><span data-line="237">                    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.storage.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabaseStorageBackend</span>
+</span><span data-line="238">
+</span><span data-line="239">                    <span class="n">storage</span> <span class="o">=</span> <span class="k">await</span> <span class="n">DatabaseStorageBackend</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span data-line="240">                        <span class="n">connection_string</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">connection_string</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="241">                        <span class="n">table_prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">table_prefix</span><span class="p">,</span>
+</span><span data-line="242">                    <span class="p">)</span>
+</span><span data-line="243">                <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="244">                    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+</span><span data-line="245">                        <span class="s2">&quot;Database backend requires &#39;advanced-alchemy&#39; and &#39;sqlalchemy&#39;. &quot;</span>
+</span><span data-line="246">                        <span class="s2">&quot;Install with: pip install litestar-flags[database]&quot;</span>
+</span><span data-line="247">                    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span data-line="248">
+</span><span data-line="249">            <span class="k">case</span> <span class="s2">&quot;redis&quot;</span><span class="p">:</span>
+</span><span data-line="250">                <span class="k">try</span><span class="p">:</span>
+</span><span data-line="251">                    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.storage.redis</span><span class="w"> </span><span class="kn">import</span> <span class="n">RedisStorageBackend</span>
+</span><span data-line="252">
+</span><span data-line="253">                    <span class="n">storage</span> <span class="o">=</span> <span class="k">await</span> <span class="n">RedisStorageBackend</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span data-line="254">                        <span class="n">url</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">redis_url</span><span class="p">,</span>  <span class="c1"># type: ignore[arg-type]</span>
+</span><span data-line="255">                        <span class="n">prefix</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">redis_prefix</span><span class="p">,</span>
+</span><span data-line="256">                    <span class="p">)</span>
+</span><span data-line="257">                <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+</span><span data-line="258">                    <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+</span><span data-line="259">                        <span class="s2">&quot;Redis backend requires &#39;redis&#39;. Install with: pip install litestar-flags[redis]&quot;</span>
+</span><span data-line="260">                    <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+</span><span data-line="261">
+</span><span data-line="262">            <span class="k">case</span><span class="w"> </span><span class="k">_</span><span class="p">:</span>
+</span><span data-line="263">                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown backend: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</span><span data-line="264">
+</span><span data-line="265">        <span class="c1"># Wrap with resilience patterns if enabled</span>
+</span><span data-line="266">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">enable_resilience</span><span class="p">:</span>
+</span><span data-line="267">            <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.resilience</span><span class="w"> </span><span class="kn">import</span> <span class="n">CircuitBreaker</span><span class="p">,</span> <span class="n">RetryPolicy</span>
+</span><span data-line="268">            <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.storage.resilient</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResilientStorageBackend</span>
+</span><span data-line="269">
+</span><span data-line="270">            <span class="n">circuit_breaker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">circuit_breaker</span> <span class="ow">or</span> <span class="n">CircuitBreaker</span><span class="p">(</span>
+</span><span data-line="271">                <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;feature_flags_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">backend</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+</span><span data-line="272">                <span class="n">failure_threshold</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+</span><span data-line="273">                <span class="n">recovery_timeout</span><span class="o">=</span><span class="mf">30.0</span><span class="p">,</span>
+</span><span data-line="274">            <span class="p">)</span>
+</span><span data-line="275">            <span class="n">retry_policy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">retry_policy</span> <span class="ow">or</span> <span class="n">RetryPolicy</span><span class="p">(</span>
+</span><span data-line="276">                <span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span data-line="277">                <span class="n">base_delay</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span><span data-line="278">                <span class="n">max_delay</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+</span><span data-line="279">                <span class="n">exponential_backoff</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="280">            <span class="p">)</span>
+</span><span data-line="281">
+</span><span data-line="282">            <span class="n">storage</span> <span class="o">=</span> <span class="n">ResilientStorageBackend</span><span class="p">(</span>
+</span><span data-line="283">                <span class="n">storage</span><span class="o">=</span><span class="n">storage</span><span class="p">,</span>
+</span><span data-line="284">                <span class="n">circuit_breaker</span><span class="o">=</span><span class="n">circuit_breaker</span><span class="p">,</span>
+</span><span data-line="285">                <span class="n">retry_policy</span><span class="o">=</span><span class="n">retry_policy</span><span class="p">,</span>
+</span><span data-line="286">            <span class="p">)</span>
+</span><span data-line="287">            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Resilience patterns enabled for storage backend&quot;</span><span class="p">)</span>
+</span><span data-line="288">
+</span><span data-line="289">        <span class="k">return</span> <span class="n">storage</span></div>
+
+</span><span data-line="290">
+</span><span data-line="291">
+</span><span data-line="292"><span class="k">def</span><span class="w"> </span><span class="nf">provide_feature_flags</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">FeatureFlagClient</span><span class="p">]:</span>
+</span><span data-line="293"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Provide type hint for dependency injection.</span>
+</span><span data-line="294">
+</span><span data-line="295"><span class="sd">    Use this for type annotations in route handlers:</span>
+</span><span data-line="296">
+</span><span data-line="297"><span class="sd">        @get(&quot;/feature&quot;)</span>
+</span><span data-line="298"><span class="sd">        async def check_feature(</span>
+</span><span data-line="299"><span class="sd">            feature_flags: FeatureFlagClient,</span>
+</span><span data-line="300"><span class="sd">        ) -&gt; dict:</span>
+</span><span data-line="301"><span class="sd">            ...</span>
+</span><span data-line="302">
+</span><span data-line="303"><span class="sd">    Returns:</span>
+</span><span data-line="304"><span class="sd">        The FeatureFlagClient type for type hinting.</span>
+</span><span data-line="305">
+</span><span data-line="306"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="307">    <span class="k">return</span> <span class="n">FeatureFlagClient</span>
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../_static/copybutton.js?v=30646c52"></script>
+      <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

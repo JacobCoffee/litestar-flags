@@ -153,7 +153,7 @@ class _CacheEntry:
         """
         if self.expires_at is None:
             return False
-        return time.monotonic() > self.expires_at
+        return time.monotonic() >= self.expires_at
 
 
 class LRUCache:

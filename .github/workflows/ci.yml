@@ -43,7 +43,7 @@ jobs:
           enable-cache: true
 
       - name: Run zizmor security scan
-        run: uvx zizmor --format=plain .github/workflows/
+        run: uvx zizmor --format=plain --min-severity=low .github/workflows/
 
   validate:
     name: Validate

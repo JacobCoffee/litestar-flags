@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.2](https://github.com/JacobCoffee/litestar-flags/compare/v0.2.1..v0.2.2) - 2026-10-11
+
+
+### Bug Fixes
+
+
+- fix(cache): treat entries as expired once their expiry time is reached (#13) - ([23358d3](https://github.com/JacobCoffee/litestar-flags/commit/23358d361e955046b84145912d8a153758dbbd45))
+
+
+### Documentation
+
+
+- docs: regenerate changelog for v0.2.1 - ([090b2dc](https://github.com/JacobCoffee/litestar-flags/commit/090b2dc00dd94efa390846b9b48e5383e3301540))
+
+
+### Features
+
+
+- feat: support Python 3.14 and 3.15 (#14) - ([61382a4](https://github.com/JacobCoffee/litestar-flags/commit/61382a49eac15f2a75d4195d7c17e760d16dfdd0))
+
+
+### Miscellaneous Chores
+
+
+- chore: swap pre-commit for prek in lint dependencies - ([c27077f](https://github.com/JacobCoffee/litestar-flags/commit/c27077fabce5d2597674ed6f35c95c5a864909e4))
+
+- chore(deps-dev): update uv-build requirement from <0.10.0,>=0.9.11 to >=0.9.11,<0.13.0 in the python-dependencies group across 1 directory (#6) - ([3732554](https://github.com/JacobCoffee/litestar-flags/commit/3732554260ac72b7106c719945c8ff33b11e6fa5))
+
+- chore(deps): bump the actions group across 1 directory with 13 updates (#11) - ([0d0679e](https://github.com/JacobCoffee/litestar-flags/commit/0d0679e402170d9595916e2af7c546332c3f26ae))
+
+- chore: bump version to 0.2.2 - ([1614e55](https://github.com/JacobCoffee/litestar-flags/commit/1614e552bbe1d37d140dd686c5b6f3941cd3f7b4))
 ## [0.2.1](https://github.com/JacobCoffee/litestar-flags/compare/v0.2.0..v0.2.1) - 2025-12-30
 
 

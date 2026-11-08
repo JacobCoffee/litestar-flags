@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../../../../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>litestar_flags.analytics.exporters.otel - litestar-flags</title><link rel="index" title="Index" href="../../../../genindex.html" /><link rel="search" title="Search" href="../../../../search.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../../../../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="litestar_flags.analytics.exporters.otel"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../../../../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../../../../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../api/analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../../../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../usage/admin-api.html">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../../../index.html"><span itemprop="name">Module code</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="2" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">litestar_flags.analytics.exporters.otel</strong>
+        <meta itemprop="position" content="3" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <h1>Source code for litestar_flags.analytics.exporters.otel</h1><div class="highlight"><pre>
+<span></span><span data-line="1"><span class="sd">&quot;&quot;&quot;OpenTelemetry analytics exporter for feature flag metrics.</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="sd">This module provides OpenTelemetry integration for exporting feature flag</span>
+</span><span data-line="4"><span class="sd">analytics as spans and metrics, enabling distributed tracing and observability.</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="sd">Example:</span>
+</span><span data-line="7"><span class="sd">    Basic usage with OpenTelemetry::</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="sd">        from litestar_flags.analytics.exporters.otel import OTelAnalyticsExporter</span>
+</span><span data-line="10">
+</span><span data-line="11"><span class="sd">        # Create the exporter</span>
+</span><span data-line="12"><span class="sd">        exporter = OTelAnalyticsExporter()</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="sd">        # Record evaluation events</span>
+</span><span data-line="15"><span class="sd">        await exporter.record(event)</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="sd">        # Flush batched events</span>
+</span><span data-line="18"><span class="sd">        await exporter.flush()</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="sd">    Custom tracer and meter::</span>
+</span><span data-line="21">
+</span><span data-line="22"><span class="sd">        from opentelemetry import trace, metrics</span>
+</span><span data-line="23">
+</span><span data-line="24"><span class="sd">        tracer = trace.get_tracer(&quot;my-app&quot;)</span>
+</span><span data-line="25"><span class="sd">        meter = metrics.get_meter(&quot;my-app&quot;)</span>
+</span><span data-line="26">
+</span><span data-line="27"><span class="sd">        exporter = OTelAnalyticsExporter(tracer=tracer, meter=meter)</span>
+</span><span data-line="28">
+</span><span data-line="29"><span class="sd">    Using with the existing OTelHook::</span>
+</span><span data-line="30">
+</span><span data-line="31"><span class="sd">        from litestar_flags.contrib.otel import OTelHook</span>
+</span><span data-line="32"><span class="sd">        from litestar_flags.analytics.exporters.otel import OTelAnalyticsExporter</span>
+</span><span data-line="33">
+</span><span data-line="34"><span class="sd">        hook = OTelHook()</span>
+</span><span data-line="35"><span class="sd">        exporter = OTelAnalyticsExporter(otel_hook=hook)</span>
+</span><span data-line="36">
+</span><span data-line="37"><span class="sd">Requires:</span>
+</span><span data-line="38"><span class="sd">    opentelemetry-api&gt;=1.20.0</span>
+</span><span data-line="39">
+</span><span data-line="40"><span class="sd">&quot;&quot;&quot;</span>
+</span><span data-line="41">
+</span><span data-line="42"><span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+</span><span data-line="43">
+</span><span data-line="44"><span class="kn">import</span><span class="w"> </span><span class="nn">asyncio</span>
+</span><span data-line="45"><span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">deque</span>
+</span><span data-line="46"><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span>
+</span><span data-line="47">
+</span><span data-line="48"><span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+</span><span data-line="49">    <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">Counter</span><span class="p">,</span> <span class="n">Histogram</span><span class="p">,</span> <span class="n">Meter</span>
+</span><span data-line="50">    <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tracer</span>
+</span><span data-line="51">
+</span><span data-line="52">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.analytics.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">FlagEvaluationEvent</span>
+</span><span data-line="53">    <span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.contrib.otel</span><span class="w"> </span><span class="kn">import</span> <span class="n">OTelHook</span>
+</span><span data-line="54">
+</span><span data-line="55"><span class="c1"># Handle optional opentelemetry import</span>
+</span><span data-line="56"><span class="k">try</span><span class="p">:</span>
+</span><span data-line="57">    <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span> <span class="k">as</span> <span class="n">otel_metrics</span>
+</span><span data-line="58">    <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry</span><span class="w"> </span><span class="kn">import</span> <span class="n">trace</span> <span class="k">as</span> <span class="n">otel_trace</span>
+</span><span data-line="59">    <span class="kn">from</span><span class="w"> </span><span class="nn">opentelemetry.trace</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpanKind</span><span class="p">,</span> <span class="n">StatusCode</span>
+</span><span data-line="60">
+</span><span data-line="61">    <span class="n">OTEL_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="62"><span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+</span><span data-line="63">    <span class="n">OTEL_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="64">    <span class="n">otel_trace</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="65">    <span class="n">otel_metrics</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="66">    <span class="n">SpanKind</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="67">    <span class="n">StatusCode</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="68">
+</span><span data-line="69">
+</span><span data-line="70"><span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;OTEL_AVAILABLE&quot;</span><span class="p">,</span> <span class="s2">&quot;OTelAnalyticsExporter&quot;</span><span class="p">]</span>
+</span><span data-line="71">
+</span><span data-line="72"><span class="c1"># Span names for analytics events</span>
+</span><span data-line="73"><span class="n">SPAN_NAME_ANALYTICS_EVENT</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.analytics.event&quot;</span>
+</span><span data-line="74"><span class="n">SPAN_NAME_ANALYTICS_BATCH</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.analytics.batch&quot;</span>
+</span><span data-line="75">
+</span><span data-line="76"><span class="c1"># Semantic conventions for analytics spans</span>
+</span><span data-line="77"><span class="n">ATTR_FLAG_KEY</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.key&quot;</span>
+</span><span data-line="78"><span class="n">ATTR_FLAG_VALUE</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.value&quot;</span>
+</span><span data-line="79"><span class="n">ATTR_FLAG_VARIANT</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.variant&quot;</span>
+</span><span data-line="80"><span class="n">ATTR_FLAG_REASON</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.reason&quot;</span>
+</span><span data-line="81"><span class="n">ATTR_TARGETING_KEY</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.targeting_key&quot;</span>
+</span><span data-line="82"><span class="n">ATTR_EVALUATION_DURATION_MS</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.evaluation_duration_ms&quot;</span>
+</span><span data-line="83"><span class="n">ATTR_EVENT_TIMESTAMP</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.event_timestamp&quot;</span>
+</span><span data-line="84"><span class="n">ATTR_BATCH_SIZE</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.analytics.batch_size&quot;</span>
+</span><span data-line="85">
+</span><span data-line="86"><span class="c1"># Metric names for analytics</span>
+</span><span data-line="87"><span class="n">METRIC_EVENTS_RECORDED</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.analytics.events_recorded&quot;</span>
+</span><span data-line="88"><span class="n">METRIC_BATCH_SIZE</span> <span class="o">=</span> <span class="s2">&quot;feature_flag.analytics.batch_size&quot;</span>
+</span><span data-line="89">
+</span><span data-line="90"><span class="c1"># Default batch configuration</span>
+</span><span data-line="91"><span class="n">DEFAULT_BATCH_SIZE</span> <span class="o">=</span> <span class="mi">100</span>
+</span><span data-line="92"><span class="n">DEFAULT_FLUSH_INTERVAL_SECONDS</span> <span class="o">=</span> <span class="mf">30.0</span>
+</span><span data-line="93">
+</span><span data-line="94">
+<div class="viewcode-block" id="OTelAnalyticsExporter">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter">[docs]</a>
+</span><span data-line="95"><span class="k">class</span><span class="w"> </span><span class="nc">OTelAnalyticsExporter</span><span class="p">:</span>
+</span><span data-line="96"><span class="w">    </span><span class="sd">&quot;&quot;&quot;OpenTelemetry exporter for feature flag analytics.</span>
+</span><span data-line="97">
+</span><span data-line="98"><span class="sd">    Exports feature flag evaluation events as OpenTelemetry spans and metrics.</span>
+</span><span data-line="99"><span class="sd">    Implements the AnalyticsCollector protocol for seamless integration with</span>
+</span><span data-line="100"><span class="sd">    the analytics pipeline.</span>
+</span><span data-line="101">
+</span><span data-line="102"><span class="sd">    This exporter can optionally wrap an existing OTelHook instance to share</span>
+</span><span data-line="103"><span class="sd">    tracer and meter configurations, or create its own OpenTelemetry instruments.</span>
+</span><span data-line="104">
+</span><span data-line="105"><span class="sd">    Metrics exported:</span>
+</span><span data-line="106"><span class="sd">        - feature_flag.analytics.events_recorded: Counter of recorded analytics events</span>
+</span><span data-line="107"><span class="sd">            Labels: flag_key, reason</span>
+</span><span data-line="108"><span class="sd">        - feature_flag.analytics.batch_size: Histogram of batch sizes when flushing</span>
+</span><span data-line="109"><span class="sd">            Labels: (none)</span>
+</span><span data-line="110">
+</span><span data-line="111"><span class="sd">    Attributes:</span>
+</span><span data-line="112"><span class="sd">        tracer: The OpenTelemetry tracer for creating spans.</span>
+</span><span data-line="113"><span class="sd">        meter: The OpenTelemetry meter for recording metrics.</span>
+</span><span data-line="114"><span class="sd">        batch_size: Maximum number of events to buffer before auto-flush.</span>
+</span><span data-line="115"><span class="sd">        flush_interval: Time in seconds between automatic flushes.</span>
+</span><span data-line="116">
+</span><span data-line="117"><span class="sd">    Example:</span>
+</span><span data-line="118"><span class="sd">        &gt;&gt;&gt; exporter = OTelAnalyticsExporter(batch_size=50)</span>
+</span><span data-line="119"><span class="sd">        &gt;&gt;&gt; await exporter.record(evaluation_event)</span>
+</span><span data-line="120"><span class="sd">        &gt;&gt;&gt; # Events are batched and flushed automatically</span>
+</span><span data-line="121"><span class="sd">        &gt;&gt;&gt; await exporter.close()</span>
+</span><span data-line="122">
+</span><span data-line="123"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="124">
+<div class="viewcode-block" id="OTelAnalyticsExporter.__init__">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter.__init__">[docs]</a>
+</span><span data-line="125">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span data-line="126">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="127">        <span class="n">tracer</span><span class="p">:</span> <span class="n">Tracer</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="128">        <span class="n">meter</span><span class="p">:</span> <span class="n">Meter</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="129">        <span class="n">otel_hook</span><span class="p">:</span> <span class="n">OTelHook</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="130">        <span class="n">tracer_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;litestar_flags.analytics&quot;</span><span class="p">,</span>
+</span><span data-line="131">        <span class="n">meter_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;litestar_flags.analytics&quot;</span><span class="p">,</span>
+</span><span data-line="132">        <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_BATCH_SIZE</span><span class="p">,</span>
+</span><span data-line="133">        <span class="n">flush_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FLUSH_INTERVAL_SECONDS</span><span class="p">,</span>
+</span><span data-line="134">        <span class="n">record_values</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="135">        <span class="n">create_spans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="136">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="137"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the OpenTelemetry analytics exporter.</span>
+</span><span data-line="138">
+</span><span data-line="139"><span class="sd">        Args:</span>
+</span><span data-line="140"><span class="sd">            tracer: Custom tracer instance. If not provided, uses otel_hook&#39;s tracer</span>
+</span><span data-line="141"><span class="sd">                or creates one using tracer_name.</span>
+</span><span data-line="142"><span class="sd">            meter: Custom meter instance. If not provided, uses otel_hook&#39;s meter</span>
+</span><span data-line="143"><span class="sd">                or creates one using meter_name.</span>
+</span><span data-line="144"><span class="sd">            otel_hook: Existing OTelHook instance to share tracer/meter from.</span>
+</span><span data-line="145"><span class="sd">                If provided, tracer and meter arguments are ignored.</span>
+</span><span data-line="146"><span class="sd">            tracer_name: Name for the default tracer if none provided.</span>
+</span><span data-line="147"><span class="sd">            meter_name: Name for the default meter if none provided.</span>
+</span><span data-line="148"><span class="sd">            batch_size: Maximum number of events to buffer before auto-flush.</span>
+</span><span data-line="149"><span class="sd">                Set to 0 to disable batching.</span>
+</span><span data-line="150"><span class="sd">            flush_interval: Time in seconds between automatic flushes.</span>
+</span><span data-line="151"><span class="sd">                Set to 0 to disable automatic flushing.</span>
+</span><span data-line="152"><span class="sd">            record_values: Whether to record flag values in spans. Disabled by default</span>
+</span><span data-line="153"><span class="sd">                for privacy/security reasons.</span>
+</span><span data-line="154"><span class="sd">            create_spans: Whether to create spans for each event. Set to False to</span>
+</span><span data-line="155"><span class="sd">                only record metrics without span overhead.</span>
+</span><span data-line="156">
+</span><span data-line="157"><span class="sd">        Raises:</span>
+</span><span data-line="158"><span class="sd">            ImportError: If opentelemetry-api is not installed.</span>
+</span><span data-line="159">
+</span><span data-line="160"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="161">        <span class="k">if</span> <span class="ow">not</span> <span class="n">OTEL_AVAILABLE</span> <span class="ow">or</span> <span class="n">otel_trace</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">otel_metrics</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="162">            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+</span><span data-line="163">                <span class="s2">&quot;opentelemetry-api is required for OTelAnalyticsExporter. &quot;</span>
+</span><span data-line="164">                <span class="s2">&quot;Install it with: pip install litestar-flags[otel]&quot;</span>
+</span><span data-line="165">            <span class="p">)</span>
+</span><span data-line="166">
+</span><span data-line="167">        <span class="c1"># Use otel_hook&#39;s instruments if provided, otherwise create our own</span>
+</span><span data-line="168">        <span class="k">if</span> <span class="n">otel_hook</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="169">            <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span><span class="p">:</span> <span class="n">Tracer</span> <span class="o">=</span> <span class="n">otel_hook</span><span class="o">.</span><span class="n">tracer</span>
+</span><span data-line="170">            <span class="bp">self</span><span class="o">.</span><span class="n">_meter</span><span class="p">:</span> <span class="n">Meter</span> <span class="o">=</span> <span class="n">otel_hook</span><span class="o">.</span><span class="n">meter</span>
+</span><span data-line="171">        <span class="k">else</span><span class="p">:</span>
+</span><span data-line="172">            <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span> <span class="o">=</span> <span class="n">tracer</span> <span class="ow">or</span> <span class="n">otel_trace</span><span class="o">.</span><span class="n">get_tracer</span><span class="p">(</span><span class="n">tracer_name</span><span class="p">)</span>
+</span><span data-line="173">            <span class="bp">self</span><span class="o">.</span><span class="n">_meter</span> <span class="o">=</span> <span class="n">meter</span> <span class="ow">or</span> <span class="n">otel_metrics</span><span class="o">.</span><span class="n">get_meter</span><span class="p">(</span><span class="n">meter_name</span><span class="p">)</span>
+</span><span data-line="174">
+</span><span data-line="175">        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+</span><span data-line="176">        <span class="bp">self</span><span class="o">.</span><span class="n">_flush_interval</span> <span class="o">=</span> <span class="n">flush_interval</span>
+</span><span data-line="177">        <span class="bp">self</span><span class="o">.</span><span class="n">_record_values</span> <span class="o">=</span> <span class="n">record_values</span>
+</span><span data-line="178">        <span class="bp">self</span><span class="o">.</span><span class="n">_create_spans</span> <span class="o">=</span> <span class="n">create_spans</span>
+</span><span data-line="179">
+</span><span data-line="180">        <span class="c1"># Event buffer for batching</span>
+</span><span data-line="181">        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">:</span> <span class="n">deque</span><span class="p">[</span><span class="n">FlagEvaluationEvent</span><span class="p">]</span> <span class="o">=</span> <span class="n">deque</span><span class="p">()</span>
+</span><span data-line="182">        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_lock</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
+</span><span data-line="183">
+</span><span data-line="184">        <span class="c1"># Background flush task</span>
+</span><span data-line="185">        <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span><span class="p">:</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">Task</span><span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="186">        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span data-line="187">
+</span><span data-line="188">        <span class="c1"># Create analytics-specific metrics instruments</span>
+</span><span data-line="189">        <span class="bp">self</span><span class="o">.</span><span class="n">_events_recorded_counter</span><span class="p">:</span> <span class="n">Counter</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meter</span><span class="o">.</span><span class="n">create_counter</span><span class="p">(</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="190">            <span class="n">name</span><span class="o">=</span><span class="n">METRIC_EVENTS_RECORDED</span><span class="p">,</span>
+</span><span data-line="191">            <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span data-line="192">            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Number of feature flag analytics events recorded&quot;</span><span class="p">,</span>
+</span><span data-line="193">        <span class="p">)</span>
+</span><span data-line="194">        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size_histogram</span><span class="p">:</span> <span class="n">Histogram</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meter</span><span class="o">.</span><span class="n">create_histogram</span><span class="p">(</span>  <span class="c1"># type: ignore[assignment]</span>
+</span><span data-line="195">            <span class="n">name</span><span class="o">=</span><span class="n">METRIC_BATCH_SIZE</span><span class="p">,</span>
+</span><span data-line="196">            <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;1&quot;</span><span class="p">,</span>
+</span><span data-line="197">            <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Size of analytics event batches when flushed&quot;</span><span class="p">,</span>
+</span><span data-line="198">        <span class="p">)</span></div>
+
+</span><span data-line="199">
+</span><span data-line="200">    <span class="nd">@property</span>
+</span><span data-line="201">    <span class="k">def</span><span class="w"> </span><span class="nf">tracer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tracer</span><span class="p">:</span>
+</span><span data-line="202"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the tracer instance.</span>
+</span><span data-line="203">
+</span><span data-line="204"><span class="sd">        Returns:</span>
+</span><span data-line="205"><span class="sd">            The OpenTelemetry tracer used by this exporter.</span>
+</span><span data-line="206">
+</span><span data-line="207"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="208">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span>
+</span><span data-line="209">
+</span><span data-line="210">    <span class="nd">@property</span>
+</span><span data-line="211">    <span class="k">def</span><span class="w"> </span><span class="nf">meter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Meter</span><span class="p">:</span>
+</span><span data-line="212"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the meter instance.</span>
+</span><span data-line="213">
+</span><span data-line="214"><span class="sd">        Returns:</span>
+</span><span data-line="215"><span class="sd">            The OpenTelemetry meter used by this exporter.</span>
+</span><span data-line="216">
+</span><span data-line="217"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="218">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_meter</span>
+</span><span data-line="219">
+</span><span data-line="220">    <span class="nd">@property</span>
+</span><span data-line="221">    <span class="k">def</span><span class="w"> </span><span class="nf">events_recorded_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Counter</span><span class="p">:</span>
+</span><span data-line="222"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the events recorded counter metric.</span>
+</span><span data-line="223">
+</span><span data-line="224"><span class="sd">        Returns:</span>
+</span><span data-line="225"><span class="sd">            The Counter metric for recorded analytics events.</span>
+</span><span data-line="226">
+</span><span data-line="227"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="228">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_events_recorded_counter</span>
+</span><span data-line="229">
+</span><span data-line="230">    <span class="nd">@property</span>
+</span><span data-line="231">    <span class="k">def</span><span class="w"> </span><span class="nf">batch_size_histogram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Histogram</span><span class="p">:</span>
+</span><span data-line="232"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the batch size histogram metric.</span>
+</span><span data-line="233">
+</span><span data-line="234"><span class="sd">        Returns:</span>
+</span><span data-line="235"><span class="sd">            The Histogram metric for batch sizes.</span>
+</span><span data-line="236">
+</span><span data-line="237"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="238">        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size_histogram</span>
+</span><span data-line="239">
+</span><span data-line="240">    <span class="nd">@property</span>
+</span><span data-line="241">    <span class="k">def</span><span class="w"> </span><span class="nf">buffer_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+</span><span data-line="242"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current number of buffered events.</span>
+</span><span data-line="243">
+</span><span data-line="244"><span class="sd">        Returns:</span>
+</span><span data-line="245"><span class="sd">            Number of events currently in the buffer.</span>
+</span><span data-line="246">
+</span><span data-line="247"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="248">        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span>
+</span><span data-line="249">
+<div class="viewcode-block" id="OTelAnalyticsExporter.record">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter.record">[docs]</a>
+</span><span data-line="250">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">FlagEvaluationEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="251"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Record a flag evaluation event.</span>
+</span><span data-line="252">
+</span><span data-line="253"><span class="sd">        Buffers the event and flushes when batch_size is reached.</span>
+</span><span data-line="254"><span class="sd">        This method implements the AnalyticsCollector protocol.</span>
+</span><span data-line="255">
+</span><span data-line="256"><span class="sd">        Args:</span>
+</span><span data-line="257"><span class="sd">            event: The evaluation event to record.</span>
+</span><span data-line="258">
+</span><span data-line="259"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="260">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+</span><span data-line="261">            <span class="k">return</span>
+</span><span data-line="262">
+</span><span data-line="263">        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_lock</span><span class="p">:</span>
+</span><span data-line="264">            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="265">
+</span><span data-line="266">            <span class="c1"># Start background flush task if not running and interval is set</span>
+</span><span data-line="267">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_interval</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span data-line="268">                <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">create_task</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_background_flush</span><span class="p">())</span>
+</span><span data-line="269">
+</span><span data-line="270">            <span class="c1"># Auto-flush if batch size reached</span>
+</span><span data-line="271">            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size</span><span class="p">:</span>
+</span><span data-line="272">                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_buffer</span><span class="p">()</span></div>
+
+</span><span data-line="273">
+<div class="viewcode-block" id="OTelAnalyticsExporter.flush">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter.flush">[docs]</a>
+</span><span data-line="274">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="275"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Flush any buffered events.</span>
+</span><span data-line="276">
+</span><span data-line="277"><span class="sd">        Forces immediate processing of all buffered events, creating spans</span>
+</span><span data-line="278"><span class="sd">        and recording metrics for each event.</span>
+</span><span data-line="279">
+</span><span data-line="280"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="281">        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_lock</span><span class="p">:</span>
+</span><span data-line="282">            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_buffer</span><span class="p">()</span></div>
+
+</span><span data-line="283">
+<div class="viewcode-block" id="OTelAnalyticsExporter.close">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter.close">[docs]</a>
+</span><span data-line="284">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="285"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Close the exporter and release resources.</span>
+</span><span data-line="286">
+</span><span data-line="287"><span class="sd">        Flushes remaining events and cancels the background flush task.</span>
+</span><span data-line="288">
+</span><span data-line="289"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="290">        <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span data-line="291">
+</span><span data-line="292">        <span class="c1"># Cancel background flush task</span>
+</span><span data-line="293">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="294">            <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span><span class="o">.</span><span class="n">cancel</span><span class="p">()</span>
+</span><span data-line="295">            <span class="k">try</span><span class="p">:</span>
+</span><span data-line="296">                <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span>
+</span><span data-line="297">            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span><span class="p">:</span>
+</span><span data-line="298">                <span class="k">pass</span>
+</span><span data-line="299">            <span class="bp">self</span><span class="o">.</span><span class="n">_flush_task</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="300">
+</span><span data-line="301">        <span class="c1"># Flush remaining events</span>
+</span><span data-line="302">        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span></div>
+
+</span><span data-line="303">
+</span><span data-line="304">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_background_flush</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="305"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Background task for periodic flushing.&quot;&quot;&quot;</span>
+</span><span data-line="306">        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+</span><span data-line="307">            <span class="k">try</span><span class="p">:</span>
+</span><span data-line="308">                <span class="k">await</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flush_interval</span><span class="p">)</span>
+</span><span data-line="309">                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+</span><span data-line="310">                    <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+</span><span data-line="311">            <span class="k">except</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">CancelledError</span><span class="p">:</span>
+</span><span data-line="312">                <span class="k">break</span>
+</span><span data-line="313">            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># noqa: S110</span>
+</span><span data-line="314">                <span class="c1"># Log error but continue running</span>
+</span><span data-line="315">                <span class="k">pass</span>
+</span><span data-line="316">
+</span><span data-line="317">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">_flush_buffer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="318"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Flush the current buffer.</span>
+</span><span data-line="319">
+</span><span data-line="320"><span class="sd">        Must be called with _buffer_lock held.</span>
+</span><span data-line="321"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="322">        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">:</span>
+</span><span data-line="323">            <span class="k">return</span>
+</span><span data-line="324">
+</span><span data-line="325">        <span class="c1"># Get all events from buffer</span>
+</span><span data-line="326">        <span class="n">events</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="p">)</span>
+</span><span data-line="327">        <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+</span><span data-line="328">
+</span><span data-line="329">        <span class="c1"># Record batch size metric</span>
+</span><span data-line="330">        <span class="n">batch_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+</span><span data-line="331">        <span class="bp">self</span><span class="o">.</span><span class="n">_batch_size_histogram</span><span class="o">.</span><span class="n">record</span><span class="p">(</span><span class="n">batch_size</span><span class="p">)</span>
+</span><span data-line="332">
+</span><span data-line="333">        <span class="c1"># Create a parent span for the batch if creating spans</span>
+</span><span data-line="334">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_spans</span> <span class="ow">and</span> <span class="n">batch_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+</span><span data-line="335">            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span><span class="o">.</span><span class="n">start_as_current_span</span><span class="p">(</span>
+</span><span data-line="336">                <span class="n">name</span><span class="o">=</span><span class="n">SPAN_NAME_ANALYTICS_BATCH</span><span class="p">,</span>
+</span><span data-line="337">                <span class="n">kind</span><span class="o">=</span><span class="n">SpanKind</span><span class="o">.</span><span class="n">INTERNAL</span><span class="p">,</span>
+</span><span data-line="338">                <span class="n">attributes</span><span class="o">=</span><span class="p">{</span><span class="n">ATTR_BATCH_SIZE</span><span class="p">:</span> <span class="n">batch_size</span><span class="p">},</span>
+</span><span data-line="339">            <span class="p">)</span> <span class="k">as</span> <span class="n">batch_span</span><span class="p">:</span>
+</span><span data-line="340">                <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="341">                    <span class="bp">self</span><span class="o">.</span><span class="n">_process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="342">                <span class="n">batch_span</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+</span><span data-line="343">        <span class="k">else</span><span class="p">:</span>
+</span><span data-line="344">            <span class="c1"># Process events without batch span</span>
+</span><span data-line="345">            <span class="k">for</span> <span class="n">event</span> <span class="ow">in</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="346">                <span class="bp">self</span><span class="o">.</span><span class="n">_process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="347">
+</span><span data-line="348">    <span class="k">def</span><span class="w"> </span><span class="nf">_process_event</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">FlagEvaluationEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="349"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Process a single analytics event.</span>
+</span><span data-line="350">
+</span><span data-line="351"><span class="sd">        Creates a span (if enabled) and records metrics for the event.</span>
+</span><span data-line="352">
+</span><span data-line="353"><span class="sd">        Args:</span>
+</span><span data-line="354"><span class="sd">            event: The evaluation event to process.</span>
+</span><span data-line="355">
+</span><span data-line="356"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="357">        <span class="n">flag_key</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">flag_key</span>
+</span><span data-line="358">        <span class="n">reason</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+</span><span data-line="359">
+</span><span data-line="360">        <span class="c1"># Record event counter metric</span>
+</span><span data-line="361">        <span class="n">metric_attributes</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="362">            <span class="n">ATTR_FLAG_KEY</span><span class="p">:</span> <span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="363">            <span class="n">ATTR_FLAG_REASON</span><span class="p">:</span> <span class="n">reason</span><span class="p">,</span>
+</span><span data-line="364">        <span class="p">}</span>
+</span><span data-line="365">        <span class="bp">self</span><span class="o">.</span><span class="n">_events_recorded_counter</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">metric_attributes</span><span class="p">)</span>
+</span><span data-line="366">
+</span><span data-line="367">        <span class="c1"># Create span if enabled</span>
+</span><span data-line="368">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_spans</span><span class="p">:</span>
+</span><span data-line="369">            <span class="bp">self</span><span class="o">.</span><span class="n">_create_event_span</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+</span><span data-line="370">
+</span><span data-line="371">    <span class="k">def</span><span class="w"> </span><span class="nf">_create_event_span</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">FlagEvaluationEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="372"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a span for an analytics event.</span>
+</span><span data-line="373">
+</span><span data-line="374"><span class="sd">        Args:</span>
+</span><span data-line="375"><span class="sd">            event: The evaluation event to create a span for.</span>
+</span><span data-line="376">
+</span><span data-line="377"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="378">        <span class="n">flag_key</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">flag_key</span>
+</span><span data-line="379">        <span class="n">reason</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="o">.</span><span class="n">value</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">,</span> <span class="s2">&quot;value&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">reason</span><span class="p">)</span>
+</span><span data-line="380">
+</span><span data-line="381">        <span class="c1"># Build span attributes</span>
+</span><span data-line="382">        <span class="n">attributes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="383">            <span class="n">ATTR_FLAG_KEY</span><span class="p">:</span> <span class="n">flag_key</span><span class="p">,</span>
+</span><span data-line="384">            <span class="n">ATTR_FLAG_REASON</span><span class="p">:</span> <span class="n">reason</span><span class="p">,</span>
+</span><span data-line="385">            <span class="n">ATTR_EVENT_TIMESTAMP</span><span class="p">:</span> <span class="n">event</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+</span><span data-line="386">        <span class="p">}</span>
+</span><span data-line="387">
+</span><span data-line="388">        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">variant</span><span class="p">:</span>
+</span><span data-line="389">            <span class="n">attributes</span><span class="p">[</span><span class="n">ATTR_FLAG_VARIANT</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">variant</span>
+</span><span data-line="390">
+</span><span data-line="391">        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">targeting_key</span><span class="p">:</span>
+</span><span data-line="392">            <span class="n">attributes</span><span class="p">[</span><span class="n">ATTR_TARGETING_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">targeting_key</span>
+</span><span data-line="393">
+</span><span data-line="394">        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">evaluation_duration_ms</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+</span><span data-line="395">            <span class="n">attributes</span><span class="p">[</span><span class="n">ATTR_EVALUATION_DURATION_MS</span><span class="p">]</span> <span class="o">=</span> <span class="n">event</span><span class="o">.</span><span class="n">evaluation_duration_ms</span>
+</span><span data-line="396">
+</span><span data-line="397">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_record_values</span><span class="p">:</span>
+</span><span data-line="398">            <span class="c1"># Convert value to string for span attribute</span>
+</span><span data-line="399">            <span class="n">value_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span data-line="400">            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">value_str</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">256</span><span class="p">:</span>  <span class="c1"># Limit attribute size</span>
+</span><span data-line="401">                <span class="n">attributes</span><span class="p">[</span><span class="n">ATTR_FLAG_VALUE</span><span class="p">]</span> <span class="o">=</span> <span class="n">value_str</span>
+</span><span data-line="402">
+</span><span data-line="403">        <span class="c1"># Create and immediately end the span (event is already complete)</span>
+</span><span data-line="404">        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracer</span><span class="o">.</span><span class="n">start_as_current_span</span><span class="p">(</span>
+</span><span data-line="405">            <span class="n">name</span><span class="o">=</span><span class="n">SPAN_NAME_ANALYTICS_EVENT</span><span class="p">,</span>
+</span><span data-line="406">            <span class="n">kind</span><span class="o">=</span><span class="n">SpanKind</span><span class="o">.</span><span class="n">INTERNAL</span><span class="p">,</span>
+</span><span data-line="407">            <span class="n">attributes</span><span class="o">=</span><span class="n">attributes</span><span class="p">,</span>
+</span><span data-line="408">        <span class="p">)</span> <span class="k">as</span> <span class="n">span</span><span class="p">:</span>
+</span><span data-line="409">            <span class="n">span</span><span class="o">.</span><span class="n">set_status</span><span class="p">(</span><span class="n">StatusCode</span><span class="o">.</span><span class="n">OK</span><span class="p">)</span>
+</span><span data-line="410">
+<div class="viewcode-block" id="OTelAnalyticsExporter.record_sync">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter.record_sync">[docs]</a>
+</span><span data-line="411">    <span class="k">def</span><span class="w"> </span><span class="nf">record_sync</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">FlagEvaluationEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="412"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Record an event synchronously without batching.</span>
+</span><span data-line="413">
+</span><span data-line="414"><span class="sd">        This method processes the event immediately without buffering.</span>
+</span><span data-line="415"><span class="sd">        Useful for low-volume scenarios or when immediate recording is required.</span>
+</span><span data-line="416">
+</span><span data-line="417"><span class="sd">        Args:</span>
+</span><span data-line="418"><span class="sd">            event: The evaluation event to record.</span>
+</span><span data-line="419">
+</span><span data-line="420"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="421">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span><span class="p">:</span>
+</span><span data-line="422">            <span class="k">return</span>
+</span><span data-line="423">        <span class="bp">self</span><span class="o">.</span><span class="n">_process_event</span><span class="p">(</span><span class="n">event</span><span class="p">)</span></div>
+
+</span><span data-line="424">
+<div class="viewcode-block" id="OTelAnalyticsExporter.record_batch">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.OTelAnalyticsExporter.record_batch">[docs]</a>
+</span><span data-line="425">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">record_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">events</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FlagEvaluationEvent</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="426"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Record multiple events in a batch.</span>
+</span><span data-line="427">
+</span><span data-line="428"><span class="sd">        Adds all events to the buffer and triggers a flush.</span>
+</span><span data-line="429">
+</span><span data-line="430"><span class="sd">        Args:</span>
+</span><span data-line="431"><span class="sd">            events: List of evaluation events to record.</span>
+</span><span data-line="432">
+</span><span data-line="433"><span class="sd">        &quot;&quot;&quot;</span>
+</span><span data-line="434">        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_closed</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">events</span><span class="p">:</span>
+</span><span data-line="435">            <span class="k">return</span>
+</span><span data-line="436">
+</span><span data-line="437">        <span class="k">async</span> <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_buffer_lock</span><span class="p">:</span>
+</span><span data-line="438">            <span class="bp">self</span><span class="o">.</span><span class="n">_buffer</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">events</span><span class="p">)</span>
+</span><span data-line="439">            <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flush_buffer</span><span class="p">()</span></div>
+</div>
+
+</span><span data-line="440">
+</span><span data-line="441">
+<div class="viewcode-block" id="create_exporter_from_hook">
+<a class="viewcode-back" href="../../../../api/analytics.html#litestar_flags.analytics.exporters.otel.create_exporter_from_hook">[docs]</a>
+</span><span data-line="442"><span class="k">def</span><span class="w"> </span><span class="nf">create_exporter_from_hook</span><span class="p">(</span>
+</span><span data-line="443">    <span class="n">otel_hook</span><span class="p">:</span> <span class="n">OTelHook</span><span class="p">,</span>
+</span><span data-line="444">    <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="n">DEFAULT_BATCH_SIZE</span><span class="p">,</span>
+</span><span data-line="445">    <span class="n">flush_interval</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">DEFAULT_FLUSH_INTERVAL_SECONDS</span><span class="p">,</span>
+</span><span data-line="446">    <span class="n">record_values</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+</span><span data-line="447">    <span class="n">create_spans</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+</span><span data-line="448"><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">OTelAnalyticsExporter</span><span class="p">:</span>
+</span><span data-line="449"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Create an OTelAnalyticsExporter from an existing OTelHook.</span>
+</span><span data-line="450">
+</span><span data-line="451"><span class="sd">    This factory function creates an analytics exporter that shares the</span>
+</span><span data-line="452"><span class="sd">    tracer and meter from an existing OTelHook instance, ensuring consistent</span>
+</span><span data-line="453"><span class="sd">    instrumentation across flag evaluation and analytics.</span>
+</span><span data-line="454">
+</span><span data-line="455"><span class="sd">    Args:</span>
+</span><span data-line="456"><span class="sd">        otel_hook: The OTelHook instance to share tracer/meter from.</span>
+</span><span data-line="457"><span class="sd">        batch_size: Maximum number of events to buffer before auto-flush.</span>
+</span><span data-line="458"><span class="sd">        flush_interval: Time in seconds between automatic flushes.</span>
+</span><span data-line="459"><span class="sd">        record_values: Whether to record flag values in spans.</span>
+</span><span data-line="460"><span class="sd">        create_spans: Whether to create spans for each event.</span>
+</span><span data-line="461">
+</span><span data-line="462"><span class="sd">    Returns:</span>
+</span><span data-line="463"><span class="sd">        A configured OTelAnalyticsExporter instance.</span>
+</span><span data-line="464">
+</span><span data-line="465"><span class="sd">    Raises:</span>
+</span><span data-line="466"><span class="sd">        ImportError: If opentelemetry-api is not installed.</span>
+</span><span data-line="467">
+</span><span data-line="468"><span class="sd">    Example:</span>
+</span><span data-line="469"><span class="sd">        &gt;&gt;&gt; from litestar_flags.contrib.otel import OTelHook</span>
+</span><span data-line="470"><span class="sd">        &gt;&gt;&gt; hook = OTelHook()</span>
+</span><span data-line="471"><span class="sd">        &gt;&gt;&gt; exporter = create_exporter_from_hook(hook)</span>
+</span><span data-line="472"><span class="sd">        &gt;&gt;&gt; await exporter.record(event)</span>
+</span><span data-line="473">
+</span><span data-line="474"><span class="sd">    &quot;&quot;&quot;</span>
+</span><span data-line="475">    <span class="k">if</span> <span class="ow">not</span> <span class="n">OTEL_AVAILABLE</span><span class="p">:</span>
+</span><span data-line="476">        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+</span><span data-line="477">            <span class="s2">&quot;opentelemetry-api is required for create_exporter_from_hook. &quot;</span>
+</span><span data-line="478">            <span class="s2">&quot;Install it with: pip install litestar-flags[otel]&quot;</span>
+</span><span data-line="479">        <span class="p">)</span>
+</span><span data-line="480">
+</span><span data-line="481">    <span class="k">return</span> <span class="n">OTelAnalyticsExporter</span><span class="p">(</span>
+</span><span data-line="482">        <span class="n">otel_hook</span><span class="o">=</span><span class="n">otel_hook</span><span class="p">,</span>
+</span><span data-line="483">        <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_size</span><span class="p">,</span>
+</span><span data-line="484">        <span class="n">flush_interval</span><span class="o">=</span><span class="n">flush_interval</span><span class="p">,</span>
+</span><span data-line="485">        <span class="n">record_values</span><span class="o">=</span><span class="n">record_values</span><span class="p">,</span>
+</span><span data-line="486">        <span class="n">create_spans</span><span class="o">=</span><span class="n">create_spans</span><span class="p">,</span>
+</span><span data-line="487">    <span class="p">)</span></div>
+
+</span></pre></div>
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../../../../_static/copybutton.js?v=30646c52"></script>
+      <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../../../../_static/shibuya.js?v=cac61aee"></script></body>
+</html>

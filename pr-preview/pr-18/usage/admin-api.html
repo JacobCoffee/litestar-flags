@@ -1,0 +1,1536 @@
+<!DOCTYPE html>
+<html lang="en" data-accent-color="bronze" data-content_root="../">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Admin API - litestar-flags</title><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Approval Workflows" href="../guides/workflows.html" /><link rel="prev" title="Flag Analytics" href="../user-guide/analytics.html" /><script>
+    function setColorMode(t){let e=document.documentElement;e.setAttribute("data-color-mode",t);let a=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches,s=t;"auto"===t&&(s=a?"dark":"light"),"light"===s?(e.classList.remove("dark"),e.classList.add("light")):(e.classList.remove("light"),e.classList.add("dark"))}
+    setColorMode(localStorage._theme||"auto");
+  </script><link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=e1a1ceaf" />
+    <link rel="stylesheet" type="text/css" href="../_static/shibuya.css?v=a318c5d4" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link media="print" rel="stylesheet" type="text/css" href="../_static/print.css?v=20ff2c19" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=18eed9c1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sy-f-text: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+  --sy-f-heading: "Inter", var(--sy-f-sys), var(--sy-f-cjk), sans-serif;
+}
+</style>
+    <meta property="og:type" content="website"/><meta property="og:title" content="Admin API"/>
+    <meta name="twitter:card" content="summary"/>
+  </head>
+<body><div class="sy-head">
+  <div class="sy-head-blur"></div>
+  <div class="sy-head-inner sy-container mx-auto">
+    <a class="sy-head-brand" href="../index.html">
+      
+      
+      <strong>litestar-flags</strong>
+    </a>
+    <div class="sy-head-nav" id="head-nav">
+      <nav class="sy-head-links"><ul><li class="link">
+          <a href="https://litestar.dev/">
+            <span>Litestar</span></a>
+        </li><li class="link">
+          <a href="https://pypi.org/project/litestar-flags/">
+            <span>PyPI</span></a>
+        </li></ul></nav>
+      <div class="sy-head-extra flex items-center print:hidden"><form class="searchbox flex items-center" action="../search.html" method="get">
+  <input type="text" name="q" placeholder="Search" />
+  <kbd>/</kbd>
+</form><div class="sy-head-socials">
+  <a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+    <iconify-icon icon="simple-icons:github"></iconify-icon>
+  </a></div></div>
+    </div>
+    <div class="sy-head-actions flex items-center shrink-0 print:hidden"><button class="js-theme theme-switch flex items-center"
+data-aria-auto="Switch to light color mode"
+data-aria-light="Switch to dark color mode"
+data-aria-dark="Switch to auto color mode">
+<i class="i-lucide theme-icon"></i>
+</button><button class="md:hidden flex items-center js-menu" aria-label="Menu" type="button" aria-controls="head-nav" aria-expanded="false">
+        <div class="hamburger">
+          <span class="hamburger_1"></span>
+          <span class="hamburger_2"></span>
+          <span class="hamburger_3"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+</div>
+<div class="sy-page sy-container flex mx-auto">
+  <aside id="lside" class="sy-lside md:w-72 md:shrink-0 print:hidden">
+    <div class="sy-lside-inner md:sticky">
+      <div class="sy-scrollbar p-6">
+        <div class="globaltoc" data-expand-depth="0"><p class="caption" role="heading" aria-level="3"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../getting-started/index.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/quickstart.html">Quickstart</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting-started/configuration.html">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/index.html">How-To Guides</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../guides/storage-backends.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/percentage-rollouts.html">Percentage Rollouts</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/user-targeting.html">User Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/ab-testing.html">A/B Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/environments.html">Multi-Environment Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../guides/testing.html">Testing with Feature Flags</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../api/index.html">API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../api/client.html">Client</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/context.html">Context</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/config.html">Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/storage.html">Storage Backends</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/decorators.html">Decorators</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/types.html">Types and Enums</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/analytics.html">Analytics</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Integrations</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../user-guide/index.html">User Guide</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/segments.html">Segment-based Targeting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/openfeature.html">OpenFeature Integration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/time-based-rules.html">Time-based Rules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/multi-environment.html">Multi-Environment Support</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../user-guide/analytics.html">Flag Analytics</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Admin API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../guides/workflows.html">Approval Workflows</a></li>
+</ul>
+<p class="caption" role="heading" aria-level="3"><span class="caption-text">Project</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/JacobCoffee/litestar-flags">GitHub</a></li>
+</ul>
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="lside-overlay js-menu" role="button" aria-label="Close left sidebar" aria-controls="lside" aria-expanded="false"></div>
+  <aside id="rside" class="sy-rside pb-3 w-64 shrink-0 order-last">
+    <button class="rside-close js-menu xl:hidden" aria-label="Close Table of Contents" type="button" aria-controls="rside" aria-expanded="false">
+      <i class="i-lucide close"></i>
+    </button>
+    <div class="sy-scrollbar sy-rside-inner px-6 xl:top-16 xl:sticky xl:pl-0 pt-6 pb-4"><div class="localtoc"><h3>On this page</h3><ul>
+<li><a class="reference internal" href="#overview">Overview</a><ul>
+<li><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#installation-setup">Installation &amp; Setup</a><ul>
+<li><a class="reference internal" href="#basic-setup">Basic Setup</a></li>
+<li><a class="reference internal" href="#custom-path-prefix">Custom Path Prefix</a></li>
+<li><a class="reference internal" href="#selective-controller-registration">Selective Controller Registration</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#configuration-options">Configuration Options</a></li>
+<li><a class="reference internal" href="#authentication-authorization">Authentication &amp; Authorization</a><ul>
+<li><a class="reference internal" href="#permission-system">Permission System</a></li>
+<li><a class="reference internal" href="#role-system">Role System</a></li>
+<li><a class="reference internal" href="#using-guards-in-route-handlers">Using Guards in Route Handlers</a></li>
+<li><a class="reference internal" href="#implementing-a-user-provider">Implementing a User Provider</a></li>
+<li><a class="reference internal" href="#jwt-authentication-example">JWT Authentication Example</a></li>
+<li><a class="reference internal" href="#custom-auth-guard">Custom Auth Guard</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api-endpoints">API Endpoints</a><ul>
+<li><a class="reference internal" href="#flags-api">Flags API</a></li>
+<li><a class="reference internal" href="#rules-api">Rules API</a></li>
+<li><a class="reference internal" href="#overrides-api">Overrides API</a></li>
+<li><a class="reference internal" href="#segments-api">Segments API</a></li>
+<li><a class="reference internal" href="#environments-api">Environments API</a></li>
+<li><a class="reference internal" href="#analytics-api">Analytics API</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#audit-logging">Audit Logging</a><ul>
+<li><a class="reference internal" href="#enabling-audit-logging">Enabling Audit Logging</a></li>
+<li><a class="reference internal" href="#audit-entry-structure">Audit Entry Structure</a></li>
+<li><a class="reference internal" href="#querying-audit-logs">Querying Audit Logs</a></li>
+<li><a class="reference internal" href="#custom-audit-logger">Custom Audit Logger</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#openapi-integration">OpenAPI Integration</a><ul>
+<li><a class="reference internal" href="#tags">Tags</a></li>
+<li><a class="reference internal" href="#security-schemes">Security Schemes</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#complete-example">Complete Example</a></li>
+<li><a class="reference internal" href="#see-also">See Also</a></li>
+</ul>
+</div><div id="ethical-ad-placement" data-ea-publisher="readthedocs"></div></div>
+  </aside>
+  <div class="rside-overlay js-menu" role="button" aria-label="Close Table of Contents" aria-controls="rside" aria-expanded="false"></div>
+  <main class="sy-main w-full max-sm:max-w-full print:pt-6">
+<div class="sy-breadcrumbs" role="navigation">
+  <div class="sy-breadcrumbs-inner flex items-center">
+    <div class="md:hidden mr-3">
+      <button class="js-menu" aria-label="Menu" type="button" aria-controls="lside" aria-expanded="false">
+        <i class="i-lucide menu"></i>
+      </button>
+    </div>
+    <ol class="flex-1" itemscope itemtype="https://schema.org/BreadcrumbList"><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <a itemprop="item" href="../index.html"><span itemprop="name">litestar-flags</span></a>
+        <span>/</span>
+        <meta itemprop="position" content="1" />
+      </li><li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem">
+        <strong itemprop="name">Admin API</strong>
+        <meta itemprop="position" content="2" />
+      </li></ol>
+    <div class="xl:hidden ml-1">
+      <button class="js-menu" aria-label="Show table of contents" type="button" aria-controls="rside"
+        aria-expanded="false">
+        <i class="i-lucide outdent"></i>
+      </button>
+    </div>
+  </div>
+</div><div class="flex flex-col break-words justify-between">
+      <div class="relative min-w-0 max-w-6xl px-6 pb-6 pt-8 xl:px-12">
+  <article class="yue" role="main">
+          <section id="admin-api">
+<h1>Admin API<a class="headerlink" href="#admin-api" title="Link to this heading">¶</a></h1>
+<p>The Admin API provides a complete RESTful interface for managing feature flags,
+targeting rules, user segments, environments, and analytics. It includes
+role-based access control, audit logging, and OpenAPI documentation.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The Admin API enables programmatic management of your feature flag configuration:</p>
+<ul class="simple">
+<li><p><strong>Flags</strong>: Create, read, update, delete, and archive feature flags</p></li>
+<li><p><strong>Rules</strong>: Manage targeting rules with conditions and rollout percentages</p></li>
+<li><p><strong>Overrides</strong>: Set entity-specific flag values for users, organizations, or devices</p></li>
+<li><p><strong>Segments</strong>: Define reusable user segments for targeting</p></li>
+<li><p><strong>Environments</strong>: Configure deployment environments with inheritance</p></li>
+<li><p><strong>Analytics</strong>: Query evaluation metrics, events, and trends</p></li>
+</ul>
+<p>All endpoints are protected by role-based access control (RBAC) and optionally
+logged for audit purposes.</p>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Link to this heading">¶</a></h3>
+<p>The Admin API requires the <code class="docutils literal notranslate"><span class="pre">FeatureFlagsPlugin</span></code> to be registered with your
+Litestar application:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">()</span>
+</span><span data-line="5"><span class="n">plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span><span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">plugin</span><span class="p">])</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="installation-setup">
+<h2>Installation &amp; Setup<a class="headerlink" href="#installation-setup" title="Link to this heading">¶</a></h2>
+<section id="basic-setup">
+<h3>Basic Setup<a class="headerlink" href="#basic-setup" title="Link to this heading">¶</a></h3>
+<p>Register the <code class="docutils literal notranslate"><span class="pre">FeatureFlagsAdminPlugin</span></code> alongside the <code class="docutils literal notranslate"><span class="pre">FeatureFlagsPlugin</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsAdminConfig</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="c1"># Feature flags configuration</span>
+</span><span data-line="6"><span class="n">flags_config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">()</span>
+</span><span data-line="7"><span class="n">flags_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">flags_config</span><span class="p">)</span>
+</span><span data-line="8">
+</span><span data-line="9"><span class="c1"># Admin API configuration</span>
+</span><span data-line="10"><span class="n">admin_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">()</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="13">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">flags_plugin</span><span class="p">,</span> <span class="n">admin_plugin</span><span class="p">],</span>
+</span><span data-line="14"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>This registers all Admin API controllers at their default paths under <code class="docutils literal notranslate"><span class="pre">/admin</span></code>.</p>
+</section>
+<section id="custom-path-prefix">
+<h3>Custom Path Prefix<a class="headerlink" href="#custom-path-prefix" title="Link to this heading">¶</a></h3>
+<p>Use a custom path prefix for API versioning or organizational needs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">admin_config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">path_prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1&quot;</span><span class="p">,</span>  <span class="c1"># Results in /api/v1/admin/flags, etc.</span>
+</span><span data-line="3"><span class="p">)</span>
+</span><span data-line="4"><span class="n">admin_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">admin_config</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="7">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">flags_plugin</span><span class="p">,</span> <span class="n">admin_plugin</span><span class="p">],</span>
+</span><span data-line="8"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="selective-controller-registration">
+<h3>Selective Controller Registration<a class="headerlink" href="#selective-controller-registration" title="Link to this heading">¶</a></h3>
+<p>Enable only the controllers you need:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">admin_config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span>
+</span><span data-line="2">    <span class="n">enable_flags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># /admin/flags</span>
+</span><span data-line="3">    <span class="n">enable_rules</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># /admin/flags/{flag_id}/rules</span>
+</span><span data-line="4">    <span class="n">enable_overrides</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># /admin/flags/{flag_id}/overrides</span>
+</span><span data-line="5">    <span class="n">enable_segments</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>       <span class="c1"># Disabled</span>
+</span><span data-line="6">    <span class="n">enable_environments</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>   <span class="c1"># Disabled</span>
+</span><span data-line="7">    <span class="n">enable_analytics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>       <span class="c1"># /admin/analytics</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="n">admin_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">admin_config</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="configuration-options">
+<h2>Configuration Options<a class="headerlink" href="#configuration-options" title="Link to this heading">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">FeatureFlagsAdminConfig</span></code> dataclass provides comprehensive configuration:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsAdminConfig</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="n">config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span>
+</span><span data-line="4">    <span class="c1"># Core settings</span>
+</span><span data-line="5">    <span class="n">enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>                    <span class="c1"># Enable/disable the entire Admin API</span>
+</span><span data-line="6">    <span class="n">path_prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1&quot;</span><span class="p">,</span>           <span class="c1"># URL prefix for all endpoints</span>
+</span><span data-line="7">    <span class="n">require_auth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>               <span class="c1"># Require authentication</span>
+</span><span data-line="8">
+</span><span data-line="9">    <span class="c1"># Controller toggles</span>
+</span><span data-line="10">    <span class="n">enable_flags</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>               <span class="c1"># Flag CRUD controller</span>
+</span><span data-line="11">    <span class="n">enable_rules</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>               <span class="c1"># Rule management controller</span>
+</span><span data-line="12">    <span class="n">enable_overrides</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># Override management controller</span>
+</span><span data-line="13">    <span class="n">enable_segments</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>            <span class="c1"># Segment management controller</span>
+</span><span data-line="14">    <span class="n">enable_environments</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>        <span class="c1"># Environment management controller</span>
+</span><span data-line="15">    <span class="n">enable_analytics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>           <span class="c1"># Analytics query controller</span>
+</span><span data-line="16">
+</span><span data-line="17">    <span class="c1"># Entity overrides controller (entity-centric view)</span>
+</span><span data-line="18">    <span class="n">include_entity_overrides</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>   <span class="c1"># /admin/overrides/entity endpoints</span>
+</span><span data-line="19">
+</span><span data-line="20">    <span class="c1"># OpenAPI configuration</span>
+</span><span data-line="21">    <span class="n">openapi_tag_group</span><span class="o">=</span><span class="s2">&quot;Admin&quot;</span><span class="p">,</span>       <span class="c1"># Tag group in OpenAPI docs</span>
+</span><span data-line="22"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Configuration Reference:</strong></p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Option</p></th>
+<th class="head"><p>Default</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enabled</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable/disable the entire Admin API</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">path_prefix</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code></p></td>
+<td><p>URL prefix prepended to all routes</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">require_auth</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Reject requests without authenticated user</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">audit_logger</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>AuditLogger instance for logging actions</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">auth_guard</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></td>
+<td><p>Custom guard applied to all routes</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_flags</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable flags CRUD controller</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable_rules</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable rules management controller</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_overrides</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable overrides management controller</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable_segments</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable segments management controller</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">enable_environments</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable environments management controller</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">enable_analytics</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">True</span></code></p></td>
+<td><p>Enable analytics query controller</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="authentication-authorization">
+<h2>Authentication &amp; Authorization<a class="headerlink" href="#authentication-authorization" title="Link to this heading">¶</a></h2>
+<p>The Admin API uses a flexible role-based access control (RBAC) system that
+integrates with your existing authentication mechanism.</p>
+<section id="permission-system">
+<h3>Permission System<a class="headerlink" href="#permission-system" title="Link to this heading">¶</a></h3>
+<p>Permissions follow a <code class="docutils literal notranslate"><span class="pre">resource:action</span></code> naming convention:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Permission</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Flag permissions</span>
+</span><span data-line="4"><span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_READ</span>      <span class="c1"># &quot;flags:read&quot;</span>
+</span><span data-line="5"><span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_WRITE</span>     <span class="c1"># &quot;flags:write&quot;</span>
+</span><span data-line="6"><span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_DELETE</span>    <span class="c1"># &quot;flags:delete&quot;</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># Rule permissions</span>
+</span><span data-line="9"><span class="n">Permission</span><span class="o">.</span><span class="n">RULES_READ</span>      <span class="c1"># &quot;rules:read&quot;</span>
+</span><span data-line="10"><span class="n">Permission</span><span class="o">.</span><span class="n">RULES_WRITE</span>     <span class="c1"># &quot;rules:write&quot;</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Segment permissions</span>
+</span><span data-line="13"><span class="n">Permission</span><span class="o">.</span><span class="n">SEGMENTS_READ</span>   <span class="c1"># &quot;segments:read&quot;</span>
+</span><span data-line="14"><span class="n">Permission</span><span class="o">.</span><span class="n">SEGMENTS_WRITE</span>  <span class="c1"># &quot;segments:write&quot;</span>
+</span><span data-line="15">
+</span><span data-line="16"><span class="c1"># Environment permissions</span>
+</span><span data-line="17"><span class="n">Permission</span><span class="o">.</span><span class="n">ENVIRONMENTS_READ</span>   <span class="c1"># &quot;environments:read&quot;</span>
+</span><span data-line="18"><span class="n">Permission</span><span class="o">.</span><span class="n">ENVIRONMENTS_WRITE</span>  <span class="c1"># &quot;environments:write&quot;</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="c1"># Analytics permissions</span>
+</span><span data-line="21"><span class="n">Permission</span><span class="o">.</span><span class="n">ANALYTICS_READ</span>  <span class="c1"># &quot;analytics:read&quot;</span>
+</span><span data-line="22">
+</span><span data-line="23"><span class="c1"># Superadmin (grants all permissions)</span>
+</span><span data-line="24"><span class="n">Permission</span><span class="o">.</span><span class="n">ADMIN_ALL</span>       <span class="c1"># &quot;admin:*&quot;</span>
+</span></pre></div>
+</div>
+</section>
+<section id="role-system">
+<h3>Role System<a class="headerlink" href="#role-system" title="Link to this heading">¶</a></h3>
+<p>Predefined roles group common permission sets:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Role</span><span class="p">,</span> <span class="n">ROLE_PERMISSIONS</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># VIEWER: Read-only access</span>
+</span><span data-line="4"><span class="n">Role</span><span class="o">.</span><span class="n">VIEWER</span>
+</span><span data-line="5"><span class="c1"># Permissions: flags:read, rules:read, segments:read,</span>
+</span><span data-line="6"><span class="c1">#              environments:read, analytics:read</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="c1"># EDITOR: Read + Write (no delete)</span>
+</span><span data-line="9"><span class="n">Role</span><span class="o">.</span><span class="n">EDITOR</span>
+</span><span data-line="10"><span class="c1"># Permissions: All VIEWER permissions plus</span>
+</span><span data-line="11"><span class="c1">#              flags:write, rules:write, segments:write, environments:write</span>
+</span><span data-line="12">
+</span><span data-line="13"><span class="c1"># ADMIN: Full access (except superadmin actions)</span>
+</span><span data-line="14"><span class="n">Role</span><span class="o">.</span><span class="n">ADMIN</span>
+</span><span data-line="15"><span class="c1"># Permissions: All EDITOR permissions plus flags:delete</span>
+</span><span data-line="16">
+</span><span data-line="17"><span class="c1"># SUPERADMIN: Unrestricted access</span>
+</span><span data-line="18"><span class="n">Role</span><span class="o">.</span><span class="n">SUPERADMIN</span>
+</span><span data-line="19"><span class="c1"># Permissions: All permissions including admin:*</span>
+</span></pre></div>
+</div>
+<p><strong>Role Permission Mapping:</strong></p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Permission</p></th>
+<th class="head"><p>VIEWER</p></th>
+<th class="head"><p>EDITOR</p></th>
+<th class="head"><p>ADMIN</p></th>
+<th class="head"><p>SUPERADMIN</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>flags:read</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>flags:write</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>flags:delete</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>rules:read</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>rules:write</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>segments:read</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>segments:write</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>environments:*</p></td>
+<td><p>Yes/No</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-even"><td><p>analytics:read</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+<tr class="row-odd"><td><p>admin:*</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>No</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="using-guards-in-route-handlers">
+<h3>Using Guards in Route Handlers<a class="headerlink" href="#using-guards-in-route-handlers" title="Link to this heading">¶</a></h3>
+<p>Apply guards to your custom endpoints:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">get</span><span class="p">,</span> <span class="n">post</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="3">    <span class="n">Permission</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">Role</span><span class="p">,</span>
+</span><span data-line="5">    <span class="n">require_permission</span><span class="p">,</span>
+</span><span data-line="6">    <span class="n">require_role</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">require_superadmin</span><span class="p">,</span>
+</span><span data-line="8"><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Require specific permission</span>
+</span><span data-line="11"><span class="nd">@get</span><span class="p">(</span>
+</span><span data-line="12">    <span class="s2">&quot;/my-endpoint&quot;</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_permission</span><span class="p">(</span><span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_READ</span><span class="p">)],</span>
+</span><span data-line="14"><span class="p">)</span>
+</span><span data-line="15"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="16">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">}</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># Require multiple permissions (all required by default)</span>
+</span><span data-line="19"><span class="nd">@post</span><span class="p">(</span>
+</span><span data-line="20">    <span class="s2">&quot;/my-endpoint&quot;</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_permission</span><span class="p">(</span>
+</span><span data-line="22">        <span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_READ</span><span class="p">,</span>
+</span><span data-line="23">        <span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_WRITE</span><span class="p">,</span>
+</span><span data-line="24">    <span class="p">)],</span>
+</span><span data-line="25"><span class="p">)</span>
+</span><span data-line="26"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">write_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="27">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;created&quot;</span><span class="p">}</span>
+</span><span data-line="28">
+</span><span data-line="29"><span class="c1"># Require any of multiple permissions</span>
+</span><span data-line="30"><span class="nd">@get</span><span class="p">(</span>
+</span><span data-line="31">    <span class="s2">&quot;/flexible-endpoint&quot;</span><span class="p">,</span>
+</span><span data-line="32">    <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_permission</span><span class="p">(</span>
+</span><span data-line="33">        <span class="n">Permission</span><span class="o">.</span><span class="n">FLAGS_READ</span><span class="p">,</span>
+</span><span data-line="34">        <span class="n">Permission</span><span class="o">.</span><span class="n">ANALYTICS_READ</span><span class="p">,</span>
+</span><span data-line="35">        <span class="n">require_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>  <span class="c1"># Only one required</span>
+</span><span data-line="36">    <span class="p">)],</span>
+</span><span data-line="37"><span class="p">)</span>
+</span><span data-line="38"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">flexible_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="39">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="s2">&quot;ok&quot;</span><span class="p">}</span>
+</span><span data-line="40">
+</span><span data-line="41"><span class="c1"># Require specific role</span>
+</span><span data-line="42"><span class="nd">@get</span><span class="p">(</span>
+</span><span data-line="43">    <span class="s2">&quot;/admin-only&quot;</span><span class="p">,</span>
+</span><span data-line="44">    <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_role</span><span class="p">(</span><span class="n">Role</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">)],</span>
+</span><span data-line="45"><span class="p">)</span>
+</span><span data-line="46"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">admin_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="47">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;admin&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</span><span data-line="48">
+</span><span data-line="49"><span class="c1"># Require superadmin</span>
+</span><span data-line="50"><span class="nd">@get</span><span class="p">(</span>
+</span><span data-line="51">    <span class="s2">&quot;/superadmin-only&quot;</span><span class="p">,</span>
+</span><span data-line="52">    <span class="n">guards</span><span class="o">=</span><span class="p">[</span><span class="n">require_superadmin</span><span class="p">()],</span>
+</span><span data-line="53"><span class="p">)</span>
+</span><span data-line="54"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">superadmin_endpoint</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+</span><span data-line="55">    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;superadmin&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="implementing-a-user-provider">
+<h3>Implementing a User Provider<a class="headerlink" href="#implementing-a-user-provider" title="Link to this heading">¶</a></h3>
+<p>The guard system looks for user information in the connection state. Create a
+user object that implements the <code class="docutils literal notranslate"><span class="pre">HasPermissions</span></code> protocol:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Role</span><span class="p">,</span> <span class="n">Permission</span><span class="p">,</span> <span class="n">HasPermissions</span>
+</span><span data-line="3">
+</span><span data-line="4"><span class="nd">@dataclass</span>
+</span><span data-line="5"><span class="k">class</span><span class="w"> </span><span class="nc">AdminUser</span><span class="p">:</span>
+</span><span data-line="6"><span class="w">    </span><span class="sd">&quot;&quot;&quot;User class implementing HasPermissions protocol.&quot;&quot;&quot;</span>
+</span><span data-line="7">
+</span><span data-line="8">    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="9">    <span class="n">roles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Role</span><span class="p">]</span>
+</span><span data-line="10">    <span class="n">permissions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Permission</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Example: Create an admin user</span>
+</span><span data-line="13"><span class="n">user</span> <span class="o">=</span> <span class="n">AdminUser</span><span class="p">(</span>
+</span><span data-line="14">    <span class="nb">id</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">Role</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">],</span>
+</span><span data-line="16">    <span class="n">permissions</span><span class="o">=</span><span class="p">[</span><span class="n">Permission</span><span class="o">.</span><span class="n">ANALYTICS_READ</span><span class="p">],</span>  <span class="c1"># Additional permissions</span>
+</span><span data-line="17"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p>The user object can also be a dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="n">user</span> <span class="o">=</span> <span class="p">{</span>
+</span><span data-line="2">    <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="3">    <span class="s2">&quot;roles&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;admin&quot;</span><span class="p">],</span>  <span class="c1"># String values are converted to Role enum</span>
+</span><span data-line="4">    <span class="s2">&quot;permissions&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;analytics:read&quot;</span><span class="p">],</span>
+</span><span data-line="5"><span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="jwt-authentication-example">
+<h3>JWT Authentication Example<a class="headerlink" href="#jwt-authentication-example" title="Link to this heading">¶</a></h3>
+<p>Integrate with JWT authentication:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span><span class="p">,</span> <span class="n">Request</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractAuthenticationMiddleware</span><span class="p">,</span> <span class="n">AuthenticationResult</span>
+</span><span data-line="4"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASGIConnection</span>
+</span><span data-line="5"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">Role</span><span class="p">,</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsAdminConfig</span>
+</span><span data-line="6"><span class="kn">import</span><span class="w"> </span><span class="nn">jwt</span>
+</span><span data-line="7">
+</span><span data-line="8"><span class="nd">@dataclass</span>
+</span><span data-line="9"><span class="k">class</span><span class="w"> </span><span class="nc">AdminUser</span><span class="p">:</span>
+</span><span data-line="10">    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="11">    <span class="n">roles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Role</span><span class="p">]</span>
+</span><span data-line="12">    <span class="n">permissions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="k">class</span><span class="w"> </span><span class="nc">JWTAuthMiddleware</span><span class="p">(</span><span class="n">AbstractAuthenticationMiddleware</span><span class="p">):</span>
+</span><span data-line="15">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">authenticate_request</span><span class="p">(</span>
+</span><span data-line="16">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="17">        <span class="n">connection</span><span class="p">:</span> <span class="n">ASGIConnection</span><span class="p">,</span>
+</span><span data-line="18">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AuthenticationResult</span><span class="p">:</span>
+</span><span data-line="19">        <span class="n">auth_header</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Authorization&quot;</span><span class="p">)</span>
+</span><span data-line="20">        <span class="k">if</span> <span class="ow">not</span> <span class="n">auth_header</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">auth_header</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;Bearer &quot;</span><span class="p">):</span>
+</span><span data-line="21">            <span class="k">return</span> <span class="n">AuthenticationResult</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span data-line="22">
+</span><span data-line="23">        <span class="n">token</span> <span class="o">=</span> <span class="n">auth_header</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
+</span><span data-line="24">        <span class="k">try</span><span class="p">:</span>
+</span><span data-line="25">            <span class="n">payload</span> <span class="o">=</span> <span class="n">jwt</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="s2">&quot;secret&quot;</span><span class="p">,</span> <span class="n">algorithms</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;HS256&quot;</span><span class="p">])</span>
+</span><span data-line="26">            <span class="n">user</span> <span class="o">=</span> <span class="n">AdminUser</span><span class="p">(</span>
+</span><span data-line="27">                <span class="nb">id</span><span class="o">=</span><span class="n">payload</span><span class="p">[</span><span class="s2">&quot;sub&quot;</span><span class="p">],</span>
+</span><span data-line="28">                <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">Role</span><span class="p">(</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">payload</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;roles&quot;</span><span class="p">,</span> <span class="p">[])],</span>
+</span><span data-line="29">            <span class="p">)</span>
+</span><span data-line="30">            <span class="k">return</span> <span class="n">AuthenticationResult</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="n">token</span><span class="p">)</span>
+</span><span data-line="31">        <span class="k">except</span> <span class="n">jwt</span><span class="o">.</span><span class="n">InvalidTokenError</span><span class="p">:</span>
+</span><span data-line="32">            <span class="k">return</span> <span class="n">AuthenticationResult</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span data-line="33">
+</span><span data-line="34"><span class="c1"># Configure Admin API with auth middleware</span>
+</span><span data-line="35"><span class="n">admin_config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span><span class="n">require_auth</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span data-line="36"><span class="n">admin_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">admin_config</span><span class="p">)</span>
+</span><span data-line="37">
+</span><span data-line="38"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="39">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">flags_plugin</span><span class="p">,</span> <span class="n">admin_plugin</span><span class="p">],</span>
+</span><span data-line="40">    <span class="n">middleware</span><span class="o">=</span><span class="p">[</span><span class="n">JWTAuthMiddleware</span><span class="p">],</span>
+</span><span data-line="41"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="custom-auth-guard">
+<h3>Custom Auth Guard<a class="headerlink" href="#custom-auth-guard" title="Link to this heading">¶</a></h3>
+<p>Apply a custom authentication guard to all Admin API routes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASGIConnection</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.handlers.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseRouteHandler</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.exceptions</span><span class="w"> </span><span class="kn">import</span> <span class="n">NotAuthorizedException</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">my_auth_guard</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">connection</span><span class="p">:</span> <span class="n">ASGIConnection</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">_</span><span class="p">:</span> <span class="n">BaseRouteHandler</span><span class="p">,</span>
+</span><span data-line="8"><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="9"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Custom authentication guard.&quot;&quot;&quot;</span>
+</span><span data-line="10">    <span class="n">api_key</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;X-API-Key&quot;</span><span class="p">)</span>
+</span><span data-line="11">    <span class="k">if</span> <span class="ow">not</span> <span class="n">api_key</span> <span class="ow">or</span> <span class="ow">not</span> <span class="k">await</span> <span class="n">validate_api_key</span><span class="p">(</span><span class="n">api_key</span><span class="p">):</span>
+</span><span data-line="12">        <span class="k">raise</span> <span class="n">NotAuthorizedException</span><span class="p">(</span><span class="n">detail</span><span class="o">=</span><span class="s2">&quot;Invalid API key&quot;</span><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="n">admin_config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span>
+</span><span data-line="15">    <span class="n">auth_guard</span><span class="o">=</span><span class="n">my_auth_guard</span><span class="p">,</span>
+</span><span data-line="16"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="api-endpoints">
+<h2>API Endpoints<a class="headerlink" href="#api-endpoints" title="Link to this heading">¶</a></h2>
+<p>All endpoints return JSON responses and accept JSON request bodies where
+applicable. Pagination is supported for list endpoints.</p>
+<section id="flags-api">
+<h3>Flags API<a class="headerlink" href="#flags-api" title="Link to this heading">¶</a></h3>
+<p>Base path: <code class="docutils literal notranslate"><span class="pre">/admin/flags</span></code></p>
+<p><strong>List Flags</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags?page=1&amp;page_size=20&amp;status=active&amp;tag=beta&amp;search=checkout
+</span></pre></div>
+</div>
+<p>Query parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">page</span></code>: Page number (1-indexed, default: 1)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">page_size</span></code>: Items per page (1-100, default: 20)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">status</span></code>: Filter by status (active, archived)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">tag</span></code>: Filter by tag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">search</span></code>: Search in key and name</p></li>
+</ul>
+<p>Response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span>
+</span><span data-line="2"><span class="w">  </span><span class="nt">&quot;items&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span data-line="3"><span class="w">    </span><span class="p">{</span>
+</span><span data-line="4"><span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="p">,</span>
+</span><span data-line="5"><span class="w">      </span><span class="nt">&quot;key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;checkout_redesign&quot;</span><span class="p">,</span>
+</span><span data-line="6"><span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Checkout Redesign&quot;</span><span class="p">,</span>
+</span><span data-line="7"><span class="w">      </span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;New checkout flow&quot;</span><span class="p">,</span>
+</span><span data-line="8"><span class="w">      </span><span class="nt">&quot;flag_type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="p">,</span>
+</span><span data-line="9"><span class="w">      </span><span class="nt">&quot;status&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;active&quot;</span><span class="p">,</span>
+</span><span data-line="10"><span class="w">      </span><span class="nt">&quot;default_enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+</span><span data-line="11"><span class="w">      </span><span class="nt">&quot;default_value&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span>
+</span><span data-line="12"><span class="w">      </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;beta&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;checkout&quot;</span><span class="p">],</span>
+</span><span data-line="13"><span class="w">      </span><span class="nt">&quot;metadata&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span>
+</span><span data-line="14"><span class="w">      </span><span class="nt">&quot;rules_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span>
+</span><span data-line="15"><span class="w">      </span><span class="nt">&quot;overrides_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span>
+</span><span data-line="16"><span class="w">      </span><span class="nt">&quot;variants_count&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+</span><span data-line="17"><span class="w">      </span><span class="nt">&quot;created_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-15T10:30:00Z&quot;</span><span class="p">,</span>
+</span><span data-line="18"><span class="w">      </span><span class="nt">&quot;updated_at&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-20T14:45:00Z&quot;</span>
+</span><span data-line="19"><span class="w">    </span><span class="p">}</span>
+</span><span data-line="20"><span class="w">  </span><span class="p">],</span>
+</span><span data-line="21"><span class="w">  </span><span class="nt">&quot;total&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">42</span><span class="p">,</span>
+</span><span data-line="22"><span class="w">  </span><span class="nt">&quot;page&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span>
+</span><span data-line="23"><span class="w">  </span><span class="nt">&quot;page_size&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span>
+</span><span data-line="24"><span class="w">  </span><span class="nt">&quot;total_pages&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span>
+</span><span data-line="25"><span class="p">}</span>
+</span></pre></div>
+</div>
+<p><strong>Get Flag by ID</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags/{flag_id}
+</span></pre></div>
+</div>
+<p><strong>Get Flag by Key</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags/by-key/{key}
+</span></pre></div>
+</div>
+<p><strong>Create Flag</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;key&quot;: &quot;new_feature&quot;,
+</span><span data-line="6">  &quot;name&quot;: &quot;New Feature&quot;,
+</span><span data-line="7">  &quot;description&quot;: &quot;Description of the new feature&quot;,
+</span><span data-line="8">  &quot;flag_type&quot;: &quot;boolean&quot;,
+</span><span data-line="9">  &quot;default_enabled&quot;: false,
+</span><span data-line="10">  &quot;default_value&quot;: null,
+</span><span data-line="11">  &quot;tags&quot;: [&quot;new&quot;, &quot;experiment&quot;],
+</span><span data-line="12">  &quot;metadata&quot;: {&quot;owner&quot;: &quot;team-a&quot;}
+</span><span data-line="13">}
+</span></pre></div>
+</div>
+<p><strong>Update Flag (Full)</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PUT /admin/flags/{flag_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;name&quot;: &quot;Updated Name&quot;,
+</span><span data-line="6">  &quot;description&quot;: &quot;Updated description&quot;,
+</span><span data-line="7">  &quot;flag_type&quot;: &quot;boolean&quot;,
+</span><span data-line="8">  &quot;status&quot;: &quot;active&quot;,
+</span><span data-line="9">  &quot;default_enabled&quot;: true,
+</span><span data-line="10">  &quot;default_value&quot;: null,
+</span><span data-line="11">  &quot;tags&quot;: [&quot;updated&quot;],
+</span><span data-line="12">  &quot;metadata&quot;: {}
+</span><span data-line="13">}
+</span></pre></div>
+</div>
+<p><strong>Update Flag (Partial)</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PATCH /admin/flags/{flag_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;default_enabled&quot;: true
+</span><span data-line="6">}
+</span></pre></div>
+</div>
+<p><strong>Delete Flag</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/flags/{flag_id}
+</span></pre></div>
+</div>
+<p><strong>Archive Flag</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags/{flag_id}/archive
+</span></pre></div>
+</div>
+<p><strong>Restore Archived Flag</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags/{flag_id}/restore
+</span></pre></div>
+</div>
+</section>
+<section id="rules-api">
+<h3>Rules API<a class="headerlink" href="#rules-api" title="Link to this heading">¶</a></h3>
+<p>Base path: <code class="docutils literal notranslate"><span class="pre">/admin/flags/{flag_id}/rules</span></code></p>
+<p>Rules define targeting conditions that determine which users receive which
+flag values. Rules are evaluated in priority order (lowest number first).</p>
+<p><strong>List Rules</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags/{flag_id}/rules?page=1&amp;page_size=20
+</span></pre></div>
+</div>
+<p><strong>Get Rule</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags/{flag_id}/rules/{rule_id}
+</span></pre></div>
+</div>
+<p><strong>Create Rule</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags/{flag_id}/rules
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;name&quot;: &quot;Premium Users&quot;,
+</span><span data-line="6">  &quot;description&quot;: &quot;Enable for premium plan subscribers&quot;,
+</span><span data-line="7">  &quot;priority&quot;: 0,
+</span><span data-line="8">  &quot;enabled&quot;: true,
+</span><span data-line="9">  &quot;conditions&quot;: [
+</span><span data-line="10">    {
+</span><span data-line="11">      &quot;attribute&quot;: &quot;plan&quot;,
+</span><span data-line="12">      &quot;operator&quot;: &quot;eq&quot;,
+</span><span data-line="13">      &quot;value&quot;: &quot;premium&quot;
+</span><span data-line="14">    },
+</span><span data-line="15">    {
+</span><span data-line="16">      &quot;attribute&quot;: &quot;country&quot;,
+</span><span data-line="17">      &quot;operator&quot;: &quot;in&quot;,
+</span><span data-line="18">      &quot;value&quot;: [&quot;US&quot;, &quot;CA&quot;, &quot;UK&quot;]
+</span><span data-line="19">    }
+</span><span data-line="20">  ],
+</span><span data-line="21">  &quot;serve_enabled&quot;: true,
+</span><span data-line="22">  &quot;serve_value&quot;: null,
+</span><span data-line="23">  &quot;rollout_percentage&quot;: 100
+</span><span data-line="24">}
+</span></pre></div>
+</div>
+<p><strong>Condition Operators:</strong></p>
+<div class="table-wrapper docutils container">
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operator</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">eq</span></code></p></td>
+<td><p>Equals</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ne</span></code></p></td>
+<td><p>Not equals</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">in</span></code></p></td>
+<td><p>Value is in list</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">not_in</span></code></p></td>
+<td><p>Value is not in list</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">contains</span></code></p></td>
+<td><p>String/list contains value</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">not_contains</span></code></p></td>
+<td><p>String/list does not contain value</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">starts_with</span></code></p></td>
+<td><p>String starts with value</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ends_with</span></code></p></td>
+<td><p>String ends with value</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">gt</span></code></p></td>
+<td><p>Greater than</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">gte</span></code></p></td>
+<td><p>Greater than or equal</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lt</span></code></p></td>
+<td><p>Less than</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">lte</span></code></p></td>
+<td><p>Less than or equal</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">exists</span></code></p></td>
+<td><p>Attribute exists</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">not_exists</span></code></p></td>
+<td><p>Attribute does not exist</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">regex</span></code></p></td>
+<td><p>Matches regular expression</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Update Rule</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PUT /admin/flags/{flag_id}/rules/{rule_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;name&quot;: &quot;Premium Users - Updated&quot;,
+</span><span data-line="6">  &quot;priority&quot;: 0,
+</span><span data-line="7">  &quot;enabled&quot;: true,
+</span><span data-line="8">  &quot;conditions&quot;: [...],
+</span><span data-line="9">  &quot;serve_enabled&quot;: true,
+</span><span data-line="10">  &quot;rollout_percentage&quot;: 50
+</span><span data-line="11">}
+</span></pre></div>
+</div>
+<p><strong>Partial Update Rule</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PATCH /admin/flags/{flag_id}/rules/{rule_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;rollout_percentage&quot;: 75
+</span><span data-line="6">}
+</span></pre></div>
+</div>
+<p><strong>Delete Rule</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/flags/{flag_id}/rules/{rule_id}
+</span></pre></div>
+</div>
+<p><strong>Reorder Rules</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags/{flag_id}/rules/reorder
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;rule_ids&quot;: [
+</span><span data-line="6">    &quot;uuid-of-new-first-rule&quot;,
+</span><span data-line="7">    &quot;uuid-of-new-second-rule&quot;,
+</span><span data-line="8">    &quot;uuid-of-new-third-rule&quot;
+</span><span data-line="9">  ]
+</span><span data-line="10">}
+</span></pre></div>
+</div>
+<p><strong>Toggle Rule Enabled State</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags/{flag_id}/rules/{rule_id}/toggle
+</span></pre></div>
+</div>
+</section>
+<section id="overrides-api">
+<h3>Overrides API<a class="headerlink" href="#overrides-api" title="Link to this heading">¶</a></h3>
+<p>Base path: <code class="docutils literal notranslate"><span class="pre">/admin/flags/{flag_id}/overrides</span></code></p>
+<p>Overrides allow specific entities (users, organizations, devices) to have
+different flag values than what targeting rules would determine.</p>
+<p><strong>List Overrides for Flag</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags/{flag_id}/overrides?include_expired=false&amp;entity_type=user
+</span></pre></div>
+</div>
+<p><strong>Get Override</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/flags/{flag_id}/overrides/{entity_type}/{entity_id}
+</span></pre></div>
+</div>
+<p><strong>Create Override</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/flags/{flag_id}/overrides
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;entity_type&quot;: &quot;user&quot;,
+</span><span data-line="6">  &quot;entity_id&quot;: &quot;user-12345&quot;,
+</span><span data-line="7">  &quot;enabled&quot;: true,
+</span><span data-line="8">  &quot;value&quot;: {&quot;variant&quot;: &quot;treatment_a&quot;},
+</span><span data-line="9">  &quot;expires_at&quot;: &quot;2024-12-31T23:59:59Z&quot;
+</span><span data-line="10">}
+</span></pre></div>
+</div>
+<p>Supported entity types: <code class="docutils literal notranslate"><span class="pre">user</span></code>, <code class="docutils literal notranslate"><span class="pre">organization</span></code>, <code class="docutils literal notranslate"><span class="pre">team</span></code>, <code class="docutils literal notranslate"><span class="pre">device</span></code>, <code class="docutils literal notranslate"><span class="pre">custom</span></code></p>
+<p><strong>Update Override</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PUT /admin/flags/{flag_id}/overrides/{entity_type}/{entity_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;enabled&quot;: false,
+</span><span data-line="6">  &quot;value&quot;: null,
+</span><span data-line="7">  &quot;expires_at&quot;: null
+</span><span data-line="8">}
+</span></pre></div>
+</div>
+<p><strong>Delete Override</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/flags/{flag_id}/overrides/{entity_type}/{entity_id}
+</span></pre></div>
+</div>
+<p><strong>Entity-Centric Endpoints</strong></p>
+<p>List all overrides for a specific entity across all flags:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/overrides/entity/{entity_type}/{entity_id}
+</span></pre></div>
+</div>
+<p>Delete all overrides for an entity:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/overrides/entity/{entity_type}/{entity_id}
+</span></pre></div>
+</div>
+</section>
+<section id="segments-api">
+<h3>Segments API<a class="headerlink" href="#segments-api" title="Link to this heading">¶</a></h3>
+<p>Base path: <code class="docutils literal notranslate"><span class="pre">/admin/segments</span></code></p>
+<p>Segments define reusable groups of users based on shared attributes.
+Segments support hierarchical relationships.</p>
+<p><strong>List Segments</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/segments?page=1&amp;page_size=20&amp;enabled=true&amp;search=premium
+</span></pre></div>
+</div>
+<p><strong>Get Segment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/segments/{segment_id}
+</span></pre></div>
+</div>
+<p><strong>Get Segment by Name</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/segments/by-name/{name}
+</span></pre></div>
+</div>
+<p><strong>Create Segment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/segments
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;name&quot;: &quot;premium_users&quot;,
+</span><span data-line="6">  &quot;description&quot;: &quot;Users on premium plans&quot;,
+</span><span data-line="7">  &quot;enabled&quot;: true,
+</span><span data-line="8">  &quot;conditions&quot;: [
+</span><span data-line="9">    {
+</span><span data-line="10">      &quot;attribute&quot;: &quot;plan&quot;,
+</span><span data-line="11">      &quot;operator&quot;: &quot;in&quot;,
+</span><span data-line="12">      &quot;value&quot;: [&quot;premium&quot;, &quot;enterprise&quot;]
+</span><span data-line="13">    }
+</span><span data-line="14">  ],
+</span><span data-line="15">  &quot;parent_segment_id&quot;: null
+</span><span data-line="16">}
+</span></pre></div>
+</div>
+<p><strong>Update Segment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PATCH /admin/segments/{segment_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;enabled&quot;: false
+</span><span data-line="6">}
+</span></pre></div>
+</div>
+<p><strong>Delete Segment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/segments/{segment_id}
+</span></pre></div>
+</div>
+<p>Note: Segments with child segments cannot be deleted. Delete or reassign
+children first.</p>
+<p><strong>Get Child Segments</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/segments/{segment_id}/children
+</span></pre></div>
+</div>
+<p><strong>Evaluate Segment</strong></p>
+<p>Test whether a context matches segment conditions:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/segments/{segment_id}/evaluate
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;context&quot;: {
+</span><span data-line="6">    &quot;plan&quot;: &quot;premium&quot;,
+</span><span data-line="7">    &quot;country&quot;: &quot;US&quot;,
+</span><span data-line="8">    &quot;signup_date&quot;: &quot;2024-01-15&quot;
+</span><span data-line="9">  }
+</span><span data-line="10">}
+</span></pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span>
+</span><span data-line="2"><span class="w">  </span><span class="nt">&quot;matches&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+</span><span data-line="3"><span class="w">  </span><span class="nt">&quot;segment_id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+</span><span data-line="4"><span class="w">  </span><span class="nt">&quot;segment_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;premium_users&quot;</span><span class="p">,</span>
+</span><span data-line="5"><span class="w">  </span><span class="nt">&quot;matched_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span data-line="6"><span class="w">    </span><span class="p">{</span><span class="nt">&quot;attribute&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;plan&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;operator&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;in&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;premium&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;enterprise&quot;</span><span class="p">]}</span>
+</span><span data-line="7"><span class="w">  </span><span class="p">],</span>
+</span><span data-line="8"><span class="w">  </span><span class="nt">&quot;failed_conditions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span>
+</span><span data-line="9"><span class="p">}</span>
+</span></pre></div>
+</div>
+</section>
+<section id="environments-api">
+<h3>Environments API<a class="headerlink" href="#environments-api" title="Link to this heading">¶</a></h3>
+<p>Base path: <code class="docutils literal notranslate"><span class="pre">/admin/environments</span></code></p>
+<p>Environments represent deployment targets (e.g., development, staging,
+production) with hierarchical inheritance support.</p>
+<p><strong>List Environments</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/environments?active_only=true&amp;root_only=false
+</span></pre></div>
+</div>
+<p><strong>Get Environment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/environments/{env_id}
+</span></pre></div>
+</div>
+<p><strong>Get Environment by Slug</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/environments/by-slug/{slug}
+</span></pre></div>
+</div>
+<p><strong>Create Environment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">POST /admin/environments
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;name&quot;: &quot;Staging EU&quot;,
+</span><span data-line="6">  &quot;slug&quot;: &quot;staging-eu&quot;,
+</span><span data-line="7">  &quot;description&quot;: &quot;European staging environment&quot;,
+</span><span data-line="8">  &quot;parent_id&quot;: &quot;uuid-of-staging&quot;,
+</span><span data-line="9">  &quot;is_production&quot;: false,
+</span><span data-line="10">  &quot;color&quot;: &quot;#FFA500&quot;,
+</span><span data-line="11">  &quot;settings&quot;: {
+</span><span data-line="12">    &quot;region&quot;: &quot;eu-west-1&quot;,
+</span><span data-line="13">    &quot;debug&quot;: true
+</span><span data-line="14">  }
+</span><span data-line="15">}
+</span></pre></div>
+</div>
+<p>Slug format: lowercase alphanumeric with hyphens (e.g., <code class="docutils literal notranslate"><span class="pre">staging-eu</span></code>, <code class="docutils literal notranslate"><span class="pre">prod-1</span></code>)</p>
+<p><strong>Update Environment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PATCH /admin/environments/{env_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;is_production&quot;: true
+</span><span data-line="6">}
+</span></pre></div>
+</div>
+<p><strong>Delete Environment</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/environments/{env_id}?force=false
+</span></pre></div>
+</div>
+<p>Use <code class="docutils literal notranslate"><span class="pre">force=true</span></code> to delete production environments.</p>
+<p><strong>Get Child Environments</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/environments/{env_id}/children
+</span></pre></div>
+</div>
+<p><strong>Environment Flag Configurations</strong></p>
+<p>Get flag configurations for an environment (includes inherited):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/environments/{env_id}/flags?include_inherited=true
+</span></pre></div>
+</div>
+<p>Set environment-specific flag configuration:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">PUT /admin/environments/{env_id}/flags/{flag_id}
+</span><span data-line="2">Content-Type: application/json
+</span><span data-line="3">
+</span><span data-line="4">{
+</span><span data-line="5">  &quot;enabled&quot;: true,
+</span><span data-line="6">  &quot;percentage&quot;: 50.0,
+</span><span data-line="7">  &quot;rules&quot;: null,
+</span><span data-line="8">  &quot;variants&quot;: null
+</span><span data-line="9">}
+</span></pre></div>
+</div>
+<p>Remove environment-specific configuration (revert to inherited/base):</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">DELETE /admin/environments/{env_id}/flags/{flag_id}
+</span></pre></div>
+</div>
+</section>
+<section id="analytics-api">
+<h3>Analytics API<a class="headerlink" href="#analytics-api" title="Link to this heading">¶</a></h3>
+<p>Base path: <code class="docutils literal notranslate"><span class="pre">/admin/analytics</span></code></p>
+<p>Query flag evaluation metrics, events, and trends.</p>
+<p><strong>Get Flag Metrics</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/metrics/{flag_key}?window_seconds=3600
+</span></pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span>
+</span><span data-line="2"><span class="w">  </span><span class="nt">&quot;flag_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;checkout_redesign&quot;</span><span class="p">,</span>
+</span><span data-line="3"><span class="w">  </span><span class="nt">&quot;evaluation_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">12.5</span><span class="p">,</span>
+</span><span data-line="4"><span class="w">  </span><span class="nt">&quot;unique_users&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1500</span><span class="p">,</span>
+</span><span data-line="5"><span class="w">  </span><span class="nt">&quot;total_evaluations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45000</span><span class="p">,</span>
+</span><span data-line="6"><span class="w">  </span><span class="nt">&quot;variant_distribution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="7"><span class="w">    </span><span class="nt">&quot;control&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">22500</span><span class="p">,</span>
+</span><span data-line="8"><span class="w">    </span><span class="nt">&quot;treatment&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">22500</span>
+</span><span data-line="9"><span class="w">  </span><span class="p">},</span>
+</span><span data-line="10"><span class="w">  </span><span class="nt">&quot;reason_distribution&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+</span><span data-line="11"><span class="w">    </span><span class="nt">&quot;TARGETING_MATCH&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">30000</span><span class="p">,</span>
+</span><span data-line="12"><span class="w">    </span><span class="nt">&quot;SPLIT&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15000</span>
+</span><span data-line="13"><span class="w">  </span><span class="p">},</span>
+</span><span data-line="14"><span class="w">  </span><span class="nt">&quot;error_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+</span><span data-line="15"><span class="w">  </span><span class="nt">&quot;latency_p50&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">1.2</span><span class="p">,</span>
+</span><span data-line="16"><span class="w">  </span><span class="nt">&quot;latency_p90&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.5</span><span class="p">,</span>
+</span><span data-line="17"><span class="w">  </span><span class="nt">&quot;latency_p99&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">5.0</span><span class="p">,</span>
+</span><span data-line="18"><span class="w">  </span><span class="nt">&quot;window_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-20T13:00:00Z&quot;</span><span class="p">,</span>
+</span><span data-line="19"><span class="w">  </span><span class="nt">&quot;window_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-20T14:00:00Z&quot;</span>
+</span><span data-line="20"><span class="p">}</span>
+</span></pre></div>
+</div>
+<p><strong>Get All Flags Metrics</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/metrics?window_seconds=3600
+</span></pre></div>
+</div>
+<p><strong>Query Events</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/events?flag_key=checkout&amp;targeting_key=user-123&amp;page=1&amp;page_size=50
+</span></pre></div>
+</div>
+<p>Query parameters:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">flag_key</span></code>: Filter by flag key</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">targeting_key</span></code>: Filter by user/entity ID</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reason</span></code>: Filter by evaluation reason</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">variant</span></code>: Filter by variant</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">since</span></code>: Events after this timestamp (ISO 8601)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">until</span></code>: Events before this timestamp (ISO 8601)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">page</span></code>: Page number</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">page_size</span></code>: Items per page (1-1000)</p></li>
+</ul>
+<p><strong>Get Events for Flag</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/events/{flag_key}?page=1&amp;page_size=50
+</span></pre></div>
+</div>
+<p><strong>Get Dashboard Summary</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/dashboard?window_seconds=86400&amp;limit=10
+</span></pre></div>
+</div>
+<p>Response:</p>
+<div class="highlight-json notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="p">{</span>
+</span><span data-line="2"><span class="w">  </span><span class="nt">&quot;total_flags_evaluated&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span>
+</span><span data-line="3"><span class="w">  </span><span class="nt">&quot;total_evaluations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">250000</span><span class="p">,</span>
+</span><span data-line="4"><span class="w">  </span><span class="nt">&quot;overall_error_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.02</span><span class="p">,</span>
+</span><span data-line="5"><span class="w">  </span><span class="nt">&quot;overall_evaluation_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">2.89</span><span class="p">,</span>
+</span><span data-line="6"><span class="w">  </span><span class="nt">&quot;flag_summaries&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+</span><span data-line="7"><span class="w">    </span><span class="p">{</span>
+</span><span data-line="8"><span class="w">      </span><span class="nt">&quot;flag_key&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;checkout_redesign&quot;</span><span class="p">,</span>
+</span><span data-line="9"><span class="w">      </span><span class="nt">&quot;total_evaluations&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">45000</span><span class="p">,</span>
+</span><span data-line="10"><span class="w">      </span><span class="nt">&quot;evaluation_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.52</span><span class="p">,</span>
+</span><span data-line="11"><span class="w">      </span><span class="nt">&quot;unique_users&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">1500</span><span class="p">,</span>
+</span><span data-line="12"><span class="w">      </span><span class="nt">&quot;error_rate&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">0.01</span><span class="p">,</span>
+</span><span data-line="13"><span class="w">      </span><span class="nt">&quot;top_variant&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;treatment&quot;</span>
+</span><span data-line="14"><span class="w">    </span><span class="p">}</span>
+</span><span data-line="15"><span class="w">  </span><span class="p">],</span>
+</span><span data-line="16"><span class="w">  </span><span class="nt">&quot;window_start&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-19T14:00:00Z&quot;</span><span class="p">,</span>
+</span><span data-line="17"><span class="w">  </span><span class="nt">&quot;window_end&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;2024-01-20T14:00:00Z&quot;</span>
+</span><span data-line="18"><span class="p">}</span>
+</span></pre></div>
+</div>
+<p><strong>Get Trend Data</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/trends/{flag_key}?granularity=hour&amp;window_seconds=86400
+</span></pre></div>
+</div>
+<p>Granularity options: <code class="docutils literal notranslate"><span class="pre">hour</span></code>, <code class="docutils literal notranslate"><span class="pre">day</span></code>, <code class="docutils literal notranslate"><span class="pre">week</span></code></p>
+<p><strong>Export Events</strong></p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span><span data-line="1">GET /admin/analytics/export?format=csv&amp;flag_key=checkout&amp;limit=10000
+</span></pre></div>
+</div>
+<p>Formats: <code class="docutils literal notranslate"><span class="pre">csv</span></code>, <code class="docutils literal notranslate"><span class="pre">json</span></code></p>
+</section>
+</section>
+<section id="audit-logging">
+<h2>Audit Logging<a class="headerlink" href="#audit-logging" title="Link to this heading">¶</a></h2>
+<p>The Admin API supports comprehensive audit logging of all administrative
+actions for compliance and debugging purposes.</p>
+<section id="enabling-audit-logging">
+<h3>Enabling Audit Logging<a class="headerlink" href="#enabling-audit-logging" title="Link to this heading">¶</a></h3>
+<p>Configure an audit logger when setting up the Admin API:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="2">    <span class="n">FeatureFlagsAdminConfig</span><span class="p">,</span>
+</span><span data-line="3">    <span class="n">FeatureFlagsAdminPlugin</span><span class="p">,</span>
+</span><span data-line="4">    <span class="n">InMemoryAuditLogger</span><span class="p">,</span>
+</span><span data-line="5"><span class="p">)</span>
+</span><span data-line="6">
+</span><span data-line="7"><span class="c1"># Create audit logger</span>
+</span><span data-line="8"><span class="n">audit_logger</span> <span class="o">=</span> <span class="n">InMemoryAuditLogger</span><span class="p">(</span><span class="n">max_entries</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</span><span data-line="9">
+</span><span data-line="10"><span class="c1"># Configure Admin API with audit logging</span>
+</span><span data-line="11"><span class="n">admin_config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span>
+</span><span data-line="12">    <span class="n">audit_logger</span><span class="o">=</span><span class="n">audit_logger</span><span class="p">,</span>
+</span><span data-line="13"><span class="p">)</span>
+</span><span data-line="14">
+</span><span data-line="15"><span class="n">admin_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">admin_config</span><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="audit-entry-structure">
+<h3>Audit Entry Structure<a class="headerlink" href="#audit-entry-structure" title="Link to this heading">¶</a></h3>
+<p>Each audit entry captures:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuditEntry</span><span class="p">,</span> <span class="n">AuditAction</span><span class="p">,</span> <span class="n">ResourceType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Example audit entry (created automatically)</span>
+</span><span data-line="4"><span class="n">entry</span> <span class="o">=</span> <span class="n">AuditEntry</span><span class="p">(</span>
+</span><span data-line="5">    <span class="nb">id</span><span class="o">=</span><span class="n">uuid4</span><span class="p">(),</span>
+</span><span data-line="6">    <span class="n">timestamp</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">),</span>
+</span><span data-line="7">    <span class="n">action</span><span class="o">=</span><span class="n">AuditAction</span><span class="o">.</span><span class="n">UPDATE</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">resource_type</span><span class="o">=</span><span class="n">ResourceType</span><span class="o">.</span><span class="n">FLAG</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">resource_id</span><span class="o">=</span><span class="n">uuid4</span><span class="p">(),</span>
+</span><span data-line="10">    <span class="n">resource_key</span><span class="o">=</span><span class="s2">&quot;checkout_redesign&quot;</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">actor_id</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="12">    <span class="n">actor_type</span><span class="o">=</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
+</span><span data-line="13">    <span class="n">ip_address</span><span class="o">=</span><span class="s2">&quot;192.168.1.100&quot;</span><span class="p">,</span>
+</span><span data-line="14">    <span class="n">user_agent</span><span class="o">=</span><span class="s2">&quot;Mozilla/5.0...&quot;</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">changes</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="16">        <span class="s2">&quot;before&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;default_enabled&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">},</span>
+</span><span data-line="17">        <span class="s2">&quot;after&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;default_enabled&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+</span><span data-line="18">        <span class="s2">&quot;changed_fields&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;default_enabled&quot;</span><span class="p">],</span>
+</span><span data-line="19">    <span class="p">},</span>
+</span><span data-line="20">    <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;reason&quot;</span><span class="p">:</span> <span class="s2">&quot;Rolling out to 50%&quot;</span><span class="p">},</span>
+</span><span data-line="21"><span class="p">)</span>
+</span></pre></div>
+</div>
+<p><strong>Audit Actions:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CREATE</span></code>: Resource creation</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">UPDATE</span></code>: Resource modification</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DELETE</span></code>: Resource deletion</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">READ</span></code>: Sensitive resource access</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENABLE</span></code>: Enabling a flag/rule</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DISABLE</span></code>: Disabling a flag/rule</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">PROMOTE</span></code>: Promoting to new environment</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ARCHIVE</span></code>: Archiving a resource</p></li>
+</ul>
+<p><strong>Resource Types:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FLAG</span></code>: Feature flag</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">RULE</span></code>: Targeting rule</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OVERRIDE</span></code>: Entity override</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SEGMENT</span></code>: User segment</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENVIRONMENT</span></code>: Deployment environment</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ENVIRONMENT_FLAG</span></code>: Environment-specific flag config</p></li>
+</ul>
+</section>
+<section id="querying-audit-logs">
+<h3>Querying Audit Logs<a class="headerlink" href="#querying-audit-logs" title="Link to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="c1"># Get recent entries</span>
+</span><span data-line="4"><span class="n">entries</span> <span class="o">=</span> <span class="k">await</span> <span class="n">audit_logger</span><span class="o">.</span><span class="n">get_entries</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</span><span data-line="5">
+</span><span data-line="6"><span class="c1"># Filter by resource type</span>
+</span><span data-line="7"><span class="n">flag_entries</span> <span class="o">=</span> <span class="k">await</span> <span class="n">audit_logger</span><span class="o">.</span><span class="n">get_entries</span><span class="p">(</span>
+</span><span data-line="8">    <span class="n">resource_type</span><span class="o">=</span><span class="n">ResourceType</span><span class="o">.</span><span class="n">FLAG</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span><span data-line="10"><span class="p">)</span>
+</span><span data-line="11">
+</span><span data-line="12"><span class="c1"># Filter by specific resource</span>
+</span><span data-line="13"><span class="n">entries</span> <span class="o">=</span> <span class="k">await</span> <span class="n">audit_logger</span><span class="o">.</span><span class="n">get_entries</span><span class="p">(</span>
+</span><span data-line="14">    <span class="n">resource_type</span><span class="o">=</span><span class="n">ResourceType</span><span class="o">.</span><span class="n">FLAG</span><span class="p">,</span>
+</span><span data-line="15">    <span class="n">resource_id</span><span class="o">=</span><span class="n">flag_id</span><span class="p">,</span>
+</span><span data-line="16"><span class="p">)</span>
+</span><span data-line="17">
+</span><span data-line="18"><span class="c1"># Filter by actor</span>
+</span><span data-line="19"><span class="n">user_entries</span> <span class="o">=</span> <span class="k">await</span> <span class="n">audit_logger</span><span class="o">.</span><span class="n">get_entries_by_actor</span><span class="p">(</span>
+</span><span data-line="20">    <span class="n">actor_id</span><span class="o">=</span><span class="s2">&quot;user-123&quot;</span><span class="p">,</span>
+</span><span data-line="21">    <span class="n">limit</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+</span><span data-line="22"><span class="p">)</span>
+</span><span data-line="23">
+</span><span data-line="24"><span class="c1"># Filter by action</span>
+</span><span data-line="25"><span class="n">deletions</span> <span class="o">=</span> <span class="k">await</span> <span class="n">audit_logger</span><span class="o">.</span><span class="n">get_entries_by_action</span><span class="p">(</span>
+</span><span data-line="26">    <span class="n">action</span><span class="o">=</span><span class="n">AuditAction</span><span class="o">.</span><span class="n">DELETE</span><span class="p">,</span>
+</span><span data-line="27">    <span class="n">limit</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+</span><span data-line="28"><span class="p">)</span>
+</span><span data-line="29">
+</span><span data-line="30"><span class="c1"># Filter by time range</span>
+</span><span data-line="31"><span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+</span><span data-line="32">
+</span><span data-line="33"><span class="n">yesterday</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">)</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span data-line="34"><span class="n">entries</span> <span class="o">=</span> <span class="k">await</span> <span class="n">audit_logger</span><span class="o">.</span><span class="n">get_entries_in_timerange</span><span class="p">(</span>
+</span><span data-line="35">    <span class="n">start</span><span class="o">=</span><span class="n">yesterday</span><span class="p">,</span>
+</span><span data-line="36">    <span class="n">end</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">UTC</span><span class="p">),</span>
+</span><span data-line="37"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="custom-audit-logger">
+<h3>Custom Audit Logger<a class="headerlink" href="#custom-audit-logger" title="Link to this heading">¶</a></h3>
+<p>Implement the <code class="docutils literal notranslate"><span class="pre">AuditLogger</span></code> protocol for custom storage:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="n">AuditLogger</span><span class="p">,</span> <span class="n">AuditEntry</span><span class="p">,</span> <span class="n">ResourceType</span>
+</span><span data-line="2">
+</span><span data-line="3"><span class="k">class</span><span class="w"> </span><span class="nc">DatabaseAuditLogger</span><span class="p">:</span>
+</span><span data-line="4"><span class="w">    </span><span class="sd">&quot;&quot;&quot;Store audit entries in a database.&quot;&quot;&quot;</span>
+</span><span data-line="5">
+</span><span data-line="6">    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">db_session</span><span class="p">):</span>
+</span><span data-line="7">        <span class="bp">self</span><span class="o">.</span><span class="n">session</span> <span class="o">=</span> <span class="n">db_session</span>
+</span><span data-line="8">
+</span><span data-line="9">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entry</span><span class="p">:</span> <span class="n">AuditEntry</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span data-line="10"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Store an audit entry.&quot;&quot;&quot;</span>
+</span><span data-line="11">        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+</span><span data-line="12">            <span class="n">insert</span><span class="p">(</span><span class="n">audit_table</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">(</span><span class="o">**</span><span class="n">entry</span><span class="o">.</span><span class="n">to_dict</span><span class="p">())</span>
+</span><span data-line="13">        <span class="p">)</span>
+</span><span data-line="14">        <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
+</span><span data-line="15">
+</span><span data-line="16">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_entries</span><span class="p">(</span>
+</span><span data-line="17">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="18">        <span class="n">resource_type</span><span class="p">:</span> <span class="n">ResourceType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="19">        <span class="n">resource_id</span><span class="p">:</span> <span class="n">UUID</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+</span><span data-line="20">        <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+</span><span data-line="21">        <span class="n">offset</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+</span><span data-line="22">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">AuditEntry</span><span class="p">]:</span>
+</span><span data-line="23"><span class="w">        </span><span class="sd">&quot;&quot;&quot;Query audit entries.&quot;&quot;&quot;</span>
+</span><span data-line="24">        <span class="n">query</span> <span class="o">=</span> <span class="n">select</span><span class="p">(</span><span class="n">audit_table</span><span class="p">)</span>
+</span><span data-line="25">        <span class="k">if</span> <span class="n">resource_type</span><span class="p">:</span>
+</span><span data-line="26">            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">audit_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">resource_type</span> <span class="o">==</span> <span class="n">resource_type</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+</span><span data-line="27">        <span class="k">if</span> <span class="n">resource_id</span><span class="p">:</span>
+</span><span data-line="28">            <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">audit_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">resource_id</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">resource_id</span><span class="p">))</span>
+</span><span data-line="29">        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">audit_table</span><span class="o">.</span><span class="n">c</span><span class="o">.</span><span class="n">timestamp</span><span class="o">.</span><span class="n">desc</span><span class="p">())</span>
+</span><span data-line="30">        <span class="n">query</span> <span class="o">=</span> <span class="n">query</span><span class="o">.</span><span class="n">limit</span><span class="p">(</span><span class="n">limit</span><span class="p">)</span><span class="o">.</span><span class="n">offset</span><span class="p">(</span><span class="n">offset</span><span class="p">)</span>
+</span><span data-line="31">        <span class="n">result</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
+</span><span data-line="32">        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_row_to_entry</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result</span><span class="p">]</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="openapi-integration">
+<h2>OpenAPI Integration<a class="headerlink" href="#openapi-integration" title="Link to this heading">¶</a></h2>
+<p>The Admin API automatically generates OpenAPI (Swagger) documentation with
+proper schemas, descriptions, and security definitions.</p>
+<section id="tags">
+<h3>Tags<a class="headerlink" href="#tags" title="Link to this heading">¶</a></h3>
+<p>All Admin API endpoints are organized under descriptive tags:</p>
+<ul class="simple">
+<li><p><strong>Admin - Flags</strong>: Feature flag CRUD operations</p></li>
+<li><p><strong>Admin - Rules</strong>: Targeting rule management</p></li>
+<li><p><strong>Admin - Overrides</strong>: Entity override management</p></li>
+<li><p><strong>Admin - Segments</strong>: User segment management</p></li>
+<li><p><strong>Admin - Environments</strong>: Environment configuration</p></li>
+<li><p><strong>Admin - Analytics</strong>: Flag analytics and metrics</p></li>
+</ul>
+</section>
+<section id="security-schemes">
+<h3>Security Schemes<a class="headerlink" href="#security-schemes" title="Link to this heading">¶</a></h3>
+<p>When using authentication guards, document security requirements:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.openapi</span><span class="w"> </span><span class="kn">import</span> <span class="n">OpenAPIConfig</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.openapi.spec</span><span class="w"> </span><span class="kn">import</span> <span class="n">SecurityScheme</span>
+</span><span data-line="4">
+</span><span data-line="5"><span class="n">openapi_config</span> <span class="o">=</span> <span class="n">OpenAPIConfig</span><span class="p">(</span>
+</span><span data-line="6">    <span class="n">title</span><span class="o">=</span><span class="s2">&quot;My API&quot;</span><span class="p">,</span>
+</span><span data-line="7">    <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+</span><span data-line="8">    <span class="n">security</span><span class="o">=</span><span class="p">[{</span><span class="s2">&quot;BearerAuth&quot;</span><span class="p">:</span> <span class="p">[]}],</span>
+</span><span data-line="9">    <span class="n">components</span><span class="o">=</span><span class="p">{</span>
+</span><span data-line="10">        <span class="s2">&quot;securitySchemes&quot;</span><span class="p">:</span> <span class="p">{</span>
+</span><span data-line="11">            <span class="s2">&quot;BearerAuth&quot;</span><span class="p">:</span> <span class="n">SecurityScheme</span><span class="p">(</span>
+</span><span data-line="12">                <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;http&quot;</span><span class="p">,</span>
+</span><span data-line="13">                <span class="n">scheme</span><span class="o">=</span><span class="s2">&quot;bearer&quot;</span><span class="p">,</span>
+</span><span data-line="14">                <span class="n">bearer_format</span><span class="o">=</span><span class="s2">&quot;JWT&quot;</span><span class="p">,</span>
+</span><span data-line="15">            <span class="p">),</span>
+</span><span data-line="16">        <span class="p">},</span>
+</span><span data-line="17">    <span class="p">},</span>
+</span><span data-line="18"><span class="p">)</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="21">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">flags_plugin</span><span class="p">,</span> <span class="n">admin_plugin</span><span class="p">],</span>
+</span><span data-line="22">    <span class="n">openapi_config</span><span class="o">=</span><span class="n">openapi_config</span><span class="p">,</span>
+</span><span data-line="23"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+</section>
+<section id="complete-example">
+<h2>Complete Example<a class="headerlink" href="#complete-example" title="Link to this heading">¶</a></h2>
+<p>Full example with all features:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span data-line="1"><span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+</span><span data-line="2"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar</span><span class="w"> </span><span class="kn">import</span> <span class="n">Litestar</span>
+</span><span data-line="3"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.middleware</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractAuthenticationMiddleware</span><span class="p">,</span> <span class="n">AuthenticationResult</span>
+</span><span data-line="4"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASGIConnection</span>
+</span><span data-line="5"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags</span><span class="w"> </span><span class="kn">import</span> <span class="n">FeatureFlagsPlugin</span><span class="p">,</span> <span class="n">FeatureFlagsConfig</span>
+</span><span data-line="6"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.storage</span><span class="w"> </span><span class="kn">import</span> <span class="n">MemoryStorageBackend</span>
+</span><span data-line="7"><span class="kn">from</span><span class="w"> </span><span class="nn">litestar_flags.admin</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span data-line="8">    <span class="n">FeatureFlagsAdminPlugin</span><span class="p">,</span>
+</span><span data-line="9">    <span class="n">FeatureFlagsAdminConfig</span><span class="p">,</span>
+</span><span data-line="10">    <span class="n">InMemoryAuditLogger</span><span class="p">,</span>
+</span><span data-line="11">    <span class="n">Role</span><span class="p">,</span>
+</span><span data-line="12"><span class="p">)</span>
+</span><span data-line="13">
+</span><span data-line="14"><span class="nd">@dataclass</span>
+</span><span data-line="15"><span class="k">class</span><span class="w"> </span><span class="nc">User</span><span class="p">:</span>
+</span><span data-line="16">    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+</span><span data-line="17">    <span class="n">roles</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Role</span><span class="p">]</span>
+</span><span data-line="18">    <span class="n">permissions</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+</span><span data-line="19">
+</span><span data-line="20"><span class="k">class</span><span class="w"> </span><span class="nc">AuthMiddleware</span><span class="p">(</span><span class="n">AbstractAuthenticationMiddleware</span><span class="p">):</span>
+</span><span data-line="21">    <span class="k">async</span> <span class="k">def</span><span class="w"> </span><span class="nf">authenticate_request</span><span class="p">(</span>
+</span><span data-line="22">        <span class="bp">self</span><span class="p">,</span>
+</span><span data-line="23">        <span class="n">connection</span><span class="p">:</span> <span class="n">ASGIConnection</span><span class="p">,</span>
+</span><span data-line="24">    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AuthenticationResult</span><span class="p">:</span>
+</span><span data-line="25">        <span class="c1"># Your authentication logic here</span>
+</span><span data-line="26">        <span class="n">user</span> <span class="o">=</span> <span class="n">User</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;admin-1&quot;</span><span class="p">,</span> <span class="n">roles</span><span class="o">=</span><span class="p">[</span><span class="n">Role</span><span class="o">.</span><span class="n">ADMIN</span><span class="p">])</span>
+</span><span data-line="27">        <span class="k">return</span> <span class="n">AuthenticationResult</span><span class="p">(</span><span class="n">user</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">auth</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span><span data-line="28">
+</span><span data-line="29"><span class="c1"># Feature flags setup</span>
+</span><span data-line="30"><span class="n">flags_config</span> <span class="o">=</span> <span class="n">FeatureFlagsConfig</span><span class="p">(</span>
+</span><span data-line="31">    <span class="n">storage_backend</span><span class="o">=</span><span class="n">MemoryStorageBackend</span><span class="p">(),</span>
+</span><span data-line="32"><span class="p">)</span>
+</span><span data-line="33"><span class="n">flags_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">flags_config</span><span class="p">)</span>
+</span><span data-line="34">
+</span><span data-line="35"><span class="c1"># Admin API setup with audit logging</span>
+</span><span data-line="36"><span class="n">audit_logger</span> <span class="o">=</span> <span class="n">InMemoryAuditLogger</span><span class="p">(</span><span class="n">max_entries</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+</span><span data-line="37"><span class="n">admin_config</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminConfig</span><span class="p">(</span>
+</span><span data-line="38">    <span class="n">path_prefix</span><span class="o">=</span><span class="s2">&quot;/api/v1&quot;</span><span class="p">,</span>
+</span><span data-line="39">    <span class="n">require_auth</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="40">    <span class="n">audit_logger</span><span class="o">=</span><span class="n">audit_logger</span><span class="p">,</span>
+</span><span data-line="41">    <span class="n">enable_analytics</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span data-line="42"><span class="p">)</span>
+</span><span data-line="43"><span class="n">admin_plugin</span> <span class="o">=</span> <span class="n">FeatureFlagsAdminPlugin</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">admin_config</span><span class="p">)</span>
+</span><span data-line="44">
+</span><span data-line="45"><span class="n">app</span> <span class="o">=</span> <span class="n">Litestar</span><span class="p">(</span>
+</span><span data-line="46">    <span class="n">plugins</span><span class="o">=</span><span class="p">[</span><span class="n">flags_plugin</span><span class="p">,</span> <span class="n">admin_plugin</span><span class="p">],</span>
+</span><span data-line="47">    <span class="n">middleware</span><span class="o">=</span><span class="p">[</span><span class="n">AuthMiddleware</span><span class="p">],</span>
+</span><span data-line="48"><span class="p">)</span>
+</span></pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>See Also<a class="headerlink" href="#see-also" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="../getting-started/quickstart.html"><span class="doc">Quickstart</span></a> - Getting started with litestar-flags</p></li>
+<li><p><a class="reference internal" href="../user-guide/analytics.html"><span class="doc">Flag Analytics</span></a> - Analytics module documentation</p></li>
+<li><p><a class="reference internal" href="../guides/user-targeting.html"><span class="doc">User Targeting</span></a> - User targeting guide</p></li>
+<li><p><a class="reference internal" href="../api/index.html"><span class="doc">API Reference</span></a> - Complete API reference</p></li>
+</ul>
+</section>
+</section>
+
+        </article><button class="back-to-top" type="button">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+    <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+  </svg>
+  <span>Back to top</span>
+</button><div class="navigation flex print:hidden"><div class="navigation-prev">
+    <a href="../user-guide/analytics.html">
+      <i class="i-lucide chevron-left"></i>
+      <div class="page-info">
+        <span>Previous</span><div class="title">Flag Analytics</div></div>
+    </a>
+  </div><div class="navigation-next">
+    <a href="../guides/workflows.html">
+      <div class="page-info">
+        <span>Next</span>
+        <div class="title">Approval Workflows</div>
+      </div>
+      <i class="i-lucide chevron-right"></i>
+    </a>
+  </div></div></div>
+    </div>
+  </main>
+</div>
+<footer class="sy-foot">
+  <div class="sy-foot-inner sy-container mx-auto">
+    <div class="sy-foot-reserved md:flex justify-between items-center">
+      <div class="sy-foot-copyright"><p>2026, Jacob Coffee</p>
+  
+  <p>
+    Made with
+    
+    <a href="https://www.sphinx-doc.org/">Sphinx</a> and
+    
+    <a href="https://shibuya.lepture.com">Shibuya theme</a>.
+  </p>
+</div>
+      <div class="sy-foot-socials">
+<a href="https://github.com/JacobCoffee/litestar-flags" aria-label="GitHub">
+  <iconify-icon icon="simple-icons:github"></iconify-icon>
+</a></div>
+    </div>
+  </div>
+</footer>
+      <script src="../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+      <script src="../_static/copybutton.js?v=30646c52"></script>
+      <script src="../_static/design-tabs.js?v=f930bc37"></script>
+      <script src="../_static/shibuya.js?v=cac61aee"></script></body>
+</html>
